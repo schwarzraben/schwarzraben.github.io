@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Still · Captação Guanambi</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#f6f5f2;--card:#fff;--ink:#1c1b19;--muted:#6b6862;--line:#e3e0d9;
+  --accent:#1f1f1f;--accent-ink:#fff;--hot:#c2410c;--warm:#b45309;--cold:#64748b;--ok:#15803d;--bad:#b91c1c;
+  --chip:#efece6;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#141413;--card:#1e1d1b;--ink:#f1efe9;--muted:#a19d95;--line:#33312d;
+  --accent:#f1efe9;--accent-ink:#141413;--hot:#fb923c;--warm:#fbbf24;--cold:#94a3b8;--ok:#4ade80;--bad:#f87171;--chip:#2a2926;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:20px 16px 8px;max-width:1200px;margin:auto;display:flex;flex-wrap:wrap;gap:12px;align-items:end;justify-content:space-between}
+h1{margin:0;font-size:22px;letter-spacing:-.02em}
+h1 small{display:block;font-size:13px;font-weight:400;color:var(--muted)}
+main{max-width:1200px;margin:auto;padding:0 16px 60px}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 16px}
+nav.tabs button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer;font:inherit}
+nav.tabs button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 12px;border-radius:8px;cursor:pointer;font:inherit}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.small{padding:4px 8px;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.kpi b{display:block;font-size:26px;letter-spacing:-.02em}
+.kpi span{color:var(--muted);font-size:13px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.filters input{flex:1 1 220px}
+.list{display:grid;gap:10px}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;cursor:pointer}
+.lead:hover{border-color:var(--muted)}
+.score{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:700;border:3px solid currentColor}
+.score.hot{color:var(--hot)}.score.warm{color:var(--warm)}.score.cold{color:var(--cold)}
+.lead h3{margin:0;font-size:15px}
+.meta{color:var(--muted);font-size:13px;display:flex;flex-wrap:wrap;gap:4px 10px}
+.chip{display:inline-block;background:var(--chip);border-radius:999px;padding:2px 8px;font-size:12px;color:var(--ink)}
+.chip.late{background:var(--bad);color:#fff}
+.right{display:flex;flex-direction:column;align-items:end;gap:6px}
+.board{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,1fr);gap:10px;overflow-x:auto;padding-bottom:8px}
+.col{background:var(--chip);border-radius:12px;padding:10px;min-height:200px}
+.col h4{margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);display:flex;justify-content:space-between}
+.col.drop{outline:2px dashed var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:8px;cursor:grab;font-size:14px}
+.card small{color:var(--muted);display:block}
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);padding:0;width:min(720px,calc(100vw - 32px));max-height:calc(100vh - 32px)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.dlg{padding:18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:600px){.grid2{grid-template-columns:1fr}.lead{grid-template-columns:auto 1fr}.right{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between}}
+label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)}
+label input,label select,label textarea{color:var(--ink);font-size:15px}
+fieldset{border:1px solid var(--line);border-radius:10px;margin:12px 0;padding:10px 12px}
+legend{font-size:13px;color:var(--muted);padding:0 4px}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+@media(max-width:600px){.checks{grid-template-columns:1fr}}
+.checks label{flex-direction:row;align-items:center;gap:8px;color:var(--ink);font-size:14px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;margin-top:14px}
+.hist{font-size:13px;color:var(--muted);max-height:140px;overflow:auto;border-top:1px solid var(--line);margin-top:10px;padding-top:8px}
+.guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.box h3{margin:0 0 8px;font-size:16px}
+.box a{color:inherit}
+.box ul{margin:0;padding-left:18px}
+.empty{color:var(--muted);text-align:center;padding:30px}
+.bar{height:8px;border-radius:4px;background:var(--chip);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent)}
+.funnelrow{display:grid;grid-template-columns:130px 1fr 40px;gap:10px;align-items:center;font-size:14px;margin:6px 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>Still · Captação de clientes<small>Guanambi – BA e região · negócios que precisam de design</small></h1>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn primary" onclick="openLead()">+ Novo lead</button>
+    <button class="btn" onclick="exportCSV()">Exportar planilha</button>
+    <button class="btn" onclick="exportJSON()">Backup</button>
+    <label class="btn" style="flex-direction:row;color:var(--ink);font-size:15px">Importar<input type="file" accept=".json,.csv" hidden onchange="importFile(this)"></label>
+  </div>
+</header>
+<main>
+  <nav class="tabs" id="tabs">
+    <button data-v="painel" class="on">Painel</button>
+    <button data-v="leads">Leads</button>
+    <button data-v="funil">Funil</button>
+    <button data-v="guia">Onde captar</button>
+  </nav>
+  <section id="v-painel"></section>
+  <section id="v-leads" hidden>
+    <div class="filters">
+      <input id="q" placeholder="Buscar nome, bairro, observação…">
+      <select id="fSeg"></select>
+      <select id="fSt"></select>
+      <select id="fOrd">
+        <option value="score">Maior potencial</option>
+        <option value="follow">Próximo contato</option>
+        <option value="recent">Mais recentes</option>
+        <option value="name">Nome A–Z</option>
+      </select>
+    </div>
+    <div class="list" id="list"></div>
+  </section>
+  <section id="v-funil" hidden><p class="meta">Arraste os cards entre as colunas para mudar a etapa.</p><div class="board" id="board"></div></section>
+  <section id="v-guia" hidden></section>
+</main>
+
+<dialog id="dlg"><form class="dlg" id="form" method="dialog"></form></dialog>
+
+<script>
+const SEGMENTOS = {
+  "Comércio e varejo":["Loja de roupas/calçados","Ótica","Materiais de construção","Agropecuária","Móveis/decoração","Supermercado/mercearia","Autopeças/oficina","Outro varejo"],
+  "Saúde e beleza":["Odontologia","Clínica médica","Estética","Salão/barbearia","Academia/estúdio","Fisioterapia/nutrição","Farmácia","Outro saúde/beleza"],
+  "Serviços e profissionais":["Advocacia","Contabilidade","Imobiliária/construtora","Energia solar","Escola/curso","Eventos/buffet","Engenharia/arquitetura","Outro serviço"]
+};
+const ETAPAS = ["Novo","Pesquisado","Contato feito","Reunião","Proposta enviada","Fechado","Perdido"];
+const SERVICOS = ["Identidade visual / logo","Social media","Site / landing page","Fachada / sinalização","Cardápio / material impresso","Embalagem","Rebranding completo"];
+// Sinais de que o negócio precisa de designer (peso = pontos)
+const SINAIS = [
+  ["semIdentidade","Sem logo ou logo amador",25],
+  ["instaFraco","Instagram parado/desorganizado",20],
+  ["semSite","Sem site",10],
+  ["inauguracao","Inaugurando, mudando ou expandindo",20],
+  ["fachada","Fachada/material visual desatualizado",10],
+  ["concorrencia","Concorrentes com visual melhor",5],
+  ["investe","Já investe em anúncio/patrocínio",10],
+  ["decisor","Tenho contato direto com o dono",10]
+];
+const ORIGENS = ["Diretório online","Google Maps","Instagram","Indicação","Visita presencial","Evento/feira","Outro"];
+
+const KEY="still_leads_v1";
+const hoje=()=>new Date().toISOString().slice(0,10);
+const uid=()=>Math.random().toString(36).slice(2,10);
+
+// Lista inicial: empresas encontradas em diretórios públicos (Doctoralia, Solutudo, Conta Azul, JurídicoCerto, Escavador, Empresaqui).
+// Contatos e situação visual ainda precisam ser verificados.
+const SEED=[
+ ["Clínica Sagrada Saúde","Saúde e beleza","Odontologia","Av. Guanabara","Diretório online","Doctoralia: clareamento e prótese. Verificar Instagram e identidade."],
+ ["Ateliê do Sorriso","Saúde e beleza","Odontologia","","Diretório online","Doctoralia: clareamento e prótese sobre implantes."],
+ ["CECOM Odontologia Especializada","Saúde e beleza","Odontologia","","Diretório online","Doctoralia: frenectomia. Clínica de especialidades, bom ticket."],
+ ["Dra. Elaine Domingues (dentista)","Saúde e beleza","Odontologia","","Diretório online","Profissional individual – oportunidade de marca pessoal."],
+ ["Dra. Renata Tunes (dentista)","Saúde e beleza","Odontologia","","Diretório online","Profissional individual – marca pessoal + social media."],
+ ["Studio Fitness Academia","Saúde e beleza","Academia/estúdio","Av. Barão do Rio Branco, Centro","Diretório online","Tel. listado (77) 3451-1602. Confirmar se ainda ativo."],
+ ["JM Comércio de Materiais de Construção","Comércio e varejo","Materiais de construção","Av. Pres. Castelo Branco, 856 – Aeroporto Velho","Diretório online","Desde 2011, EPP. Ver fachada e redes."],
+ ["Líder Home Center","Comércio e varejo","Materiais de construção","","Diretório online","Home center – encartes, ofertas, social media."],
+ ["Guanambi Piscinas","Comércio e varejo","Materiais de construção","Rua A, 322 – Belo Horizonte","Diretório online","Produto visual – catálogo e Instagram."],
+ ["Benjamim Multimarcas (peças e serviços)","Comércio e varejo","Autopeças/oficina","","Diretório online","Solutudo."],
+ ["Conceitus Comércio e Serviços Automotivos","Comércio e varejo","Autopeças/oficina","","Diretório online","Solutudo."],
+ ["Microshipp Solar","Serviços e profissionais","Energia solar","","Diretório online","Energia solar investe forte em marketing – bom alvo."],
+ ["E-Conte Contabilidade","Serviços e profissionais","Contabilidade","","Diretório online","Parceiro Conta Azul. Conteúdo educativo p/ redes."],
+ ["Fernandes Advocacia","Serviços e profissionais","Advocacia","","Diretório online","JurídicoCerto. Identidade sóbria + site (respeitar regras da OAB)."],
+ ["Ribeiro Cavalcante Advocacia","Serviços e profissionais","Advocacia","","Diretório online","Atende empresas em Guanambi."],
+ ["Guanambi Locação e Administração de Imóveis","Serviços e profissionais","Imobiliária/construtora","","Diretório online","CNPJ 53.094.100/0001-90 – empresa nova (2023/24), pode precisar de marca."],
+ ["Eboot Engenharia","Serviços e profissionais","Engenharia/arquitetura","","Diretório online","Solutudo. Portfólio e apresentação comercial."]
+];
+
+let leads=load();
+function load(){
+  try{const r=JSON.parse(localStorage.getItem(KEY));if(Array.isArray(r))return r;}catch(e){}
+  return SEED.map(([nome,seg,sub,end,orig,obs])=>({id:uid(),nome,segmento:seg,sub,endereco:end,bairro:"",cidade:"Guanambi",responsavel:"",whatsapp:"",instagram:"",site:"",origem:orig,etapa:"Novo",sinais:{},servicos:[],valor:"",proximo:"",obs:obs+" [a validar]",criado:hoje(),hist:[{d:hoje(),t:"Lead importado da lista inicial"}]}));
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(leads));}catch(e){alert("Não foi possível salvar no navegador. Faça backup.");}render();}
+
+const score=l=>Math.min(100,SINAIS.reduce((s,[k,,p])=>s+(l.sinais&&l.sinais[k]?p:0),0));
+const temp=s=>s>=60?"hot":s>=30?"warm":"cold";
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmtD=d=>d?d.split("-").reverse().join("/"):"";
+const brl=v=>v?Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"}):"";
+const wa=n=>{n=String(n||"").replace(/\D/g,"");if(!n)return"";if(n.length<=11)n="55"+n;return"https://wa.me/"+n;};
+const ig=h=>{h=String(h||"").trim().replace(/^@/,"").replace(/^https?:\/\/(www\.)?instagram\.com\//,"").replace(/\/$/,"");return h?"https://instagram.com/"+h:"";};
+const ativo=l=>l.etapa!=="Fechado"&&l.etapa!=="Perdido";
+
+// ---------- Tabs
+document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  ["painel","leads","funil","guia"].forEach(v=>document.getElementById("v-"+v).hidden=v!==b.dataset.v);
+  try{localStorage.setItem("still_tab",b.dataset.v)}catch(e){}
+});
+
+// ---------- Filters
+fSeg.innerHTML='<option value="">Todos os segmentos</option>'+Object.keys(SEGMENTOS).map(s=>`<option>${s}</option>`).join("");
+fSt.innerHTML='<option value="">Todas as etapas</option><option value="_ativos">Só ativos</option><option value="_quentes">Só quentes (60+)</option><option value="_atrasados">Contato atrasado</option>'+ETAPAS.map(s=>`<option>${s}</option>`).join("");
+[q,fSeg,fSt,fOrd].forEach(e=>e.oninput=renderList);
+
+function render(){renderPainel();renderList();renderBoard();}
+
+function renderPainel(){
+  const at=leads.filter(ativo), quentes=at.filter(l=>score(l)>=60), fech=leads.filter(l=>l.etapa==="Fechado");
+  const atras=at.filter(l=>l.proximo&&l.proximo<hoje()), hojeL=at.filter(l=>l.proximo===hoje());
+  const pipe=at.filter(l=>["Reunião","Proposta enviada"].includes(l.etapa)).reduce((s,l)=>s+(+l.valor||0),0);
+  const fat=fech.reduce((s,l)=>s+(+l.valor||0),0);
+  const decididos=fech.length+leads.filter(l=>l.etapa==="Perdido").length;
+  const conv=decididos?Math.round(fech.length/decididos*100):0;
+  const max=Math.max(1,...ETAPAS.map(e=>leads.filter(l=>l.etapa===e).length));
+  const agenda=[...atras,...hojeL,...at.filter(l=>l.proximo>hoje())].sort((a,b)=>a.proximo.localeCompare(b.proximo)).slice(0,8);
+  const top=at.filter(l=>["Novo","Pesquisado"].includes(l.etapa)).sort((a,b)=>score(b)-score(a)).slice(0,6);
+  const segs=Object.keys(SEGMENTOS).map(s=>[s,leads.filter(l=>l.segmento===s).length,leads.filter(l=>l.segmento===s&&l.etapa==="Fechado").length]);
+  document.getElementById("v-painel").innerHTML=`
+  <div class="kpis">
+    <div class="kpi"><b>${at.length}</b><span>leads ativos</span></div>
+    <div class="kpi"><b style="color:var(--hot)">${quentes.length}</b><span>quentes (potencial 60+)</span></div>
+    <div class="kpi"><b style="color:${atras.length?"var(--bad)":"inherit"}">${atras.length}</b><span>contatos atrasados</span></div>
+    <div class="kpi"><b>${brl(pipe)||"R$ 0"}</b><span>em negociação</span></div>
+    <div class="kpi"><b style="color:var(--ok)">${fech.length}</b><span>fechados · ${brl(fat)||"R$ 0"}</span></div>
+    <div class="kpi"><b>${conv}%</b><span>taxa de fechamento</span></div>
+  </div>
+  <div class="guide">
+    <div class="box"><h3>Próximos contatos</h3>${agenda.length?agenda.map(l=>`<div class="meta" style="justify-content:space-between;cursor:pointer;padding:4px 0" onclick="openLead('${l.id}')"><span style="color:var(--ink)">${esc(l.nome)}</span><span class="chip ${l.proximo<hoje()?"late":""}">${l.proximo===hoje()?"hoje":fmtD(l.proximo)}</span></div>`).join(""):'<p class="meta">Nenhum contato agendado. Defina "próximo contato" nos leads.</p>'}</div>
+    <div class="box"><h3>Prioridade para abordar</h3>${top.length?top.map(l=>`<div class="meta" style="justify-content:space-between;cursor:pointer;padding:4px 0" onclick="openLead('${l.id}')"><span style="color:var(--ink)">${esc(l.nome)}</span><span class="chip">${score(l)} pts</span></div>`).join(""):'<p class="meta">Sem leads novos.</p>'}<p class="meta" style="margin-top:8px">Dica: abra cada lead e marque os sinais de necessidade de design para o potencial ser calculado.</p></div>
+    <div class="box"><h3>Funil</h3>${ETAPAS.map(e=>{const n=leads.filter(l=>l.etapa===e).length;return`<div class="funnelrow"><span>${e}</span><div class="bar"><i style="width:${n/max*100}%"></i></div><b>${n}</b></div>`}).join("")}</div>
+    <div class="box"><h3>Por segmento</h3>${segs.map(([s,n,f])=>`<div class="funnelrow"><span>${s}</span><div class="bar"><i style="width:${n/Math.max(1,leads.length)*100}%"></i></div><b>${n}</b></div><div class="meta" style="margin:-4px 0 6px 140px">${f} fechado(s)</div>`).join("")}</div>
+  </div>`;
+}
+
+function filtered(){
+  const t=q.value.trim().toLowerCase();
+  let r=leads.filter(l=>{
+    if(fSeg.value&&l.segmento!==fSeg.value)return false;
+    const s=fSt.value;
+    if(s==="_ativos"&&!ativo(l))return false;
+    if(s==="_quentes"&&!(ativo(l)&&score(l)>=60))return false;
+    if(s==="_atrasados"&&!(ativo(l)&&l.proximo&&l.proximo<hoje()))return false;
+    if(s&&!s.startsWith("_")&&l.etapa!==s)return false;
+    if(t&&![l.nome,l.sub,l.endereco,l.bairro,l.cidade,l.obs,l.responsavel,l.instagram].join(" ").toLowerCase().includes(t))return false;
+    return true;
+  });
+  const o=fOrd.value;
+  r.sort(o==="score"?(a,b)=>score(b)-score(a):o==="follow"?(a,b)=>(a.proximo||"9").localeCompare(b.proximo||"9"):o==="recent"?(a,b)=>b.criado.localeCompare(a.criado):(a,b)=>a.nome.localeCompare(b.nome));
+  return r;
+}
+function renderList(){
+  const r=filtered();
+  list.innerHTML=r.length?r.map(l=>{const s=score(l);return`
+  <div class="lead" onclick="openLead('${l.id}')">
+    <div class="score ${temp(s)}" title="Potencial">${s}</div>
+    <div><h3>${esc(l.nome)}</h3>
+      <div class="meta"><span>${esc(l.sub||l.segmento)}</span>${l.bairro||l.endereco?`<span>· ${esc(l.bairro||l.endereco)}</span>`:""}${l.cidade&&l.cidade!=="Guanambi"?`<span>· ${esc(l.cidade)}</span>`:""}${l.servicos?.length?`<span>· ${esc(l.servicos.join(", "))}</span>`:""}</div></div>
+    <div class="right"><span class="chip">${l.etapa}</span>${l.proximo&&ativo(l)?`<span class="chip ${l.proximo<hoje()?"late":""}">${fmtD(l.proximo)}</span>`:""}
+      <span style="display:flex;gap:6px" onclick="event.stopPropagation()">${l.whatsapp?`<a class="btn small" href="${wa(l.whatsapp)}" target="_blank" rel="noopener">WhatsApp</a>`:""}${l.instagram?`<a class="btn small" href="${ig(l.instagram)}" target="_blank" rel="noopener">Insta</a>`:""}</span></div>
+  </div>`}).join(""):'<div class="empty">Nenhum lead com esses filtros.</div>';
+}
+
+function renderBoard(){
+  board.innerHTML=ETAPAS.map(e=>{const ls=leads.filter(l=>l.etapa===e).sort((a,b)=>score(b)-score(a));return`
+  <div class="col" data-e="${e}"><h4><span>${e}</span><span>${ls.length}</span></h4>
+  ${ls.map(l=>`<div class="card" draggable="true" data-id="${l.id}" onclick="openLead('${l.id}')"><b>${esc(l.nome)}</b><small>${score(l)} pts · ${esc(l.sub||l.segmento)}${l.valor?" · "+brl(l.valor):""}</small></div>`).join("")}</div>`}).join("");
+  board.querySelectorAll(".card").forEach(c=>c.ondragstart=ev=>ev.dataTransfer.setData("text",c.dataset.id));
+  board.querySelectorAll(".col").forEach(c=>{
+    c.ondragover=ev=>{ev.preventDefault();c.classList.add("drop")};
+    c.ondragleave=()=>c.classList.remove("drop");
+    c.ondrop=ev=>{ev.preventDefault();c.classList.remove("drop");const l=leads.find(x=>x.id===ev.dataTransfer.getData("text"));if(l&&l.etapa!==c.dataset.e){l.hist.push({d:hoje(),t:`Etapa: ${l.etapa} → ${c.dataset.e}`});l.etapa=c.dataset.e;save();}};
+  });
+}
+
+// ---------- Modal
+function openLead(id){
+  const l=id?leads.find(x=>x.id===id):{id:uid(),nome:"",segmento:"Comércio e varejo",sub:"",endereco:"",bairro:"",cidade:"Guanambi",responsavel:"",whatsapp:"",instagram:"",site:"",origem:"Google Maps",etapa:"Novo",sinais:{},servicos:[],valor:"",proximo:"",obs:"",criado:hoje(),hist:[]};
+  const subs=s=>SEGMENTOS[s].map(x=>`<option ${x===l.sub?"selected":""}>${x}</option>`).join("");
+  form.innerHTML=`
+  <h2 style="margin:0 0 12px;font-size:18px">${id?"Editar lead":"Novo lead"}</h2>
+  <div class="grid2">
+    <label style="grid-column:1/-1">Nome do negócio<input name="nome" required value="${esc(l.nome)}"></label>
+    <label>Segmento<select name="segmento" onchange="this.form.sub.innerHTML=SEGMENTOS[this.value].map(x=>'<option>'+x+'</option>').join('')">${Object.keys(SEGMENTOS).map(s=>`<option ${s===l.segmento?"selected":""}>${s}</option>`).join("")}</select></label>
+    <label>Tipo<select name="sub">${subs(l.segmento)}</select></label>
+    <label>Responsável / dono<input name="responsavel" value="${esc(l.responsavel)}"></label>
+    <label>WhatsApp<input name="whatsapp" inputmode="tel" placeholder="77 9...." value="${esc(l.whatsapp)}"></label>
+    <label>Instagram<input name="instagram" placeholder="@perfil" value="${esc(l.instagram)}"></label>
+    <label>Site<input name="site" value="${esc(l.site)}"></label>
+    <label>Endereço<input name="endereco" value="${esc(l.endereco)}"></label>
+    <label>Bairro<input name="bairro" value="${esc(l.bairro)}"></label>
+    <label>Cidade<input name="cidade" list="cidades" value="${esc(l.cidade)}"></label>
+    <label>Origem do lead<select name="origem">${ORIGENS.map(o=>`<option ${o===l.origem?"selected":""}>${o}</option>`).join("")}</select></label>
+  </div>
+  <datalist id="cidades">${["Guanambi","Caetité","Candiba","Pindaí","Palmas de Monte Alto","Sebastião Laranjeiras","Iuiú","Malhada","Igaporã","Matina","Riacho de Santana","Urandi"].map(c=>`<option>${c}</option>`).join("")}</datalist>
+  <fieldset><legend>Sinais de que precisa de designer → potencial <b id="sc">${score(l)}</b>/100</legend>
+    <div class="checks">${SINAIS.map(([k,t,p])=>`<label><input type="checkbox" name="s_${k}" ${l.sinais?.[k]?"checked":""} onchange="upScore()"> ${t} <span class="meta">+${p}</span></label>`).join("")}</div></fieldset>
+  <fieldset><legend>Serviços que posso oferecer</legend>
+    <div class="checks">${SERVICOS.map(s=>`<label><input type="checkbox" name="sv" value="${s}" ${l.servicos?.includes(s)?"checked":""}> ${s}</label>`).join("")}</div></fieldset>
+  <div class="grid2">
+    <label>Etapa<select name="etapa">${ETAPAS.map(e=>`<option ${e===l.etapa?"selected":""}>${e}</option>`).join("")}</select></label>
+    <label>Valor estimado (R$)<input name="valor" type="number" min="0" step="50" value="${esc(l.valor)}"></label>
+    <label>Próximo contato<input name="proximo" type="date" value="${esc(l.proximo)}"></label>
+    <label>Registrar interação<input name="nota" placeholder="Ex.: mandei portfólio no WhatsApp"></label>
+    <label style="grid-column:1/-1">Observações<textarea name="obs" rows="3">${esc(l.obs)}</textarea></label>
+  </div>
+  ${l.hist?.length?`<div class="hist">${[...l.hist].reverse().map(h=>`<div>${fmtD(h.d)} — ${esc(h.t)}</div>`).join("")}</div>`:""}
+  <div class="actions">
+    <div>${id?`<button type="button" class="btn" style="color:var(--bad)" onclick="delLead('${l.id}')">Excluir</button>`:""}</div>
+    <div style="display:flex;gap:8px"><button type="button" class="btn" onclick="dlg.close()">Cancelar</button><button class="btn primary" value="ok">Salvar</button></div>
+  </div>`;
+  form.onsubmit=e=>{
+    e.preventDefault();const f=new FormData(form);
+    const novo=!leads.includes(l);
+    const antes=l.etapa;
+    ["nome","segmento","sub","responsavel","whatsapp","instagram","site","endereco","bairro","cidade","origem","etapa","valor","proximo","obs"].forEach(k=>l[k]=(f.get(k)||"").trim());
+    l.sinais={};SINAIS.forEach(([k])=>{if(f.get("s_"+k))l.sinais[k]=true});
+    l.servicos=f.getAll("sv");
+    l.hist=l.hist||[];
+    if(novo)l.hist.push({d:hoje(),t:"Lead cadastrado"});
+    if(!novo&&antes!==l.etapa)l.hist.push({d:hoje(),t:`Etapa: ${antes} → ${l.etapa}`});
+    const n=(f.get("nota")||"").trim();if(n)l.hist.push({d:hoje(),t:n});
+    if(novo)leads.push(l);
+    save();dlg.close();
+  };
+  dlg.showModal();
+}
+function upScore(){let s=0;SINAIS.forEach(([k,,p])=>{if(form["s_"+k].checked)s+=p});document.getElementById("sc").textContent=Math.min(100,s);}
+function delLead(id){if(confirm("Excluir este lead?")){leads=leads.filter(l=>l.id!==id);save();dlg.close();}}
+
+// ---------- Export / import
+function download(name,data,type){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+const COLS=["nome","segmento","sub","responsavel","whatsapp","instagram","site","endereco","bairro","cidade","origem","etapa","valor","proximo","obs","criado"];
+function exportCSV(){
+  const head=[...COLS,"potencial","servicos","sinais"];
+  const rows=leads.map(l=>[...COLS.map(c=>l[c]),score(l),(l.servicos||[]).join(" | "),SINAIS.filter(([k])=>l.sinais?.[k]).map(x=>x[1]).join(" | ")]);
+  const csv="﻿"+[head,...rows].map(r=>r.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(";")).join("\r\n");
+  download(`still-leads-${hoje()}.csv`,csv,"text/csv;charset=utf-8");
+}
+function exportJSON(){download(`still-backup-${hoje()}.json`,JSON.stringify(leads,null,1),"application/json");}
+function importFile(inp){
+  const file=inp.files[0];if(!file)return;const rd=new FileReader();
+  rd.onload=()=>{try{
+    let novos;
+    if(file.name.endsWith(".json")){novos=JSON.parse(rd.result);if(!Array.isArray(novos))throw 0;}
+    else{
+      const lines=rd.result.replace(/^﻿/,"").split(/\r?\n/).filter(Boolean);
+      const parse=line=>{const out=[];let cur="",inq=false;for(let i=0;i<line.length;i++){const c=line[i];if(inq){if(c=='"'&&line[i+1]=='"'){cur+='"';i++}else if(c=='"')inq=false;else cur+=c}else if(c=='"')inq=true;else if(c==';'||c==','){out.push(cur);cur=""}else cur+=c}out.push(cur);return out};
+      const h=parse(lines[0]).map(x=>x.trim().toLowerCase());
+      novos=lines.slice(1).map(L=>{const v=parse(L),o={id:uid(),sinais:{},servicos:[],hist:[{d:hoje(),t:"Importado de planilha"}],etapa:"Novo",cidade:"Guanambi",segmento:"Comércio e varejo",criado:hoje()};h.forEach((k,i)=>{if(COLS.includes(k)&&v[i])o[k]=v[i]});if(h.includes("servicos"))o.servicos=(v[h.indexOf("servicos")]||"").split("|").map(s=>s.trim()).filter(Boolean);return o}).filter(o=>o.nome);
+    }
+    const modo=confirm(`${novos.length} lead(s) encontrados.\nOK = adicionar aos atuais\nCancelar = substituir tudo`);
+    leads=modo?[...leads,...novos.map(n=>({...n,id:uid()}))]:novos;save();
+  }catch(e){alert("Arquivo inválido.");} inp.value="";};
+  rd.readAsText(file);
+}
+
+// ---------- Guia de captação
+const gm=t=>`https://www.google.com/maps/search/${encodeURIComponent(t+" Guanambi BA")}`;
+document.getElementById("v-guia").innerHTML=`
+<div class="guide">
+  <div class="box"><h3>1. Buscar no Google Maps</h3><p class="meta">Abra, veja quem tem poucas fotos, logo fraco ou sem site, e cadastre aqui.</p>
+  ${Object.entries(SEGMENTOS).map(([s,subs])=>`<p style="margin:8px 0 4px"><b>${s}</b></p><div style="display:flex;flex-wrap:wrap;gap:6px">${subs.filter(x=>!x.startsWith("Outro")).map(x=>`<a class="chip" target="_blank" rel="noopener" href="${gm(x.split("/")[0])}">${x}</a>`).join("")}</div>`).join("")}</div>
+  <div class="box"><h3>2. Instagram</h3><ul>
+    <li>Procure <b>#guanambi</b>, <b>#guanambiba</b>, <b>#lojasguanambi</b>, <b>#inauguracaoguanambi</b>.</li>
+    <li>Siga perfis locais de notícia/eventos – eles divulgam inaugurações primeiro.</li>
+    <li>Sinal forte: posts sem padrão visual, fotos escuras, logo pixelado, última postagem há meses.</li>
+    <li>Use a busca por localização "Guanambi" e veja quem marca a cidade.</li></ul></div>
+  <div class="box"><h3>3. Diretórios e cadastros</h3><ul>
+    <li><a target="_blank" rel="noopener" href="https://www.solutudo.com.br/ba/guanambi/empresas/categorias">Solutudo – categorias de Guanambi</a></li>
+    <li><a target="_blank" rel="noopener" href="https://www.doctoralia.com.br/guanambi">Doctoralia – profissionais de saúde</a></li>
+    <li><a target="_blank" rel="noopener" href="https://www.empresaqui.com.br/empresas/construtora/ba/guanambi">Empresaqui – construtoras</a></li>
+    <li><a target="_blank" rel="noopener" href="https://contaazul.com/encontre-contador/lista/BA/guanambi/">Conta Azul – contadores</a></li>
+    <li><b>CNPJs recém-abertos</b> em Guanambi = negócio novo, precisa de marca. Contadores locais podem indicar.</li></ul></div>
+  <div class="box"><h3>4. Quem tende a fechar com designer</h3><ul>
+    <li><b>Abrindo ou mudando de ponto</b> – precisa de logo, fachada, inauguração.</li>
+    <li><b>Profissionais liberais</b> recém-formados (dentistas, advogados, nutricionistas) – marca pessoal.</li>
+    <li><b>Energia solar, imobiliárias, clínicas</b> – já investem em anúncio e precisam de criativos todo mês.</li>
+    <li><b>Lojas com 2ª unidade</b> ou que começaram a vender online.</li>
+    <li>Menos provável: quem não posta nada e não pretende investir.</li></ul></div>
+  <div class="box"><h3>5. Abordagem sugerida</h3><ol style="margin:0;padding-left:18px">
+    <li>Interaja no Instagram do lead por 2–3 dias.</li>
+    <li>Mande mensagem curta e específica: <i>"Vi o perfil da [loja], gostei de [x]. Fiz uma ideia rápida de como o feed/logo poderia ficar – posso te mandar?"</i></li>
+    <li>Envie um mockup ou antes/depois rápido.</li>
+    <li>Agende reunião de 15 min e registre aqui o próximo contato.</li>
+    <li>Follow-up em 3, 7 e 15 dias.</li></ol></div>
+  <div class="box"><h3>Sobre a lista inicial</h3><p class="meta">Os ${SEED.length} leads iniciais vieram de diretórios públicos (Doctoralia, Solutudo, Conta Azul, JurídicoCerto, Empresaqui). Estão marcados como <b>[a validar]</b>: confira se ainda funcionam, encontre WhatsApp/Instagram e marque os sinais.</p>
+  <p class="meta">Seus dados ficam salvos <b>só neste navegador</b>. Use <b>Backup</b> com frequência e <b>Importar</b> para levar a outro aparelho.</p>
+  <button class="btn small" onclick="if(confirm('Apagar todos os dados e recarregar a lista inicial?')){localStorage.removeItem(KEY);leads=load();save();}">Restaurar lista inicial</button></div>
+</div>`;
+
+try{const t=localStorage.getItem("still_tab");if(t)document.querySelector(`#tabs button[data-v="${t}"]`)?.click();}catch(e){}
+if(!localStorage.getItem(KEY))save();else render();
+</script>
+</body>
+</html>
