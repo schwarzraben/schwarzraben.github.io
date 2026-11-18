@@ -1,13 +1,13 @@
-# Automação Steel: Excel → WhatsApp Business
+# Automação Still: Excel → WhatsApp Business
 
 Você coloca os leads na planilha e o script manda a primeira mensagem pelo
-número da Steel, usando a **API oficial do WhatsApp Business (Meta Cloud API)**.
+número da Still, usando a **API oficial do WhatsApp Business (Meta Cloud API)**.
 O número não corre risco de banimento por usar ferramenta não oficial.
 
 ## 1. Configuração (uma vez só)
 
 1. Acesse **developers.facebook.com** → *Criar app* → tipo **Empresa** → adicione o produto **WhatsApp**.
-2. Em *WhatsApp → Configuração da API*, adicione o número da Steel e confirme por SMS.
+2. Em *WhatsApp → Configuração da API*, adicione o número da Still e confirme por SMS.
    - O número **não pode** estar em uso no app do WhatsApp comum ao mesmo tempo. Use um número dedicado ou migre.
 3. Copie o **ID do número de telefone** (Phone number ID).
 4. Gere um **token permanente**: *Configurações do negócio → Usuários do sistema → Gerar token*
@@ -19,13 +19,13 @@ O número não corre risco de banimento por usar ferramenta não oficial.
 A primeira mensagem para um lead **precisa** ser um template aprovado pela Meta.
 Em *WhatsApp Manager → Modelos de mensagem → Criar*:
 
-- **Nome:** `steel_primeiro_contato`
+- **Nome:** `still_primeiro_contato`
 - **Categoria:** Marketing
 - **Idioma:** Português (BR)
 - **Corpo** (o `{{1}}` vira o primeiro nome do lead):
 
 ```
-Oi, {{1}}! Aqui é da Steel Design 👋
+Oi, {{1}}! Aqui é da Still 👋
 Obrigado pelo seu interesse. Separamos uma análise rápida do visual da sua marca
 (Instagram, posts e identidade). Posso te mandar por aqui?
 ```
@@ -84,3 +84,8 @@ Atualize o status na planilha: `respondeu`, `cliente` ou `descadastrado` (se ped
 - Envie só para quem tem **consentimento = SIM**. Muitos bloqueios derrubam a qualidade do número.
 - Comece com poucos envios por dia. A Meta libera limites maiores conforme a qualidade.
 - Nunca compartilhe o arquivo `.env` (é a senha do número) nem a planilha com dados reais.
+
+## Usando junto com o painel
+No painel (`/painel/`), marque em cada lead **"Autorizou receber mensagens da Still no WhatsApp"**
+e clique em **Exportar p/ WhatsApp**. O arquivo `leads.xlsx` baixado já vem no formato deste script:
+é só colocá-lo nesta pasta e rodar `python enviar.py --teste`.

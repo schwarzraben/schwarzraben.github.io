@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Automação Steel: planilha de leads (Excel) -> WhatsApp Business (API oficial da Meta).
+Automação Still: planilha de leads (Excel) -> WhatsApp Business (API oficial da Meta).
 
 Uso:
   python enviar.py                  # envia para os leads pendentes
@@ -81,7 +81,7 @@ def main():
     carregar_env()
     token = os.getenv("WHATSAPP_TOKEN")
     phone_id = os.getenv("WHATSAPP_PHONE_NUMBER_ID")
-    template = os.getenv("WHATSAPP_TEMPLATE", "steel_primeiro_contato")
+    template = os.getenv("WHATSAPP_TEMPLATE", "still_primeiro_contato")
     idioma = os.getenv("WHATSAPP_TEMPLATE_IDIOMA", "pt_BR")
     if not args.teste and not (token and phone_id):
         sys.exit("Configure WHATSAPP_TOKEN e WHATSAPP_PHONE_NUMBER_ID no arquivo .env (veja .env.exemplo).")
@@ -103,7 +103,7 @@ def main():
     for linha in range(2, ws.max_row + 1):
         nome = cel(linha, "nome").value
         tel_bruto = cel(linha, "telefone").value
-        if not nome and not tel_bruto:
+        if not nome and not tel_bruto and not cel(linha, "empresa").value:
             continue
         status = str(cel(linha, "status").value or "").strip().lower()
         if status in ("enviado", "descadastrado", "cliente"):

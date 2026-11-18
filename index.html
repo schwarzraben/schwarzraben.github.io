@@ -3,379 +3,288 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Still · Captação Guanambi</title>
-<meta name="robots" content="noindex">
+<title>Still · Design gráfico</title>
+<meta name="description" content="Still: identidade visual, social media, sites e material gráfico para negócios de Guanambi e região.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+/* ===== Cores ===== */
 :root{
-  --bg:#f6f5f2;--card:#fff;--ink:#1c1b19;--muted:#6b6862;--line:#e3e0d9;
-  --accent:#1f1f1f;--accent-ink:#fff;--hot:#c2410c;--warm:#b45309;--cold:#64748b;--ok:#15803d;--bad:#b91c1c;
-  --chip:#efece6;
+  --bg:#f6f4ef;--surface:#fffdf8;--ink:#191816;--muted:#67635b;--line:#e2ded4;
+  --accent:#d9480f;--accent-ink:#fff;--soft:#efe9dd;
 }
-@media (prefers-color-scheme:dark){:root{
-  --bg:#141413;--card:#1e1d1b;--ink:#f1efe9;--muted:#a19d95;--line:#33312d;
-  --accent:#f1efe9;--accent-ink:#141413;--hot:#fb923c;--warm:#fbbf24;--cold:#94a3b8;--ok:#4ade80;--bad:#f87171;--chip:#2a2926;
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121110;--surface:#1c1b19;--ink:#f3f0ea;--muted:#a39f96;--line:#2f2d29;
+  --accent:#ff7a3d;--accent-ink:#121110;--soft:#24221f;
 }}
+:root[data-theme="dark"]{
+  --bg:#121110;--surface:#1c1b19;--ink:#f3f0ea;--muted:#a39f96;--line:#2f2d29;
+  --accent:#ff7a3d;--accent-ink:#121110;--soft:#24221f;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-header{padding:20px 16px 8px;max-width:1200px;margin:auto;display:flex;flex-wrap:wrap;gap:12px;align-items:end;justify-content:space-between}
-h1{margin:0;font-size:22px;letter-spacing:-.02em}
-h1 small{display:block;font-size:13px;font-weight:400;color:var(--muted)}
-main{max-width:1200px;margin:auto;padding:0 16px 60px}
-nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 16px}
-nav.tabs button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer;font:inherit}
-nav.tabs button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 12px;border-radius:8px;cursor:pointer;font:inherit}
-.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.btn.small{padding:4px 8px;font-size:13px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
-.kpi b{display:block;font-size:26px;letter-spacing:-.02em}
-.kpi span{color:var(--muted);font-size:13px}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-input,select,textarea{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
-.filters input{flex:1 1 220px}
-.list{display:grid;gap:10px}
-.lead{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;cursor:pointer}
-.lead:hover{border-color:var(--muted)}
-.score{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:700;border:3px solid currentColor}
-.score.hot{color:var(--hot)}.score.warm{color:var(--warm)}.score.cold{color:var(--cold)}
-.lead h3{margin:0;font-size:15px}
-.meta{color:var(--muted);font-size:13px;display:flex;flex-wrap:wrap;gap:4px 10px}
-.chip{display:inline-block;background:var(--chip);border-radius:999px;padding:2px 8px;font-size:12px;color:var(--ink)}
-.chip.late{background:var(--bad);color:#fff}
-.right{display:flex;flex-direction:column;align-items:end;gap:6px}
-.board{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,1fr);gap:10px;overflow-x:auto;padding-bottom:8px}
-.col{background:var(--chip);border-radius:12px;padding:10px;min-height:200px}
-.col h4{margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);display:flex;justify-content:space-between}
-.col.drop{outline:2px dashed var(--muted)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:8px;cursor:grab;font-size:14px}
-.card small{color:var(--muted);display:block}
-dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);padding:0;width:min(720px,calc(100vw - 32px));max-height:calc(100vh - 32px)}
-dialog::backdrop{background:rgba(0,0,0,.45)}
-.dlg{padding:18px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(max-width:600px){.grid2{grid-template-columns:1fr}.lead{grid-template-columns:auto 1fr}.right{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between}}
-label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)}
-label input,label select,label textarea{color:var(--ink);font-size:15px}
-fieldset{border:1px solid var(--line);border-radius:10px;margin:12px 0;padding:10px 12px}
-legend{font-size:13px;color:var(--muted);padding:0 4px}
-.checks{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-@media(max-width:600px){.checks{grid-template-columns:1fr}}
-.checks label{flex-direction:row;align-items:center;gap:8px;color:var(--ink);font-size:14px}
-.actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;margin-top:14px}
-.hist{font-size:13px;color:var(--muted);max-height:140px;overflow:auto;border-top:1px solid var(--line);margin-top:10px;padding-top:8px}
-.guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
-.box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
-.box h3{margin:0 0 8px;font-size:16px}
-.box a{color:inherit}
-.box ul{margin:0;padding-left:18px}
-.empty{color:var(--muted);text-align:center;padding:30px}
-.bar{height:8px;border-radius:4px;background:var(--chip);overflow:hidden}
-.bar i{display:block;height:100%;background:var(--accent)}
-.funnelrow{display:grid;grid-template-columns:130px 1fr 40px;gap:10px;align-items:center;font-size:14px;margin:6px 0}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:0}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);background:transparent;color:var(--ink);padding:12px 20px;border-radius:999px;font:600 15px Inter,sans-serif;text-decoration:none;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn:hover{transform:translateY(-1px)}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+
+/* ===== Topo ===== */
+.top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.logo{font:700 24px Fraunces,serif;text-decoration:none;letter-spacing:-.03em}
+.logo i{color:var(--accent);font-style:normal}
+.top nav{display:flex;gap:22px;font-size:15px}
+.top nav a{text-decoration:none;color:var(--muted)}
+.top nav a:hover{color:var(--ink)}
+@media(max-width:720px){.top nav{display:none}}
+
+/* ===== Hero ===== */
+.hero{padding:72px 0 56px}
+.hero h1{font-size:clamp(40px,7vw,84px);max-width:13ch}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero p{font-size:clamp(17px,2vw,20px);color:var(--muted);max-width:52ch;margin:24px 0 32px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px}
+.strip{margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.strip div{background:var(--surface);padding:20px}
+.strip b{display:block;font:700 22px Fraunces,serif}
+.strip span{color:var(--muted);font-size:14px}
+
+section{padding:72px 0}
+section h2{font-size:clamp(30px,4.5vw,48px);max-width:20ch;margin:8px 0 16px}
+.lead{color:var(--muted);max-width:60ch;margin:0 0 36px}
+
+/* ===== Sinais ===== */
+.signs{background:var(--soft)}
+.signs ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.signs li{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 18px 52px;position:relative}
+.signs li::before{content:"";position:absolute;left:18px;top:21px;width:18px;height:18px;border-radius:50%;border:2px solid var(--accent)}
+.signs li b{display:block}
+.signs li span{color:var(--muted);font-size:15px}
+
+/* ===== Serviços ===== */
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.svc{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:10px}
+.svc .n{font:700 14px Inter;color:var(--accent)}
+.svc h3{font-size:24px}
+.svc p{margin:0;color:var(--muted)}
+.svc ul{margin:6px 0 0;padding-left:18px;font-size:15px}
+
+/* ===== Processo ===== */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;counter-reset:s}
+.step{border-top:2px solid var(--ink);padding-top:18px;counter-increment:s}
+.step::before{content:counter(s,decimal-leading-zero);font:700 40px Fraunces,serif;color:var(--accent);display:block;margin-bottom:6px}
+.step h3{font-size:20px;margin-bottom:6px}
+.step p{margin:0;color:var(--muted);font-size:15px}
+
+/* ===== Formulário ===== */
+.cta{background:var(--ink);color:var(--bg)}
+.cta .grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+@media(max-width:860px){.cta .grid{grid-template-columns:1fr}}
+.cta h2{color:var(--bg)}
+.cta .lead{color:color-mix(in srgb,var(--bg) 70%,var(--ink))}
+.cta .lead b{color:var(--bg)}
+form{background:var(--surface);color:var(--ink);border-radius:20px;padding:24px;display:grid;gap:14px}
+label{display:grid;gap:6px;font-size:14px;font-weight:500}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;width:100%}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:520px){.row{grid-template-columns:1fr}}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:400;color:var(--muted)}
+.check input{width:18px;height:18px;margin-top:3px;flex:none}
+form .btn{justify-content:center;width:100%}
+.note{font-size:13px;color:var(--muted);margin:0}
+.warn{background:#fff4e5;color:#7a3e00;border-radius:10px;padding:10px 12px;font-size:14px}
+
+/* ===== FAQ / rodapé ===== */
+details{border-bottom:1px solid var(--line);padding:18px 0}
+summary{cursor:pointer;font-weight:600;font-size:17px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::after{content:"+";color:var(--accent);font-size:22px;line-height:1}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin:10px 0 0;max-width:70ch}
+footer{border-top:1px solid var(--line);padding:32px 0 48px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+.float{position:fixed;right:16px;bottom:16px;z-index:6;box-shadow:0 8px 24px rgba(0,0,0,.18)}
 </style>
 </head>
 <body>
-<header>
-  <h1>Still · Captação de clientes<small>Guanambi – BA e região · negócios que precisam de design</small></h1>
-  <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <button class="btn primary" onclick="openLead()">+ Novo lead</button>
-    <button class="btn" onclick="exportCSV()">Exportar planilha</button>
-    <button class="btn" onclick="exportJSON()">Backup</button>
-    <label class="btn" style="flex-direction:row;color:var(--ink);font-size:15px">Importar<input type="file" accept=".json,.csv" hidden onchange="importFile(this)"></label>
+
+<header class="top">
+  <div class="wrap">
+    <a href="#" class="logo">Still<i>.</i></a>
+    <nav><a href="#servicos">Serviços</a><a href="#processo">Como funciona</a><a href="#perguntas">Perguntas</a></nav>
+    <a href="#diagnostico" class="btn primary" style="padding:9px 16px">Diagnóstico grátis</a>
   </div>
 </header>
+
 <main>
-  <nav class="tabs" id="tabs">
-    <button data-v="painel" class="on">Painel</button>
-    <button data-v="leads">Leads</button>
-    <button data-v="funil">Funil</button>
-    <button data-v="guia">Onde captar</button>
-  </nav>
-  <section id="v-painel"></section>
-  <section id="v-leads" hidden>
-    <div class="filters">
-      <input id="q" placeholder="Buscar nome, bairro, observação…">
-      <select id="fSeg"></select>
-      <select id="fSt"></select>
-      <select id="fOrd">
-        <option value="score">Maior potencial</option>
-        <option value="follow">Próximo contato</option>
-        <option value="recent">Mais recentes</option>
-        <option value="name">Nome A–Z</option>
-      </select>
+  <div class="wrap hero">
+    <p class="eyebrow">Design gráfico · Guanambi e região</p>
+    <h1>Sua marca merece parecer tão <em>boa</em> quanto o seu trabalho.</h1>
+    <p>A Still cria identidade visual, posts, sites e material impresso para negócios locais que querem ser lembrados e escolhidos.</p>
+    <div class="ctas">
+      <a href="#diagnostico" class="btn primary">Quero um diagnóstico grátis →</a>
+      <a href="#servicos" class="btn">Ver serviços</a>
     </div>
-    <div class="list" id="list"></div>
+    <div class="strip">
+      <div><b>Identidade</b><span>Logo, cores, tipografia e manual</span></div>
+      <div><b>Social media</b><span>Posts, stories e destaques com padrão</span></div>
+      <div><b>Site</b><span>Página rápida que leva ao WhatsApp</span></div>
+      <div><b>Impresso</b><span>Fachada, cardápio, cartão, embalagem</span></div>
+    </div>
+  </div>
+
+  <section class="signs">
+    <div class="wrap">
+      <p class="eyebrow">Sinais de alerta</p>
+      <h2>Talvez sua marca esteja te custando clientes</h2>
+      <p class="lead">Quem não te conhece decide em segundos, olhando o seu Instagram, a sua fachada ou o seu cartão. Se você se identifica com algum destes pontos, vale uma conversa.</p>
+      <ul>
+        <li><b>Logo feito às pressas</b><span>Pixelado, difícil de ler ou diferente em cada lugar.</span></li>
+        <li><b>Instagram sem padrão</b><span>Cada post de um jeito, fotos escuras, perfil parado há meses.</span></li>
+        <li><b>Concorrente parece maior</b><span>Mesmo oferecendo menos, ele passa mais confiança.</span></li>
+        <li><b>Inaugurando ou mudando</b><span>Ponto novo, segunda unidade ou novo público.</span></li>
+        <li><b>Anúncio que não converte</b><span>Você paga, as pessoas veem, mas não chamam.</span></li>
+        <li><b>Sem site ou link organizado</b><span>Cliente não acha preço, endereço nem como falar com você.</span></li>
+      </ul>
+    </div>
   </section>
-  <section id="v-funil" hidden><p class="meta">Arraste os cards entre as colunas para mudar a etapa.</p><div class="board" id="board"></div></section>
-  <section id="v-guia" hidden></section>
+
+  <section id="servicos">
+    <div class="wrap">
+      <p class="eyebrow">Serviços</p>
+      <h2>Do logo ao post de amanhã</h2>
+      <p class="lead">Você escolhe só o que precisa agora. Tudo é entregue em arquivos prontos para usar.</p>
+      <div class="services">
+        <article class="svc"><span class="n">01</span><h3>Identidade visual</h3><p>A base de tudo: uma marca reconhecível e consistente.</p><ul><li>Logo e variações</li><li>Paleta e tipografia</li><li>Manual de uso da marca</li><li>Rebranding de marcas existentes</li></ul></article>
+        <article class="svc"><span class="n">02</span><h3>Social media</h3><p>Feed com cara de marca profissional, todo mês.</p><ul><li>Pacotes mensais de posts e stories</li><li>Modelos editáveis no Canva</li><li>Capas de destaques e bio</li><li>Criativos para anúncios</li></ul></article>
+        <article class="svc"><span class="n">03</span><h3>Site e landing page</h3><p>Um endereço na internet que transforma visita em conversa.</p><ul><li>Página única e rápida no celular</li><li>Botão direto para o WhatsApp</li><li>Aparecer melhor no Google</li></ul></article>
+        <article class="svc"><span class="n">04</span><h3>Material gráfico</h3><p>Sua marca fora da tela, do jeito certo.</p><ul><li>Fachada e sinalização</li><li>Cardápio, folder e cartão de visita</li><li>Embalagens e etiquetas</li><li>Material de inauguração</li></ul></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="processo" style="padding-top:0">
+    <div class="wrap">
+      <p class="eyebrow">Como funciona</p>
+      <h2>Simples, rápido e sem surpresa</h2>
+      <p class="lead">Você fala com uma pessoa de verdade, pelo WhatsApp, do começo ao fim.</p>
+      <div class="steps">
+        <div class="step"><h3>Diagnóstico grátis</h3><p>Você preenche o formulário e a gente analisa o visual da sua marca hoje.</p></div>
+        <div class="step"><h3>Proposta clara</h3><p>O que fazer, quanto custa e em quanto tempo. Sem compromisso.</p></div>
+        <div class="step"><h3>Criação</h3><p>Primeiras versões, seus ajustes e aprovação em cada etapa.</p></div>
+        <div class="step"><h3>Entrega</h3><p>Arquivos finais organizados e orientação para usar no dia a dia.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="diagnostico" class="cta">
+    <div class="wrap grid">
+      <div>
+        <p class="eyebrow">Diagnóstico grátis</p>
+        <h2>Descubra o que está travando a sua marca</h2>
+        <p class="lead">Conte um pouco sobre o seu negócio. A gente olha seu Instagram e sua identidade visual e te responde no WhatsApp com <b>3 pontos de melhoria</b>, mesmo que você não feche nada.</p>
+        <p class="lead" style="margin-bottom:0">Ao enviar, o WhatsApp abre com a mensagem pronta. É só tocar em enviar.</p>
+      </div>
+      <form id="f" novalidate>
+        <div class="row">
+          <label>Seu nome<input name="nome" required autocomplete="name"></label>
+          <label>Nome do negócio<input name="empresa" required autocomplete="organization"></label>
+        </div>
+        <div class="row">
+          <label>WhatsApp<input name="whatsapp" required inputmode="tel" autocomplete="tel" placeholder="(77) 9 0000-0000"></label>
+          <label>Instagram do negócio<input name="instagram" placeholder="@seunegocio"></label>
+        </div>
+        <label>Do que você precisa?
+          <select name="servico">
+            <option>Ainda não sei, quero o diagnóstico</option>
+            <option>Identidade visual / logo</option>
+            <option>Social media</option>
+            <option>Site / landing page</option>
+            <option>Fachada / sinalização</option>
+            <option>Cardápio / material impresso</option>
+            <option>Embalagem</option>
+            <option>Rebranding completo</option>
+          </select>
+        </label>
+        <label>Quando quer começar?
+          <select name="prazo"><option>O quanto antes</option><option>Neste mês</option><option>Nos próximos 3 meses</option><option>Só pesquisando</option></select>
+        </label>
+        <label>Algo mais? (opcional)<textarea name="msg" rows="3" placeholder="Ex.: vou inaugurar em março e ainda não tenho logo"></textarea></label>
+        <label class="check"><input type="checkbox" name="ok" required> Autorizo a Still a falar comigo pelo WhatsApp sobre este pedido. Posso pedir para parar quando quiser.</label>
+        <p class="warn" id="err" hidden></p>
+        <button class="btn primary" type="submit">Enviar pelo WhatsApp →</button>
+        <p class="note">Seus dados são usados só para responder ao seu pedido e não são compartilhados.</p>
+      </form>
+    </div>
+  </section>
+
+  <section id="perguntas">
+    <div class="wrap" style="max-width:820px">
+      <p class="eyebrow">Perguntas frequentes</p>
+      <h2>Antes de chamar</h2>
+      <details><summary>O diagnóstico é grátis mesmo?</summary><p>Sim. Você recebe os pontos de melhoria no WhatsApp e decide se quer seguir. Não há obrigação de contratar.</p></details>
+      <details><summary>Atendem só Guanambi?</summary><p>Atendemos Guanambi e região presencialmente, e qualquer cidade on-line, pelo WhatsApp e por videochamada.</p></details>
+      <details><summary>Quanto tempo leva uma identidade visual?</summary><p>Depende do escopo, mas a proposta já sai com o prazo combinado antes de começar.</p></details>
+      <details><summary>Posso fazer só os posts, sem trocar o logo?</summary><p>Pode. Se o logo atual atrapalhar o resultado, a gente avisa no diagnóstico, mas a decisão é sua.</p></details>
+      <details><summary>Como funciona o pagamento?</summary><p>Combinamos na proposta. Normalmente uma parte no início e o restante na entrega; pacotes mensais são pagos mês a mês.</p></details>
+    </div>
+  </section>
 </main>
 
-<dialog id="dlg"><form class="dlg" id="form" method="dialog"></form></dialog>
+<footer>
+  <div class="wrap">
+    <span>© <span id="ano"></span> Still · Design gráfico · Guanambi – BA</span>
+    <span id="links"></span>
+  </div>
+</footer>
+
+<a href="#diagnostico" class="btn primary float" aria-label="Falar no WhatsApp">💬 WhatsApp</a>
 
 <script>
-const SEGMENTOS = {
-  "Comércio e varejo":["Loja de roupas/calçados","Ótica","Materiais de construção","Agropecuária","Móveis/decoração","Supermercado/mercearia","Autopeças/oficina","Outro varejo"],
-  "Saúde e beleza":["Odontologia","Clínica médica","Estética","Salão/barbearia","Academia/estúdio","Fisioterapia/nutrição","Farmácia","Outro saúde/beleza"],
-  "Serviços e profissionais":["Advocacia","Contabilidade","Imobiliária/construtora","Energia solar","Escola/curso","Eventos/buffet","Engenharia/arquitetura","Outro serviço"]
-};
-const ETAPAS = ["Novo","Pesquisado","Contato feito","Reunião","Proposta enviada","Fechado","Perdido"];
-const SERVICOS = ["Identidade visual / logo","Social media","Site / landing page","Fachada / sinalização","Cardápio / material impresso","Embalagem","Rebranding completo"];
-// Sinais de que o negócio precisa de designer (peso = pontos)
-const SINAIS = [
-  ["semIdentidade","Sem logo ou logo amador",25],
-  ["instaFraco","Instagram parado/desorganizado",20],
-  ["semSite","Sem site",10],
-  ["inauguracao","Inaugurando, mudando ou expandindo",20],
-  ["fachada","Fachada/material visual desatualizado",10],
-  ["concorrencia","Concorrentes com visual melhor",5],
-  ["investe","Já investe em anúncio/patrocínio",10],
-  ["decisor","Tenho contato direto com o dono",10]
-];
-const ORIGENS = ["Diretório online","Google Maps","Instagram","Indicação","Visita presencial","Evento/feira","Outro"];
+/* ===== CONFIGURE AQUI =====
+   WHATSAPP: número da Still com 55 + DDD, só dígitos. Ex.: "5577999998888"
+   INSTAGRAM: @ do perfil da Still (opcional). */
+const WHATSAPP = "";
+const INSTAGRAM = "";
 
-const KEY="still_leads_v1";
-const hoje=()=>new Date().toISOString().slice(0,10);
-const uid=()=>Math.random().toString(36).slice(2,10);
+document.getElementById("ano").textContent = new Date().getFullYear();
+const links = [];
+if (INSTAGRAM) links.push(`<a href="https://instagram.com/${INSTAGRAM.replace(/^@/,"")}" target="_blank" rel="noopener">Instagram ${INSTAGRAM}</a>`);
+if (WHATSAPP) links.push(`<a href="https://wa.me/${WHATSAPP}" target="_blank" rel="noopener">WhatsApp</a>`);
+document.getElementById("links").innerHTML = links.join(" · ");
 
-// Lista inicial: empresas encontradas em diretórios públicos (Doctoralia, Solutudo, Conta Azul, JurídicoCerto, Escavador, Empresaqui).
-// Contatos e situação visual ainda precisam ser verificados.
-const SEED=[
- ["Clínica Sagrada Saúde","Saúde e beleza","Odontologia","Av. Guanabara","Diretório online","Doctoralia: clareamento e prótese. Verificar Instagram e identidade."],
- ["Ateliê do Sorriso","Saúde e beleza","Odontologia","","Diretório online","Doctoralia: clareamento e prótese sobre implantes."],
- ["CECOM Odontologia Especializada","Saúde e beleza","Odontologia","","Diretório online","Doctoralia: frenectomia. Clínica de especialidades, bom ticket."],
- ["Dra. Elaine Domingues (dentista)","Saúde e beleza","Odontologia","","Diretório online","Profissional individual – oportunidade de marca pessoal."],
- ["Dra. Renata Tunes (dentista)","Saúde e beleza","Odontologia","","Diretório online","Profissional individual – marca pessoal + social media."],
- ["Studio Fitness Academia","Saúde e beleza","Academia/estúdio","Av. Barão do Rio Branco, Centro","Diretório online","Tel. listado (77) 3451-1602. Confirmar se ainda ativo."],
- ["JM Comércio de Materiais de Construção","Comércio e varejo","Materiais de construção","Av. Pres. Castelo Branco, 856 – Aeroporto Velho","Diretório online","Desde 2011, EPP. Ver fachada e redes."],
- ["Líder Home Center","Comércio e varejo","Materiais de construção","","Diretório online","Home center – encartes, ofertas, social media."],
- ["Guanambi Piscinas","Comércio e varejo","Materiais de construção","Rua A, 322 – Belo Horizonte","Diretório online","Produto visual – catálogo e Instagram."],
- ["Benjamim Multimarcas (peças e serviços)","Comércio e varejo","Autopeças/oficina","","Diretório online","Solutudo."],
- ["Conceitus Comércio e Serviços Automotivos","Comércio e varejo","Autopeças/oficina","","Diretório online","Solutudo."],
- ["Microshipp Solar","Serviços e profissionais","Energia solar","","Diretório online","Energia solar investe forte em marketing – bom alvo."],
- ["E-Conte Contabilidade","Serviços e profissionais","Contabilidade","","Diretório online","Parceiro Conta Azul. Conteúdo educativo p/ redes."],
- ["Fernandes Advocacia","Serviços e profissionais","Advocacia","","Diretório online","JurídicoCerto. Identidade sóbria + site (respeitar regras da OAB)."],
- ["Ribeiro Cavalcante Advocacia","Serviços e profissionais","Advocacia","","Diretório online","Atende empresas em Guanambi."],
- ["Guanambi Locação e Administração de Imóveis","Serviços e profissionais","Imobiliária/construtora","","Diretório online","CNPJ 53.094.100/0001-90 – empresa nova (2023/24), pode precisar de marca."],
- ["Eboot Engenharia","Serviços e profissionais","Engenharia/arquitetura","","Diretório online","Solutudo. Portfólio e apresentação comercial."]
-];
-
-let leads=load();
-function load(){
-  try{const r=JSON.parse(localStorage.getItem(KEY));if(Array.isArray(r))return r;}catch(e){}
-  return SEED.map(([nome,seg,sub,end,orig,obs])=>({id:uid(),nome,segmento:seg,sub,endereco:end,bairro:"",cidade:"Guanambi",responsavel:"",whatsapp:"",instagram:"",site:"",origem:orig,etapa:"Novo",sinais:{},servicos:[],valor:"",proximo:"",obs:obs+" [a validar]",criado:hoje(),hist:[{d:hoje(),t:"Lead importado da lista inicial"}]}));
-}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(leads));}catch(e){alert("Não foi possível salvar no navegador. Faça backup.");}render();}
-
-const score=l=>Math.min(100,SINAIS.reduce((s,[k,,p])=>s+(l.sinais&&l.sinais[k]?p:0),0));
-const temp=s=>s>=60?"hot":s>=30?"warm":"cold";
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const fmtD=d=>d?d.split("-").reverse().join("/"):"";
-const brl=v=>v?Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"}):"";
-const wa=n=>{n=String(n||"").replace(/\D/g,"");if(!n)return"";if(n.length<=11)n="55"+n;return"https://wa.me/"+n;};
-const ig=h=>{h=String(h||"").trim().replace(/^@/,"").replace(/^https?:\/\/(www\.)?instagram\.com\//,"").replace(/\/$/,"");return h?"https://instagram.com/"+h:"";};
-const ativo=l=>l.etapa!=="Fechado"&&l.etapa!=="Perdido";
-
-// ---------- Tabs
-document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{
-  document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x===b));
-  ["painel","leads","funil","guia"].forEach(v=>document.getElementById("v-"+v).hidden=v!==b.dataset.v);
-  try{localStorage.setItem("still_tab",b.dataset.v)}catch(e){}
+const f = document.getElementById("f"), err = document.getElementById("err");
+f.addEventListener("submit", e => {
+  e.preventDefault();
+  const d = Object.fromEntries(new FormData(f));
+  const tel = (d.whatsapp || "").replace(/\D/g, "");
+  const falta = [];
+  if (!d.nome?.trim()) falta.push("seu nome");
+  if (!d.empresa?.trim()) falta.push("o nome do negócio");
+  if (tel.length < 10) falta.push("um WhatsApp com DDD");
+  if (!d.ok) falta.push("a autorização de contato");
+  if (falta.length) { err.textContent = "Falta preencher: " + falta.join(", ") + "."; err.hidden = false; return; }
+  if (!WHATSAPP) { err.textContent = "O número de WhatsApp da Still ainda não foi configurado neste site."; err.hidden = false; return; }
+  err.hidden = true;
+  const txt = [
+    `Olá, Still! Quero o diagnóstico grátis.`,
+    ``,
+    `*Nome:* ${d.nome.trim()}`,
+    `*Negócio:* ${d.empresa.trim()}`,
+    d.instagram ? `*Instagram:* ${d.instagram.trim()}` : "",
+    `*Preciso de:* ${d.servico}`,
+    `*Quando:* ${d.prazo}`,
+    d.msg?.trim() ? `*Obs.:* ${d.msg.trim()}` : "",
+    ``,
+    `Autorizo o contato por aqui.`
+  ].filter((l, i, a) => l !== "" || a[i - 1] !== "").join("\n");
+  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(txt)}`, "_blank", "noopener");
 });
-
-// ---------- Filters
-fSeg.innerHTML='<option value="">Todos os segmentos</option>'+Object.keys(SEGMENTOS).map(s=>`<option>${s}</option>`).join("");
-fSt.innerHTML='<option value="">Todas as etapas</option><option value="_ativos">Só ativos</option><option value="_quentes">Só quentes (60+)</option><option value="_atrasados">Contato atrasado</option>'+ETAPAS.map(s=>`<option>${s}</option>`).join("");
-[q,fSeg,fSt,fOrd].forEach(e=>e.oninput=renderList);
-
-function render(){renderPainel();renderList();renderBoard();}
-
-function renderPainel(){
-  const at=leads.filter(ativo), quentes=at.filter(l=>score(l)>=60), fech=leads.filter(l=>l.etapa==="Fechado");
-  const atras=at.filter(l=>l.proximo&&l.proximo<hoje()), hojeL=at.filter(l=>l.proximo===hoje());
-  const pipe=at.filter(l=>["Reunião","Proposta enviada"].includes(l.etapa)).reduce((s,l)=>s+(+l.valor||0),0);
-  const fat=fech.reduce((s,l)=>s+(+l.valor||0),0);
-  const decididos=fech.length+leads.filter(l=>l.etapa==="Perdido").length;
-  const conv=decididos?Math.round(fech.length/decididos*100):0;
-  const max=Math.max(1,...ETAPAS.map(e=>leads.filter(l=>l.etapa===e).length));
-  const agenda=[...atras,...hojeL,...at.filter(l=>l.proximo>hoje())].sort((a,b)=>a.proximo.localeCompare(b.proximo)).slice(0,8);
-  const top=at.filter(l=>["Novo","Pesquisado"].includes(l.etapa)).sort((a,b)=>score(b)-score(a)).slice(0,6);
-  const segs=Object.keys(SEGMENTOS).map(s=>[s,leads.filter(l=>l.segmento===s).length,leads.filter(l=>l.segmento===s&&l.etapa==="Fechado").length]);
-  document.getElementById("v-painel").innerHTML=`
-  <div class="kpis">
-    <div class="kpi"><b>${at.length}</b><span>leads ativos</span></div>
-    <div class="kpi"><b style="color:var(--hot)">${quentes.length}</b><span>quentes (potencial 60+)</span></div>
-    <div class="kpi"><b style="color:${atras.length?"var(--bad)":"inherit"}">${atras.length}</b><span>contatos atrasados</span></div>
-    <div class="kpi"><b>${brl(pipe)||"R$ 0"}</b><span>em negociação</span></div>
-    <div class="kpi"><b style="color:var(--ok)">${fech.length}</b><span>fechados · ${brl(fat)||"R$ 0"}</span></div>
-    <div class="kpi"><b>${conv}%</b><span>taxa de fechamento</span></div>
-  </div>
-  <div class="guide">
-    <div class="box"><h3>Próximos contatos</h3>${agenda.length?agenda.map(l=>`<div class="meta" style="justify-content:space-between;cursor:pointer;padding:4px 0" onclick="openLead('${l.id}')"><span style="color:var(--ink)">${esc(l.nome)}</span><span class="chip ${l.proximo<hoje()?"late":""}">${l.proximo===hoje()?"hoje":fmtD(l.proximo)}</span></div>`).join(""):'<p class="meta">Nenhum contato agendado. Defina "próximo contato" nos leads.</p>'}</div>
-    <div class="box"><h3>Prioridade para abordar</h3>${top.length?top.map(l=>`<div class="meta" style="justify-content:space-between;cursor:pointer;padding:4px 0" onclick="openLead('${l.id}')"><span style="color:var(--ink)">${esc(l.nome)}</span><span class="chip">${score(l)} pts</span></div>`).join(""):'<p class="meta">Sem leads novos.</p>'}<p class="meta" style="margin-top:8px">Dica: abra cada lead e marque os sinais de necessidade de design para o potencial ser calculado.</p></div>
-    <div class="box"><h3>Funil</h3>${ETAPAS.map(e=>{const n=leads.filter(l=>l.etapa===e).length;return`<div class="funnelrow"><span>${e}</span><div class="bar"><i style="width:${n/max*100}%"></i></div><b>${n}</b></div>`}).join("")}</div>
-    <div class="box"><h3>Por segmento</h3>${segs.map(([s,n,f])=>`<div class="funnelrow"><span>${s}</span><div class="bar"><i style="width:${n/Math.max(1,leads.length)*100}%"></i></div><b>${n}</b></div><div class="meta" style="margin:-4px 0 6px 140px">${f} fechado(s)</div>`).join("")}</div>
-  </div>`;
-}
-
-function filtered(){
-  const t=q.value.trim().toLowerCase();
-  let r=leads.filter(l=>{
-    if(fSeg.value&&l.segmento!==fSeg.value)return false;
-    const s=fSt.value;
-    if(s==="_ativos"&&!ativo(l))return false;
-    if(s==="_quentes"&&!(ativo(l)&&score(l)>=60))return false;
-    if(s==="_atrasados"&&!(ativo(l)&&l.proximo&&l.proximo<hoje()))return false;
-    if(s&&!s.startsWith("_")&&l.etapa!==s)return false;
-    if(t&&![l.nome,l.sub,l.endereco,l.bairro,l.cidade,l.obs,l.responsavel,l.instagram].join(" ").toLowerCase().includes(t))return false;
-    return true;
-  });
-  const o=fOrd.value;
-  r.sort(o==="score"?(a,b)=>score(b)-score(a):o==="follow"?(a,b)=>(a.proximo||"9").localeCompare(b.proximo||"9"):o==="recent"?(a,b)=>b.criado.localeCompare(a.criado):(a,b)=>a.nome.localeCompare(b.nome));
-  return r;
-}
-function renderList(){
-  const r=filtered();
-  list.innerHTML=r.length?r.map(l=>{const s=score(l);return`
-  <div class="lead" onclick="openLead('${l.id}')">
-    <div class="score ${temp(s)}" title="Potencial">${s}</div>
-    <div><h3>${esc(l.nome)}</h3>
-      <div class="meta"><span>${esc(l.sub||l.segmento)}</span>${l.bairro||l.endereco?`<span>· ${esc(l.bairro||l.endereco)}</span>`:""}${l.cidade&&l.cidade!=="Guanambi"?`<span>· ${esc(l.cidade)}</span>`:""}${l.servicos?.length?`<span>· ${esc(l.servicos.join(", "))}</span>`:""}</div></div>
-    <div class="right"><span class="chip">${l.etapa}</span>${l.proximo&&ativo(l)?`<span class="chip ${l.proximo<hoje()?"late":""}">${fmtD(l.proximo)}</span>`:""}
-      <span style="display:flex;gap:6px" onclick="event.stopPropagation()">${l.whatsapp?`<a class="btn small" href="${wa(l.whatsapp)}" target="_blank" rel="noopener">WhatsApp</a>`:""}${l.instagram?`<a class="btn small" href="${ig(l.instagram)}" target="_blank" rel="noopener">Insta</a>`:""}</span></div>
-  </div>`}).join(""):'<div class="empty">Nenhum lead com esses filtros.</div>';
-}
-
-function renderBoard(){
-  board.innerHTML=ETAPAS.map(e=>{const ls=leads.filter(l=>l.etapa===e).sort((a,b)=>score(b)-score(a));return`
-  <div class="col" data-e="${e}"><h4><span>${e}</span><span>${ls.length}</span></h4>
-  ${ls.map(l=>`<div class="card" draggable="true" data-id="${l.id}" onclick="openLead('${l.id}')"><b>${esc(l.nome)}</b><small>${score(l)} pts · ${esc(l.sub||l.segmento)}${l.valor?" · "+brl(l.valor):""}</small></div>`).join("")}</div>`}).join("");
-  board.querySelectorAll(".card").forEach(c=>c.ondragstart=ev=>ev.dataTransfer.setData("text",c.dataset.id));
-  board.querySelectorAll(".col").forEach(c=>{
-    c.ondragover=ev=>{ev.preventDefault();c.classList.add("drop")};
-    c.ondragleave=()=>c.classList.remove("drop");
-    c.ondrop=ev=>{ev.preventDefault();c.classList.remove("drop");const l=leads.find(x=>x.id===ev.dataTransfer.getData("text"));if(l&&l.etapa!==c.dataset.e){l.hist.push({d:hoje(),t:`Etapa: ${l.etapa} → ${c.dataset.e}`});l.etapa=c.dataset.e;save();}};
-  });
-}
-
-// ---------- Modal
-function openLead(id){
-  const l=id?leads.find(x=>x.id===id):{id:uid(),nome:"",segmento:"Comércio e varejo",sub:"",endereco:"",bairro:"",cidade:"Guanambi",responsavel:"",whatsapp:"",instagram:"",site:"",origem:"Google Maps",etapa:"Novo",sinais:{},servicos:[],valor:"",proximo:"",obs:"",criado:hoje(),hist:[]};
-  const subs=s=>SEGMENTOS[s].map(x=>`<option ${x===l.sub?"selected":""}>${x}</option>`).join("");
-  form.innerHTML=`
-  <h2 style="margin:0 0 12px;font-size:18px">${id?"Editar lead":"Novo lead"}</h2>
-  <div class="grid2">
-    <label style="grid-column:1/-1">Nome do negócio<input name="nome" required value="${esc(l.nome)}"></label>
-    <label>Segmento<select name="segmento" onchange="this.form.sub.innerHTML=SEGMENTOS[this.value].map(x=>'<option>'+x+'</option>').join('')">${Object.keys(SEGMENTOS).map(s=>`<option ${s===l.segmento?"selected":""}>${s}</option>`).join("")}</select></label>
-    <label>Tipo<select name="sub">${subs(l.segmento)}</select></label>
-    <label>Responsável / dono<input name="responsavel" value="${esc(l.responsavel)}"></label>
-    <label>WhatsApp<input name="whatsapp" inputmode="tel" placeholder="77 9...." value="${esc(l.whatsapp)}"></label>
-    <label>Instagram<input name="instagram" placeholder="@perfil" value="${esc(l.instagram)}"></label>
-    <label>Site<input name="site" value="${esc(l.site)}"></label>
-    <label>Endereço<input name="endereco" value="${esc(l.endereco)}"></label>
-    <label>Bairro<input name="bairro" value="${esc(l.bairro)}"></label>
-    <label>Cidade<input name="cidade" list="cidades" value="${esc(l.cidade)}"></label>
-    <label>Origem do lead<select name="origem">${ORIGENS.map(o=>`<option ${o===l.origem?"selected":""}>${o}</option>`).join("")}</select></label>
-  </div>
-  <datalist id="cidades">${["Guanambi","Caetité","Candiba","Pindaí","Palmas de Monte Alto","Sebastião Laranjeiras","Iuiú","Malhada","Igaporã","Matina","Riacho de Santana","Urandi"].map(c=>`<option>${c}</option>`).join("")}</datalist>
-  <fieldset><legend>Sinais de que precisa de designer → potencial <b id="sc">${score(l)}</b>/100</legend>
-    <div class="checks">${SINAIS.map(([k,t,p])=>`<label><input type="checkbox" name="s_${k}" ${l.sinais?.[k]?"checked":""} onchange="upScore()"> ${t} <span class="meta">+${p}</span></label>`).join("")}</div></fieldset>
-  <fieldset><legend>Serviços que posso oferecer</legend>
-    <div class="checks">${SERVICOS.map(s=>`<label><input type="checkbox" name="sv" value="${s}" ${l.servicos?.includes(s)?"checked":""}> ${s}</label>`).join("")}</div></fieldset>
-  <div class="grid2">
-    <label>Etapa<select name="etapa">${ETAPAS.map(e=>`<option ${e===l.etapa?"selected":""}>${e}</option>`).join("")}</select></label>
-    <label>Valor estimado (R$)<input name="valor" type="number" min="0" step="50" value="${esc(l.valor)}"></label>
-    <label>Próximo contato<input name="proximo" type="date" value="${esc(l.proximo)}"></label>
-    <label>Registrar interação<input name="nota" placeholder="Ex.: mandei portfólio no WhatsApp"></label>
-    <label style="grid-column:1/-1">Observações<textarea name="obs" rows="3">${esc(l.obs)}</textarea></label>
-  </div>
-  ${l.hist?.length?`<div class="hist">${[...l.hist].reverse().map(h=>`<div>${fmtD(h.d)} — ${esc(h.t)}</div>`).join("")}</div>`:""}
-  <div class="actions">
-    <div>${id?`<button type="button" class="btn" style="color:var(--bad)" onclick="delLead('${l.id}')">Excluir</button>`:""}</div>
-    <div style="display:flex;gap:8px"><button type="button" class="btn" onclick="dlg.close()">Cancelar</button><button class="btn primary" value="ok">Salvar</button></div>
-  </div>`;
-  form.onsubmit=e=>{
-    e.preventDefault();const f=new FormData(form);
-    const novo=!leads.includes(l);
-    const antes=l.etapa;
-    ["nome","segmento","sub","responsavel","whatsapp","instagram","site","endereco","bairro","cidade","origem","etapa","valor","proximo","obs"].forEach(k=>l[k]=(f.get(k)||"").trim());
-    l.sinais={};SINAIS.forEach(([k])=>{if(f.get("s_"+k))l.sinais[k]=true});
-    l.servicos=f.getAll("sv");
-    l.hist=l.hist||[];
-    if(novo)l.hist.push({d:hoje(),t:"Lead cadastrado"});
-    if(!novo&&antes!==l.etapa)l.hist.push({d:hoje(),t:`Etapa: ${antes} → ${l.etapa}`});
-    const n=(f.get("nota")||"").trim();if(n)l.hist.push({d:hoje(),t:n});
-    if(novo)leads.push(l);
-    save();dlg.close();
-  };
-  dlg.showModal();
-}
-function upScore(){let s=0;SINAIS.forEach(([k,,p])=>{if(form["s_"+k].checked)s+=p});document.getElementById("sc").textContent=Math.min(100,s);}
-function delLead(id){if(confirm("Excluir este lead?")){leads=leads.filter(l=>l.id!==id);save();dlg.close();}}
-
-// ---------- Export / import
-function download(name,data,type){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
-const COLS=["nome","segmento","sub","responsavel","whatsapp","instagram","site","endereco","bairro","cidade","origem","etapa","valor","proximo","obs","criado"];
-function exportCSV(){
-  const head=[...COLS,"potencial","servicos","sinais"];
-  const rows=leads.map(l=>[...COLS.map(c=>l[c]),score(l),(l.servicos||[]).join(" | "),SINAIS.filter(([k])=>l.sinais?.[k]).map(x=>x[1]).join(" | ")]);
-  const csv="﻿"+[head,...rows].map(r=>r.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(";")).join("\r\n");
-  download(`still-leads-${hoje()}.csv`,csv,"text/csv;charset=utf-8");
-}
-function exportJSON(){download(`still-backup-${hoje()}.json`,JSON.stringify(leads,null,1),"application/json");}
-function importFile(inp){
-  const file=inp.files[0];if(!file)return;const rd=new FileReader();
-  rd.onload=()=>{try{
-    let novos;
-    if(file.name.endsWith(".json")){novos=JSON.parse(rd.result);if(!Array.isArray(novos))throw 0;}
-    else{
-      const lines=rd.result.replace(/^﻿/,"").split(/\r?\n/).filter(Boolean);
-      const parse=line=>{const out=[];let cur="",inq=false;for(let i=0;i<line.length;i++){const c=line[i];if(inq){if(c=='"'&&line[i+1]=='"'){cur+='"';i++}else if(c=='"')inq=false;else cur+=c}else if(c=='"')inq=true;else if(c==';'||c==','){out.push(cur);cur=""}else cur+=c}out.push(cur);return out};
-      const h=parse(lines[0]).map(x=>x.trim().toLowerCase());
-      novos=lines.slice(1).map(L=>{const v=parse(L),o={id:uid(),sinais:{},servicos:[],hist:[{d:hoje(),t:"Importado de planilha"}],etapa:"Novo",cidade:"Guanambi",segmento:"Comércio e varejo",criado:hoje()};h.forEach((k,i)=>{if(COLS.includes(k)&&v[i])o[k]=v[i]});if(h.includes("servicos"))o.servicos=(v[h.indexOf("servicos")]||"").split("|").map(s=>s.trim()).filter(Boolean);return o}).filter(o=>o.nome);
-    }
-    const modo=confirm(`${novos.length} lead(s) encontrados.\nOK = adicionar aos atuais\nCancelar = substituir tudo`);
-    leads=modo?[...leads,...novos.map(n=>({...n,id:uid()}))]:novos;save();
-  }catch(e){alert("Arquivo inválido.");} inp.value="";};
-  rd.readAsText(file);
-}
-
-// ---------- Guia de captação
-const gm=t=>`https://www.google.com/maps/search/${encodeURIComponent(t+" Guanambi BA")}`;
-document.getElementById("v-guia").innerHTML=`
-<div class="guide">
-  <div class="box"><h3>1. Buscar no Google Maps</h3><p class="meta">Abra, veja quem tem poucas fotos, logo fraco ou sem site, e cadastre aqui.</p>
-  ${Object.entries(SEGMENTOS).map(([s,subs])=>`<p style="margin:8px 0 4px"><b>${s}</b></p><div style="display:flex;flex-wrap:wrap;gap:6px">${subs.filter(x=>!x.startsWith("Outro")).map(x=>`<a class="chip" target="_blank" rel="noopener" href="${gm(x.split("/")[0])}">${x}</a>`).join("")}</div>`).join("")}</div>
-  <div class="box"><h3>2. Instagram</h3><ul>
-    <li>Procure <b>#guanambi</b>, <b>#guanambiba</b>, <b>#lojasguanambi</b>, <b>#inauguracaoguanambi</b>.</li>
-    <li>Siga perfis locais de notícia/eventos – eles divulgam inaugurações primeiro.</li>
-    <li>Sinal forte: posts sem padrão visual, fotos escuras, logo pixelado, última postagem há meses.</li>
-    <li>Use a busca por localização "Guanambi" e veja quem marca a cidade.</li></ul></div>
-  <div class="box"><h3>3. Diretórios e cadastros</h3><ul>
-    <li><a target="_blank" rel="noopener" href="https://www.solutudo.com.br/ba/guanambi/empresas/categorias">Solutudo – categorias de Guanambi</a></li>
-    <li><a target="_blank" rel="noopener" href="https://www.doctoralia.com.br/guanambi">Doctoralia – profissionais de saúde</a></li>
-    <li><a target="_blank" rel="noopener" href="https://www.empresaqui.com.br/empresas/construtora/ba/guanambi">Empresaqui – construtoras</a></li>
-    <li><a target="_blank" rel="noopener" href="https://contaazul.com/encontre-contador/lista/BA/guanambi/">Conta Azul – contadores</a></li>
-    <li><b>CNPJs recém-abertos</b> em Guanambi = negócio novo, precisa de marca. Contadores locais podem indicar.</li></ul></div>
-  <div class="box"><h3>4. Quem tende a fechar com designer</h3><ul>
-    <li><b>Abrindo ou mudando de ponto</b> – precisa de logo, fachada, inauguração.</li>
-    <li><b>Profissionais liberais</b> recém-formados (dentistas, advogados, nutricionistas) – marca pessoal.</li>
-    <li><b>Energia solar, imobiliárias, clínicas</b> – já investem em anúncio e precisam de criativos todo mês.</li>
-    <li><b>Lojas com 2ª unidade</b> ou que começaram a vender online.</li>
-    <li>Menos provável: quem não posta nada e não pretende investir.</li></ul></div>
-  <div class="box"><h3>5. Abordagem sugerida</h3><ol style="margin:0;padding-left:18px">
-    <li>Interaja no Instagram do lead por 2–3 dias.</li>
-    <li>Mande mensagem curta e específica: <i>"Vi o perfil da [loja], gostei de [x]. Fiz uma ideia rápida de como o feed/logo poderia ficar – posso te mandar?"</i></li>
-    <li>Envie um mockup ou antes/depois rápido.</li>
-    <li>Agende reunião de 15 min e registre aqui o próximo contato.</li>
-    <li>Follow-up em 3, 7 e 15 dias.</li></ol></div>
-  <div class="box"><h3>Sobre a lista inicial</h3><p class="meta">Os ${SEED.length} leads iniciais vieram de diretórios públicos (Doctoralia, Solutudo, Conta Azul, JurídicoCerto, Empresaqui). Estão marcados como <b>[a validar]</b>: confira se ainda funcionam, encontre WhatsApp/Instagram e marque os sinais.</p>
-  <p class="meta">Seus dados ficam salvos <b>só neste navegador</b>. Use <b>Backup</b> com frequência e <b>Importar</b> para levar a outro aparelho.</p>
-  <button class="btn small" onclick="if(confirm('Apagar todos os dados e recarregar a lista inicial?')){localStorage.removeItem(KEY);leads=load();save();}">Restaurar lista inicial</button></div>
-</div>`;
-
-try{const t=localStorage.getItem("still_tab");if(t)document.querySelector(`#tabs button[data-v="${t}"]`)?.click();}catch(e){}
-if(!localStorage.getItem(KEY))save();else render();
 </script>
 </body>
 </html>
