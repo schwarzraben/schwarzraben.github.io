@@ -24,6 +24,9 @@
   --pink:#ee2945;--yellow:#ffffff;--orange:#ee2945;
   --paper:#ffffff;--ink:#040606;--white:#fff;--muted:#5c6060;
 }
+/* A marca usa as mesmas cores nos dois temas */
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark}}
+:root[data-theme="dark"]{color-scheme:dark}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--green);color:var(--white);font:16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
