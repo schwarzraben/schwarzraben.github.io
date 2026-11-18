@@ -5,19 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Still · Design gráfico</title>
 <meta name="description" content="Still: identidade visual, social media, sites e material gráfico para negócios de Guanambi e região.">
-<meta name="theme-color" content="#0d5b2c">
+<meta name="theme-color" content="#1c1b19">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ===== Paleta da marca (fixa nos dois temas, como a referência) ===== */
 :root{
-  --green:#0d5b2c;--green-2:#0a4a23;--green-3:#13703a;--mint:#2ee88a;--mint-soft:#9ff3c6;
-  --peri:#a3b4ff;--blue:#1532d6;--pink:#ff6fd8;--yellow:#ffe14a;--orange:#ff7a2f;
-  --paper:#f5f2ea;--ink:#141414;--white:#fff;--muted:#5f5b53;
+  /* Paleta Still: troque só estas linhas para mudar o site inteiro */
+  --green:#1c1b19;   /* fundo escuro principal (grafite) */
+  --green-2:#141413; /* grafite mais escuro: pílulas, rodapé */
+  --green-3:#2e2c29; /* grafite claro: detalhes */
+  --mint:#fb923c;    /* destaque sobre fundo escuro (laranja) */
+  --mint-soft:#e9e4da; /* texto claro sobre fundo escuro */
+  --peri:#f2ede4;    /* fundo claro (creme) */
+  --blue:#c2410c;    /* destaque sobre fundo claro (laranja queimado) */
+  --pink:#c2410c;--yellow:#fbbf24;--orange:#fb923c;
+  --paper:#fbf9f4;--ink:#1c1b19;--white:#fff;--muted:#6b6862;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#efebe1}}
-:root[data-theme="dark"]{--paper:#efebe1}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--green);color:var(--white);font:16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -62,9 +67,9 @@ a{color:inherit}
 .hero .photo{position:absolute;z-index:1;left:50%;top:clamp(46px,5vw,64px);width:clamp(110px,18vw,210px);aspect-ratio:4/3;transform:translateX(-60%) rotate(-3deg);border-radius:4px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.35)}
 .hero p{color:var(--mint-soft);max-width:44ch;margin:28px auto 30px;font-size:clamp(16px,1.8vw,19px)}
 .mood{width:100%;height:100%;display:grid;grid-template-columns:1.2fr 1fr;grid-template-rows:1fr 1fr}
-.mood div:nth-child(1){grid-row:1/3;background:var(--orange);display:grid;place-items:center;color:var(--white);font:400 54px/1 Anton,sans-serif}
+.mood div:nth-child(1){grid-row:1/3;background:var(--paper);display:grid;place-items:center;color:var(--ink);font:400 54px/1 Anton,sans-serif}
 .mood div:nth-child(2){background:var(--pink)}
-.mood div:nth-child(3){background:var(--blue);display:grid;grid-template-columns:repeat(3,1fr);gap:3px;padding:6px}
+.mood div:nth-child(3){background:var(--green-3);display:grid;grid-template-columns:repeat(3,1fr);gap:3px;padding:6px}
 .mood div:nth-child(3) span{background:var(--peri);border-radius:2px}
 
 /* ===== Seção lilás ===== */
@@ -72,7 +77,7 @@ a{color:inherit}
 .story h2{text-align:center;font-size:clamp(46px,9.5vw,118px)}
 .paren{display:inline-flex;align-items:center;vertical-align:middle;font-size:.8em;margin:0 .05em}
 .paren small{display:inline-block;font:700 clamp(8px,1vw,11px)/1.25 Inter;letter-spacing:.04em;max-width:13ch;text-align:center;margin:0 .3em;vertical-align:middle}
-.story .lead{color:var(--blue);text-align:center;max-width:58ch;margin:28px auto 0;font-size:17px;font-weight:500}
+.story .lead{color:var(--ink);text-align:center;max-width:58ch;margin:28px auto 0;font-size:17px;font-weight:500}
 .band{position:relative;margin-top:60px;height:clamp(240px,34vw,400px)}
 .band .scene{position:absolute;inset:0 0 0 clamp(0px,1.5vw,16px);background:linear-gradient(180deg,#3a2a18,#6b4a26);overflow:hidden;display:flex;align-items:flex-end;justify-content:center;gap:clamp(10px,2vw,24px);padding:0 4% clamp(18px,3vw,36px)}
 .band .scene::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,0,0,.18) 0 2px,transparent 2px 70px),radial-gradient(ellipse at 50% 0,rgba(255,220,150,.35),transparent 60%)}
@@ -115,10 +120,10 @@ a{color:inherit}
 .i1 .mono{font:400 120px/1 Anton,sans-serif;color:var(--paper);transform:translateY(-14px)}
 .i1 .sw{position:absolute;top:12px;right:12px;display:grid;gap:5px}
 .i1 .sw i{width:22px;height:22px;border-radius:50%;border:2px solid var(--paper)}
-.i2{background:#2b1b4a;display:grid;place-items:center}
+.i2{background:#3a3833;display:grid;place-items:center}
 .i2 .phone{width:56%;aspect-ratio:9/16;background:#111;border-radius:16px;padding:8px 6px;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:min-content;gap:3px;transform:rotate(-6deg) translateY(-8px);box-shadow:0 10px 24px rgba(0,0,0,.5)}
 .i2 .phone span{aspect-ratio:1;border-radius:2px}
-.i3{background:radial-gradient(circle at 30% 30%,#3d5cff,#0b1a6b 70%);display:grid;place-items:center}
+.i3{background:radial-gradient(circle at 30% 30%,#4a4640,#141413 70%);display:grid;place-items:center}
 .i3 .win{width:78%;background:var(--paper);border-radius:8px;overflow:hidden;transform:translateY(-14px) rotate(2deg);box-shadow:0 10px 24px rgba(0,0,0,.45)}
 .i3 .win .bar{height:14px;background:#d9d3c4;display:flex;gap:4px;align-items:center;padding:0 6px}
 .i3 .win .bar i{width:5px;height:5px;border-radius:50%;background:#9a9384}
@@ -148,7 +153,7 @@ a{color:inherit}
 .cta .grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;position:relative;z-index:2}
 @media(max-width:880px){.cta .grid{grid-template-columns:1fr}}
 .cta h2{font-size:clamp(50px,7.5vw,96px)}
-.cta .lead{font-size:17px;font-weight:500;max-width:46ch;margin:22px 0 0}
+.cta .lead{color:var(--ink);font-size:17px;font-weight:500;max-width:46ch;margin:22px 0 0}
 form{background:var(--paper);color:var(--ink);border:2px solid var(--ink);border-radius:16px;padding:22px;display:grid;gap:14px;box-shadow:8px 8px 0 var(--blue);transform:rotate(1deg)}
 label{display:grid;gap:6px;font:600 12px/1.2 Inter;letter-spacing:.06em;text-transform:uppercase}
 input,select,textarea{font:400 16px Inter,sans-serif;letter-spacing:0;text-transform:none;color:var(--ink);background:var(--white);border:1.5px solid var(--ink);border-radius:8px;padding:11px 12px;width:100%}
@@ -160,7 +165,7 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--mint);outline-of
 form .btn{width:100%;justify-content:space-between;background:var(--green);color:var(--mint);box-shadow:3px 3px 0 var(--ink)}
 form .btn b{border-color:var(--mint)}
 .note{font-size:12.5px;color:var(--muted);margin:0}
-.warn{background:#ffe9f8;color:#8a0f67;border:1.5px solid #8a0f67;border-radius:8px;padding:10px 12px;font-size:14px;margin:0}
+.warn{background:#fdebe3;color:#9a3412;border:1.5px solid #9a3412;border-radius:8px;padding:10px 12px;font-size:14px;margin:0}
 
 /* ===== FAQ ===== */
 .faq{padding:90px 0}
@@ -205,12 +210,12 @@ footer .wrap>div{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-betw
 
       <!-- adesivo: carinha com olhos de estrela -->
       <div class="sticker float-y" style="--r:12deg;right:clamp(0px,9vw,140px);top:clamp(70px,9vw,120px);width:clamp(64px,10vw,118px);transform:rotate(12deg)" aria-hidden="true">
-        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#ff6fd8" stroke="#fff" stroke-width="6"/><circle cx="50" cy="50" r="38" fill="none" stroke="#141414" stroke-width="3"/>
+        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#c2410c" stroke="#fff" stroke-width="6"/><circle cx="50" cy="50" r="38" fill="none" stroke="#141414" stroke-width="3"/>
         <path d="M34 30l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" fill="#141414"/><path d="M66 30l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" fill="#141414"/>
         <path d="M30 60q20 22 40 0" fill="none" stroke="#141414" stroke-width="5" stroke-linecap="round"/></svg></div>
       <!-- adesivo: caneta pixelada -->
       <div class="sticker float-y" style="--r:-14deg;left:clamp(0px,8vw,130px);top:clamp(150px,17vw,230px);width:clamp(54px,8vw,92px);transform:rotate(-14deg);animation-delay:-2s" aria-hidden="true">
-        <svg viewBox="0 0 16 16" shape-rendering="crispEdges"><path fill="#fff" d="M9 0h5v1h1v1h1v5h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1H8v1H6v1H0v-6h1V8h1V7h1V6h1V5h1V4h1V3h1V2h1V1h1z"/><path fill="#ff6fd8" d="M10 1h3v1h1v1h1v3h-1v1h-1v1h-1v1h-1v1h-1v1H9v1H8v1H7v1H6v1H1v-5h1V9h1V8h1V7h1V6h1V5h1V4h1V3h1V2h1z"/><path fill="#141414" d="M2 11h1v1h1v1h1v1h1v1H2v-1H1v-3zM11 2h2v1h1v1h-1v1h-1V4h-1V3h-1V2z"/></svg></div>
+        <svg viewBox="0 0 16 16" shape-rendering="crispEdges"><path fill="#fff" d="M9 0h5v1h1v1h1v5h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1H8v1H6v1H0v-6h1V8h1V7h1V6h1V5h1V4h1V3h1V2h1V1h1z"/><path fill="#c2410c" d="M10 1h3v1h1v1h1v3h-1v1h-1v1h-1v1h-1v1h-1v1H9v1H8v1H7v1H6v1H1v-5h1V9h1V8h1V7h1V6h1V5h1V4h1V3h1V2h1z"/><path fill="#141414" d="M2 11h1v1h1v1h1v1h1v1H2v-1H1v-3zM11 2h2v1h1v1h-1v1h-1V4h-1V3h-1V2z"/></svg></div>
 
       <p>Identidade visual, posts, sites e material impresso para negócios de Guanambi e região que querem ser lembrados e escolhidos.</p>
       <a href="#diagnostico" class="btn"><span>Quero meu diagnóstico</span><b>➤</b></a>
@@ -227,16 +232,16 @@ footer .wrap>div{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-betw
     <div class="wrap" style="position:relative">
       <h2 class="display">Toda grande<br>marca <span class="paren">(<small>ou uma lojinha de bairro, talvez até a sua…</small>)</span> começou<br>com um logo</h2>
       <div class="sticker float-y" style="--r:-10deg;right:clamp(0px,12vw,190px);top:clamp(130px,17vw,230px);width:clamp(52px,7vw,84px);transform:rotate(-10deg)" aria-hidden="true">
-        <svg viewBox="0 0 16 16" shape-rendering="crispEdges"><path fill="#fff" d="M5 0h6v1h1v1h1v1h1v1h1v1h1v6h-1v1h-1v1h-1v1h-1v1h-1v1H5v-1H4v-1H3v-1H2v-1H1v-1H0V5h1V4h1V3h1V2h1V1h1z"/><path fill="#ffe14a" d="M6 1h4v1h1v1h1v1h1v1h1v1h1v4h-1v1h-1v1h-1v1h-1v1h-1v1H6v-1H5v-1H4v-1H3v-1H2v-1H1V6h1V5h1V4h1V3h1V2h1z"/><path fill="#141414" d="M7 3h2v3h3v2H9v3H7V8H4V6h3z"/></svg></div>
+        <svg viewBox="0 0 16 16" shape-rendering="crispEdges"><path fill="#fff" d="M5 0h6v1h1v1h1v1h1v1h1v1h1v6h-1v1h-1v1h-1v1h-1v1h-1v1H5v-1H4v-1H3v-1H2v-1H1v-1H0V5h1V4h1V3h1V2h1V1h1z"/><path fill="#fbbf24" d="M6 1h4v1h1v1h1v1h1v1h1v1h1v4h-1v1h-1v1h-1v1h-1v1h-1v1H6v-1H5v-1H4v-1H3v-1H2v-1H1V6h1V5h1V4h1V3h1V2h1z"/><path fill="#141414" d="M7 3h2v3h3v2H9v3H7V8H4V6h3z"/></svg></div>
       <p class="lead">Quem não te conhece decide em segundos, olhando o seu Instagram, a sua fachada ou o seu cartão. A Still existe para que essa primeira impressão trabalhe a seu favor.</p>
     </div>
     <div class="band" aria-hidden="true">
       <div class="pixels" style="--c:5;--s:clamp(14px,2.4vw,28px);left:0;top:calc(-1 * clamp(14px,2.4vw,28px))">
-        <i style="background:#c9b88a"></i><i></i><i style="background:#c9b88a"></i><i></i><i></i>
-        <i style="background:#c9b88a"></i><i style="background:#c9b88a"></i><i style="background:#c9b88a"></i><i style="background:#c9b88a"></i><i></i>
+        <i style="background:#d8d1c3"></i><i></i><i style="background:#d8d1c3"></i><i></i><i></i>
+        <i style="background:#d8d1c3"></i><i style="background:#d8d1c3"></i><i style="background:#d8d1c3"></i><i style="background:#d8d1c3"></i><i></i>
       </div>
       <div class="scene">
-        <div class="board feed"><span style="background:#ff7a2f"></span><span style="background:#141414"></span><span style="background:#ff6fd8"></span><span style="background:#a3b4ff"></span><span style="background:#ff7a2f"></span><span style="background:#2ee88a"></span><span style="background:#ffe14a"></span><span style="background:#1532d6"></span><span style="background:#ff7a2f"></span></div>
+        <div class="board feed"><span style="background:#fb923c"></span><span style="background:#141414"></span><span style="background:#c2410c"></span><span style="background:#e9e4da"></span><span style="background:#fb923c"></span><span style="background:#b45309"></span><span style="background:#fbbf24"></span><span style="background:#1c1b19"></span><span style="background:#fb923c"></span></div>
         <div class="board card"><small>Cartão de visita</small><strong>STILL.</strong><small>Guanambi · BA</small></div>
         <div class="board sign"><strong>Aberto<br>agora</strong></div>
       </div>
@@ -259,9 +264,9 @@ footer .wrap>div{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-betw
   <section class="services" id="servicos">
     <div class="wrap">
       <div class="deck">
-        <article class="pc"><div class="img i1"><div class="sw"><i style="background:#141414"></i><i style="background:#ff6fd8"></i><i style="background:#ffe14a"></i></div><span class="mono">S</span><h3>Identidade<br>visual</h3></div>
+        <article class="pc"><div class="img i1"><div class="sw"><i style="background:#141414"></i><i style="background:#c2410c"></i><i style="background:#fbbf24"></i></div><span class="mono">S</span><h3>Identidade<br>visual</h3></div>
           <p>A base de tudo: uma marca reconhecível e igual em todo lugar.</p><ul><li>Logo</li><li>Cores e fontes</li><li>Manual</li><li>Rebranding</li></ul></article>
-        <article class="pc"><div class="img i2"><div class="phone"><span style="background:#ff7a2f"></span><span style="background:#ffe14a"></span><span style="background:#ff6fd8"></span><span style="background:#a3b4ff"></span><span style="background:#2ee88a"></span><span style="background:#ff7a2f"></span><span style="background:#1532d6"></span><span style="background:#ff6fd8"></span><span style="background:#ffe14a"></span><span style="background:#2ee88a"></span><span style="background:#a3b4ff"></span><span style="background:#ff7a2f"></span></div><h3>Social media</h3></div>
+        <article class="pc"><div class="img i2"><div class="phone"><span style="background:#fb923c"></span><span style="background:#fbbf24"></span><span style="background:#c2410c"></span><span style="background:#e9e4da"></span><span style="background:#b45309"></span><span style="background:#fb923c"></span><span style="background:#1c1b19"></span><span style="background:#c2410c"></span><span style="background:#fbbf24"></span><span style="background:#b45309"></span><span style="background:#e9e4da"></span><span style="background:#fb923c"></span></div><h3>Social media</h3></div>
           <p>Feed com cara de marca profissional, todo mês, sem você perder tempo.</p><ul><li>Posts e stories</li><li>Destaques</li><li>Anúncios</li></ul></article>
         <article class="pc"><div class="img i3"><div class="win"><div class="bar"><i></i><i></i><i></i></div><div class="body"><b></b><s></s><s style="width:80%"></s><em>CHAMAR NO WHATSAPP</em></div></div><h3>Site &amp; landing</h3></div>
           <p>Um endereço na internet que transforma visita em conversa.</p><ul><li>Rápido no celular</li><li>Botão p/ WhatsApp</li><li>Google</li></ul></article>
