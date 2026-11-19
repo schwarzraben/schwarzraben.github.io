@@ -9,17 +9,17 @@
 :root{
   --bg:#f6f5f2;--card:#fff;--ink:#1c1b19;--muted:#6b6862;--line:#e3e0d9;
   --accent:#1f1f1f;--accent-ink:#fff;--ok:#15803d;--warn:#b45309;--bad:#b91c1c;--chip:#efece6;
-  --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--grid:#e9e6e0;
+  --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--grid:#e9e6e0;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#141413;--card:#1e1d1b;--ink:#f1efe9;--muted:#a19d95;--line:#33312d;
   --accent:#f1efe9;--accent-ink:#141413;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171;--chip:#2a2926;
-  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--grid:#2c2b28;
+  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--grid:#2c2b28;
 }}
 :root[data-theme="dark"]{
   --bg:#141413;--card:#1e1d1b;--ink:#f1efe9;--muted:#a19d95;--line:#33312d;
   --accent:#f1efe9;--accent-ink:#141413;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171;--chip:#2a2926;
-  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--grid:#2c2b28;
+  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--grid:#2c2b28;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
@@ -46,6 +46,7 @@ nav.tabs button.on{background:var(--accent);color:var(--accent-ink);border-color
 .chip.essencial{color:var(--ink)}
 .chip.vale{color:var(--ok)}
 .chip.cortar{color:var(--bad)}
+.chip.divida{color:var(--warn)}
 input,select{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
 input[type=number]{width:100%;max-width:120px;font-variant-numeric:tabular-nums}
 label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)}
@@ -112,7 +113,7 @@ footer{max-width:1100px;margin:auto;padding:0 16px 40px;font-size:12px;color:var
     <h3>Para onde vai cada real (meta 2027)</h3>
     <div class="bar" id="split" style="margin-top:10px"></div>
     <div class="legend" id="splitLeg"></div>
-    <p class="small muted" style="margin:6px 0 0">Referência saudável: até 50% essencial · até 30% estilo de vida · 20%+ para o futuro.</p>
+    <p class="small muted" style="margin:6px 0 0">Referência saudável: até 50% essencial · até 30% estilo de vida · 20%+ para o futuro · dívidas o mais perto de zero possível.</p>
   </div>
   <div class="box">
     <div class="row" style="justify-content:space-between">
@@ -126,7 +127,7 @@ footer{max-width:1100px;margin:auto;padding:0 16px 40px;font-size:12px;color:var
     <div class="legend" id="chartLeg"></div>
     <div class="chart" id="chart"><div class="tip" id="tip"></div></div>
     <div class="tblwrap"><table class="tbl" id="projTbl" style="margin-top:10px"></table></div>
-    <p class="small muted">Valores brutos, antes do IR, com rendimento de <span id="taxaTxt"></span> ao ano (ajuste na aba “Onde investir”). O cenário de design desconta 15% para impostos e taxas.</p>
+    <p class="small muted">Valores brutos, antes do IR, com rendimento de <span id="taxaTxt"></span> ao ano (ajuste na aba “Onde investir”). “Com o plano” já conta as parcelas que acabam em 2027. O cenário de design é o potencial da aba “Renda com design”, descontando 15% de impostos e taxas.</p>
   </div>
   <div class="box" id="resumo"></div>
 </section>
@@ -141,7 +142,7 @@ footer{max-width:1100px;margin:auto;padding:0 16px 40px;font-size:12px;color:var
       <label class="f">Meta de aporte mensal (R$)<input type="number" id="metaAporte" step="50"></label>
     </div>
   </div>
-  <p class="small muted">Valores de exemplo, calibrados para fechar com os seus R$ 600 de sobra atuais. <b>Troque pelos seus valores reais</b> — tudo é salvo neste navegador.</p>
+  <p class="small muted">Seus valores reais de novembro/2026. <b>Hoje</b> = o que você paga agora; <b>Meta 2027</b> = depois dos ajustes. Parcelas somem da conta no mês em que acabam. Edite quando algo mudar.</p>
   <div class="tblwrap box" style="padding:6px 8px">
     <table class="tbl" id="tblContas"></table>
   </div>
@@ -149,6 +150,7 @@ footer{max-width:1100px;margin:auto;padding:0 16px 40px;font-size:12px;color:var
     <span><span class="chip essencial">● Essencial</span> manter, só otimizar</span>
     <span><span class="chip vale">▲ Vale a pena</span> gera valor ou renda</span>
     <span><span class="chip cortar">▼ Cortar</span> vazamento de dinheiro</span>
+    <span><span class="chip divida">◆ Compromisso</span> dívida ou parcela com data para acabar</span>
   </div>
 </section>
 
@@ -210,27 +212,34 @@ footer{max-width:1100px;margin:auto;padding:0 16px 40px;font-size:12px;color:var
 <footer>Planejamento educativo, não é recomendação individual de investimento. Taxas, regras de IR e prazos mudam — confirme antes de decidir.</footer>
 
 <script>
-const KEY='fin2027.v1';
+const KEY='fin2027.v2';
 const MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DEF={
-  renda:4945, decimo:1, metaAporte:1200, taxa:10.5,
+  renda:4945, decimo:0, metaAporte:1200, taxa:10.5,
   contas:[
-    {n:'Aluguel / moradia',g:'Fixas',a:900,m:900,t:'essencial',d:'Ideal: até 30% da renda.'},
-    {n:'Energia',g:'Fixas',a:190,m:175,t:'essencial',d:'Bandeira tarifária sobe no 2º semestre; tire aparelhos do stand-by.'},
-    {n:'Água',g:'Fixas',a:70,m:70,t:'essencial',d:''},
-    {n:'Internet fibra',g:'Fixas',a:100,m:100,t:'vale',d:'Ferramenta de trabalho. Não corte — negocie.'},
-    {n:'Celular',g:'Fixas',a:50,m:40,t:'essencial',d:'Plano controle resolve.'},
-    {n:'Softwares de design',g:'Fixas',a:180,m:150,t:'vale',d:'Plano anual sai ~15–20% mais barato. Cancele o que não usou.'},
-    {n:'Saúde / farmácia',g:'Fixas',a:200,m:200,t:'essencial',d:''},
-    {n:'Transporte / combustível',g:'Fixas',a:350,m:330,t:'essencial',d:'Agrupe saídas e reuniões no mesmo dia.'},
-    {n:'Mercado',g:'Variáveis',a:800,m:760,t:'essencial',d:'Lista + compra grande no atacarejo: −5% a −10%.'},
-    {n:'Delivery / lanches',g:'Variáveis',a:350,m:220,t:'cortar',d:'Maior vazamento. 2 pedidos a menos por semana ≈ R$ 130.'},
-    {n:'Lazer / saídas',g:'Variáveis',a:250,m:230,t:'vale',d:'Lazer planejado vale. Não zere — limite.'},
-    {n:'Streamings / assinaturas',g:'Variáveis',a:90,m:50,t:'cortar',d:'Fique com 1–2 e faça rodízio mensal.'},
-    {n:'Roupas / cuidados',g:'Variáveis',a:180,m:170,t:'vale',d:''},
-    {n:'Compras por impulso / parcelas',g:'Variáveis',a:350,m:200,t:'cortar',d:'Regra das 48h e nada de parcelar desejo.'},
-    {n:'Presentes / datas',g:'Variáveis',a:120,m:100,t:'vale',d:'Vai para a caixinha sazonal (veja Mapa).'},
-    {n:'Imprevistos',g:'Variáveis',a:165,m:150,t:'essencial',d:'Conserto, remédio, taxa inesperada.'}
+    {n:'Ajuda em casa',g:'Casa & família',a:300,m:300,t:'essencial',d:''},
+    {n:'Seguro (casa)',g:'Casa & família',a:230,m:230,t:'essencial',d:'Na renovação, faça 2–3 cotações.'},
+    {n:'Plano de saúde (você + irmã)',g:'Casa & família',a:500,m:500,t:'essencial',d:'Cuidar da saúde da família vale. Compare na renovação.'},
+    {n:'Ônibus',g:'Transporte',a:165,m:165,t:'essencial',d:''},
+    {n:'Metrô',g:'Transporte',a:120,m:120,t:'essencial',d:''},
+    {n:'Uber (fim de semana)',g:'Transporte',a:80,m:80,t:'vale',d:'É o seu lazer — cabe no orçamento.'},
+    {n:'Vivo (celular + internet)',g:'Transporte',a:71,m:71,t:'essencial',d:'Na portabilidade, dá para achar a mesma franquia por menos.'},
+    {n:'Lanches fora (cartão)',g:'Comida',a:500,m:250,t:'cortar',d:'Seu maior vazamento. Metade vira comida em casa.'},
+    {n:'Mistura / mercado',g:'Comida',a:80,m:150,t:'essencial',d:'Sobe um pouco para substituir os lanches.'},
+    {n:'DAS (MEI)',g:'Trabalho & assinaturas',a:86.05,m:86.05,t:'essencial',d:'Nunca atrase: gera multa e tira você do MEI.'},
+    {n:'Claude',g:'Trabalho & assinaturas',a:114.40,m:114.40,t:'vale',d:'Vale se você usa para produzir e vender trabalho.'},
+    {n:'Academy Design',g:'Trabalho & assinaturas',a:95,m:95,t:'vale',d:'Vale se virar cliente. Meta: 1º freela até março.'},
+    {n:'Google One',g:'Trabalho & assinaturas',a:23.99,m:23.99,t:'vale',d:'Backup dos seus arquivos de trabalho.'},
+    {n:'Google Fotos',g:'Trabalho & assinaturas',a:9.99,m:0,t:'cortar',d:'O armazenamento do Fotos já é o do Google One — confira e cancele.'},
+    {n:'HBO Max',g:'Trabalho & assinaturas',a:44.90,m:15,t:'cortar',d:'Rodízio: assine 1 mês quando tiver série e cancele depois.'},
+    {n:'Consórcio (2 cartas)',g:'Dívidas & parcelas',a:1179.02,m:1179.02,t:'divida',d:'24% da renda. Vale se for para um bem que você vai comprar — falta analisar crédito, prazo e contemplação.'},
+    {n:'Empréstimo Nubank 1',g:'Dívidas & parcelas',a:113.11,m:113.11,t:'divida',d:'Juros altos: quitar antes rende mais que a caixinha.'},
+    {n:'Empréstimo Nubank 2',g:'Dívidas & parcelas',a:183.93,m:183.93,t:'divida',d:'O maior dos dois — prioridade para quitar.'},
+    {n:'Parcela Kacio',g:'Dívidas & parcelas',a:97.14,m:97.14,t:'divida',d:'5 de 12',fim:5},
+    {n:'Parcela Mãe',g:'Dívidas & parcelas',a:50,m:50,t:'divida',d:'3 de 6',fim:1},
+    {n:'Parcela Eich',g:'Dívidas & parcelas',a:72.08,m:72.08,t:'divida',d:'2 de 12',fim:8},
+    {n:'Parcela Vans',g:'Dívidas & parcelas',a:150.01,m:150.01,t:'divida',d:'1 de 3',fim:0},
+    {n:'Parcela Óculos',g:'Dívidas & parcelas',a:79,m:79,t:'divida',d:'5 de 11 · valor estimado, confira',fim:4}
   ],
   freelas:[
     {n:'Social media (12 posts/mês)',p:550,q:1,d:'Recorrente: a base da renda extra.'},
@@ -241,23 +250,23 @@ const DEF={
   meses:{}
 };
 const EVENTOS=[
- {e:['IPVA / IPTU (se tiver)','Volta às aulas, matrículas'],x:300,o:'Liquidações e volta às aulas: posts para lojas e escolas.',a:'Abra um CDB de liquidez diária só para a reserva e agende o aporte para o dia do pagamento.'},
- {e:['Carnaval (8 e 9/fev)'],x:250,o:'Campanhas de Carnaval para bares e eventos (venda já em janeiro).',a:'Defina o teto do Carnaval antes de sair e leve só esse valor.'},
- {e:['Dia do Consumidor (15/3)','Páscoa (28/3)','Abre a declaração do IR'],x:100,o:'Páscoa para confeitarias, chocolaterias e mercados.',a:'Corte trimestral: revise todas as assinaturas.'},
- {e:['Prazo da declaração do IR'],x:0,o:'Publique 3 cases do 1º trimestre (Behance + Instagram).',a:'Se houver restituição, 100% vai para a reserva.'},
- {e:['Dia das Mães (9/5)'],x:120,o:'2ª maior data do comércio: pacote de campanha para lojas.',a:'Feche já os pacotes do São João com clientes locais.'},
- {e:['São João (pico na Bahia)','Dia dos Namorados (12/6)'],x:400,o:'Maior temporada local: cartazes, camisas, flyers, campanhas juninas.',a:'Use a caixinha sazonal — o São João não pode sair da reserva.'},
- {e:['Férias escolares','Revisão do meio do ano'],x:150,o:'Reajuste seus pacotes em ~10% para novos clientes.',a:'Checkpoint: reserva deve estar perto da metade da meta.'},
- {e:['Dia dos Pais (8/8)'],x:120,o:'Campanha de Dia dos Pais para lojas de roupa e ótica.',a:'Comece a dividir aportes: parte para longo prazo (veja Onde investir).'},
- {e:['Dia do Cliente (15/9)','Semana do Brasil'],x:50,o:'Prospecte clientes para Black Friday e Natal — vender agora.',a:'Monte a lista do que vale comprar na Black Friday (e só isso).'},
- {e:['Dia das Crianças (12/10)'],x:120,o:'Feche pacotes de Black Friday + Natal com pagamento antecipado.',a:'Revise o preço da sua hora de trabalho.'},
- {e:['Black Friday (26/11)','1ª parcela do 13º (até 30/11)'],x:0,o:'Pico de demanda: entregue campanhas e peça indicações.',a:'Black Friday só para itens da lista feita em setembro.'},
- {e:['2ª parcela do 13º (até 20/12)','Natal e Réveillon'],x:500,o:'Campanhas de fim de ano e venda de pacotes 2028.',a:'Divida o 13º: 50% investir, 30% metas, 20% festas. Monte o plano 2028.'}
+ {e:['Revisão de início de ano'],x:0,o:'Liquidações e volta às aulas: posts para lojas e escolas.',a:'Cancele o Google Fotos e o HBO. Pegue o valor de quitação dos 2 empréstimos no app.'},
+ {e:['Carnaval (8 e 9/fev)'],x:100,o:'Campanhas de Carnaval para bares e eventos (venda já em janeiro).',a:'Meta: lanches fora até R$ 250 — anote cada pedido por 1 mês.'},
+ {e:['Dia do Consumidor (15/3)','Páscoa (28/3)'],x:50,o:'Páscoa para confeitarias, chocolaterias e mercados.',a:'Prazo para o 1º freela pago (o Academy Design tem que se pagar).'},
+ {e:['Fechamento do 1º trimestre'],x:0,o:'Publique 3 cases do 1º trimestre (Behance + Instagram).',a:'Reavalie o consórcio: crédito, parcelas que faltam e chance de lance.'},
+ {e:['Dia das Mães (9/5)','Declaração anual do MEI (DASN-SIMEI) até 31/5'],x:100,o:'2ª maior data do comércio: pacote de campanha para lojas.',a:'Entregue a DASN-SIMEI. Feche já os pacotes do São João.'},
+ {e:['São João','Dia dos Namorados (12/6)'],x:150,o:'Temporada de festas juninas: cartazes, flyers, campanhas.',a:'Use a caixinha sazonal — festa não sai da reserva.'},
+ {e:['Revisão do meio do ano'],x:0,o:'Reajuste seus pacotes em ~10% para novos clientes.',a:'Checkpoint: empréstimos quitados? Sobra acima de R$ 1.200?'},
+ {e:['Dia dos Pais (8/8)'],x:50,o:'Campanha de Dia dos Pais para lojas de roupa e ótica.',a:'Comece a dividir aportes entre reserva e longo prazo (veja Onde investir).'},
+ {e:['Dia do Cliente (15/9)'],x:0,o:'Prospecte clientes para Black Friday e Natal — vender agora.',a:'Monte a lista do que vale comprar na Black Friday (e só isso).'},
+ {e:['Dia das Crianças (12/10)'],x:0,o:'Feche pacotes de Black Friday + Natal com pagamento antecipado.',a:'Confira o faturamento do ano contra o limite do MEI.'},
+ {e:['Black Friday (26/11)'],x:0,o:'Pico de demanda: entregue campanhas e peça indicações.',a:'Black Friday só para itens da lista feita em setembro. Nada parcelado.'},
+ {e:['Natal e Réveillon'],x:300,o:'Campanhas de fim de ano e venda de pacotes 2028.',a:'Como PJ você não tem 13º: a caixinha sazonal paga o Natal. Monte o plano 2028.'}
 ];
 const VALE_SIM=['Ferramentas que geram renda: computador, softwares, internet, tablet — se se pagam em até 3 meses de freela.','Cursos com aplicação direta em serviços que você já vende (motion, branding, UI).','Saúde, sono e alimentação básica — cortar aqui sai mais caro depois.','Lazer planejado e dentro do teto: evita a “compra de compensação”.','Portfólio: domínio, mockups e tempo para cases bem apresentados.'];
 const VALE_NAO=['Delivery por cansaço várias vezes por semana.','Parcelar desejos (roupa, eletrônico) no cartão — compromete meses futuros.','Assinaturas esquecidas e apps pagos que você abre 1x por mês.','Upgrade de equipamento sem demanda que justifique.','Comprar na Black Friday algo que não estava na lista.','Juros de cartão rotativo e cheque especial — é a dívida mais cara que existe.'];
 const REGRAS=['<b>Pague-se primeiro:</b> o aporte sai no dia do pagamento, antes de qualquer gasto.','<b>48 horas:</b> desejo acima de R$ 150 espera 2 dias. Se ainda fizer sentido, compre à vista.','<b>Conta separada para o freela:</b> 15% para impostos/taxas, o resto entra no plano.','<b>Aumento de renda não vira aumento de padrão:</b> pelo menos 70% de toda renda extra vai para investimento.','<b>Revisão mensal de 15 minutos:</b> marque o mês como concluído no Mapa 2027.'];
-const EVITAR=['Poupança: rende menos que Tesouro Selic e CDB 100% CDI.','Títulos de capitalização e consórcio “como investimento”.','Day trade, cripto alavancada, “robôs” e promessas de retorno garantido alto (pirâmide).','Ações individuais antes de ter a reserva de emergência completa.','Previdência privada com taxa de administração alta.'];
+const EVITAR=['Poupança: rende menos que Tesouro Selic e CDB 100% CDI.','Títulos de capitalização e consórcio novo “como investimento”.','Day trade, cripto alavancada, “robôs” e promessas de retorno garantido alto (pirâmide).','Ações individuais antes de ter a reserva de emergência completa.','Previdência privada com taxa de administração alta.','Novos parcelamentos e empréstimos — até as dívidas atuais acabarem.'];
 
 let S;
 function load(){try{const r=localStorage.getItem(KEY);S=r?Object.assign(structuredClone(DEF),JSON.parse(r)):structuredClone(DEF)}catch(e){S=structuredClone(DEF)}}
@@ -269,7 +278,7 @@ async function connectCloud(){
   try{if(!window.claude||!claude.use)return;
     const [db,user]=await Promise.all([claude.use('db'),claude.use('user')]);
     if(!db||!user)return;const id=await user.id();if(!id)return;
-    REF=db.collection('data/users/'+id).doc('plano2027');
+    REF=db.collection('data/users/'+id).doc('plano2027v2');
     const snap=await REF.get();
     if(snap.exists){S=Object.assign(structuredClone(DEF),snap.data());try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){};renderAll();status('Carregado da sua conta ✓')}
     else status('Seus dados serão salvos na sua conta (privados)');
@@ -280,55 +289,62 @@ const brl=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFr
 const sum=(a,k)=>a.reduce((s,x)=>s+(+x[k]||0),0);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
+const ativo=(c,i)=>c.fim==null||c.fim===''||i<=+c.fim;
+function gastoMes(i,k){return S.contas.reduce((s,c)=>s+(ativo(c,i)?(+c[k]||0):0),0)}
+function sobraMes(i){return S.renda-gastoMes(Math.min(i,11),'m')}
 function calc(){
-  const ga=sum(S.contas,'a'), gm=sum(S.contas,'m');
-  const sobraAtual=S.renda-ga, sobraMeta=S.renda-gm;
+  const ga=sum(S.contas,'a'), gm=gastoMes(0,'m');
+  const sobraAtual=S.renda-ga, sobraMeta=sobraMes(0), sobraDez=sobraMes(11);
   const bruto=S.freelas.reduce((s,f)=>s+f.p*f.q,0), liqDesign=bruto*0.85;
   const r=Math.pow(1+S.taxa/100,1/12)-1;
   const extras=EVENTOS.reduce((s,e)=>s+e.x,0);
-  return {ga,gm,sobraAtual,sobraMeta,bruto,liqDesign,r,extras,caixinha:Math.ceil(extras/12/5)*5,
-    reserva6:gm*6, reserva3:gm*3};
+  const dividas=S.contas.filter(c=>c.t==='divida').reduce((s,c)=>s+ +c.a,0);
+  let dobra=-1;for(let i=0;i<12;i++)if(sobraMes(i)>=S.metaAporte){dobra=i;break}
+  return {ga,gm,sobraAtual,sobraMeta,sobraDez,bruto,liqDesign,r,extras,dividas,dobra,caixinha:Math.ceil(extras/12/5)*5,
+    reserva6:gastoMes(11,'m')*6, reserva3:gastoMes(11,'m')*3};
 }
-// projeção: aporte mensal; 13º (50%) entra em nov/dez de cada ano nos cenários com plano
+// projeção: aporte(i) por mês; 13º (metade investida) em nov/dez se CLT
 function proj(aporte,n,com13){
   const c=calc(),out=[];let v=0;
-  for(let i=0;i<n;i++){v=v*(1+c.r)+aporte;const m=i%12;if(com13&&S.decimo==1&&(m===10||m===11))v+=S.renda*0.5*0.5;out.push(v)}
+  for(let i=0;i<n;i++){v=v*(1+c.r)+aporte(i);const m=i%12;if(com13&&S.decimo==1&&(m===10||m===11))v+=S.renda*0.25;out.push(v)}
   return out;
 }
+const planoFn=i=>Math.max(sobraMes(i),0);
 
 /* ---------- VISÃO ---------- */
 function renderVisao(){
   const c=calc();
-  const fim=proj(c.sobraMeta+c.liqDesign,12,true)[11];
+  const fim=proj(planoFn,12,true)[11];
   $('#kpis').innerHTML=[
-    ['Renda mensal',brl(S.renda),'líquida'],
-    ['Sobra hoje',brl(c.sobraAtual),(c.sobraAtual/S.renda*100).toFixed(0)+'% da renda'],
-    ['Sobra com o plano',brl(c.sobraMeta),'só com cortes inteligentes'],
-    ['+ design (líquido)',brl(c.liqDesign),'renda extra/mês'],
-    ['Aporte total/mês',brl(c.sobraMeta+c.liqDesign),((c.sobraMeta+c.liqDesign)/600).toLocaleString('pt-BR',{maximumFractionDigits:1})+'× os R$ 600 atuais'],
-    ['Patrimônio dez/2027',brl(fim),'cenário plano + design']
+    ['Sobra hoje',brl(c.sobraAtual),(c.sobraAtual/S.renda*100).toFixed(0)+'% de '+brl(S.renda)],
+    ['Sobra em jan/27',brl(c.sobraMeta),'com os ajustes'],
+    ['Sobra em dez/27',brl(c.sobraDez),'parcelas quitadas'],
+    ['Você dobra os R$ 600 em',c.dobra>=0?MESES[c.dobra]:'—',c.dobra>=0?'sem nenhuma renda extra':'falta ajustar o orçamento'],
+    ['Guardado até dez/27',brl(fim),'só com o plano'],
+    ['+ design (potencial)',brl(proj(i=>planoFn(i)+c.liqDesign,12,true)[11]),'com '+brl(c.liqDesign)+'/mês de freela']
   ].map(k=>`<div class="kpi"><span>${k[0]}</span><b>${k[1]}</b><span>${k[2]}</span></div>`).join('');
-  // split
-  const ess=S.contas.filter(x=>x.t==='essencial').reduce((s,x)=>s+ +x.m,0);
-  const est=S.contas.filter(x=>x.t!=='essencial').reduce((s,x)=>s+ +x.m,0);
-  const fut=Math.max(0,c.sobraMeta), tot=ess+est+fut;
-  const parts=[['Essencial',ess,'var(--s1)'],['Estilo de vida / trabalho',est,'var(--s2)'],['Futuro (aporte)',fut,'var(--s3)']];
+  const by=t=>S.contas.filter(x=>ativo(x,0)&&t.includes(x.t)).reduce((s,x)=>s+ +x.m,0);
+  const parts=[['Essencial',by(['essencial']),'var(--s1)'],['Dívidas e parcelas',by(['divida']),'var(--s2)'],['Estilo de vida / trabalho',by(['vale','cortar']),'var(--s3)'],['Futuro (aporte)',Math.max(0,c.sobraMeta),'var(--s4)']];
+  const tot=parts.reduce((s,p)=>s+p[1],0);
   $('#split').innerHTML=parts.map(p=>`<i style="width:${p[1]/tot*100}%;background:${p[2]}" title="${p[0]}: ${brl(p[1])}"></i>`).join('');
   $('#splitLeg').innerHTML=parts.map(p=>`<span><i style="background:${p[2]}"></i>${p[0]} · ${brl(p[1])} (${(p[1]/S.renda*100).toFixed(0)}%)</span>`).join('');
   $('#taxaTxt').textContent=S.taxa.toLocaleString('pt-BR')+'%';
   renderChart();
-  const meta=S.metaAporte, total=c.sobraMeta+c.liqDesign;
-  $('#resumo').innerHTML=`<h3>Diagnóstico</h3><ul>
-   <li>Você já poupa ${(c.sobraAtual/S.renda*100).toFixed(0)}% da renda — um ótimo começo. O desafio agora não é disciplina, é <b>escala</b>.</li>
-   <li>Só ajustando delivery, impulso e assinaturas você libera <b>${brl(c.sobraMeta-c.sobraAtual)}/mês</b>, sem cortar nada essencial.</li>
-   <li>Com ${brl(c.liqDesign)} líquidos de design, o aporte vai para <b>${brl(total)}</b> — ${total>=meta?'<span class="yes">meta de '+brl(meta)+' batida ✓</span>':'<span class="no">faltam '+brl(meta-total)+' para a meta</span>'}.</li>
-   <li>Prioridade de 2027: montar a <b>reserva de emergência</b> (${brl(c.reserva6)} = 6 meses de custo). Como sua renda passa a ter parte variável, ela é o que deixa você recusar cliente ruim.</li>
+  const lan=S.contas.find(x=>/lanche/i.test(x.n)), emp=S.contas.filter(x=>/empr[eé]stimo/i.test(x.n)).reduce((s,x)=>s+ +x.a,0);
+  const parc=S.contas.filter(x=>x.fim!=null&&x.fim!=='').reduce((s,x)=>s+ +x.a,0);
+  $('#resumo').innerHTML=`<h3>Diagnóstico com os seus números</h3><ul>
+   <li><b>Dívidas e parcelas levam ${brl(c.dividas)} por mês (${(c.dividas/S.renda*100).toFixed(0)}% da renda).</b> Só o consórcio é ${brl(S.contas.find(x=>/cons[oó]rcio/i.test(x.n))?.a||0)}. Esse é o ponto central do seu orçamento.</li>
+   <li><b>A boa notícia:</b> ${brl(parc)} em parcelas acabam ao longo de 2027. Se você não fizer nenhuma parcela nova, esse dinheiro volta para você mês a mês (veja o Mapa 2027).</li>
+   ${emp?`<li><b>Empréstimos (${brl(emp)}/mês):</b> os juros deles são muito maiores do que o CDB paga. Antecipar parcelas é o investimento com o melhor retorno que você tem hoje.</li>`:''}
+   ${lan?`<li><b>Lanches fora: ${brl(+lan.a)}</b> contra ${brl(+(S.contas.find(x=>/mistura|mercado/i.test(x.n))?.a||0))} de comida em casa. Cortar pela metade libera ${brl(lan.a-lan.m)} sem mexer no essencial.</li>`:''}
+   <li>Com os ajustes e as parcelas acabando, ${c.dobra>=0?`<b>a sua sobra passa de ${brl(S.metaAporte)} em ${MESES[c.dobra].toLowerCase()}</b> — você dobra os R$ 600 sem ganhar um real a mais`:`a sobra ainda não chega a ${brl(S.metaAporte)}`}. O design é o que faz passar disso.</li>
+   <li><b>Como PJ</b>, você não tem 13º, férias pagas nem FGTS. Por isso a reserva de emergência precisa ser de 6 meses (${brl(c.reserva6)}).</li>
   </ul>`;
 }
 let H=12;
 function renderChart(){
   const c=calc();
-  const S1=proj(600,H,false), S2=proj(Math.max(c.sobraMeta,0),H,true), S3=proj(Math.max(c.sobraMeta,0)+c.liqDesign,H,true);
+  const S1=proj(()=>600,H,false), S2=proj(planoFn,H,true), S3=proj(i=>planoFn(i)+c.liqDesign,H,true);
   const series=[{n:'Hoje (R$ 600/mês)',v:S1,c:'var(--s1)'},{n:'Com o plano',v:S2,c:'var(--s2)'},{n:'Plano + design',v:S3,c:'var(--s3)'}];
   $('#chartLeg').innerHTML=series.map(s=>`<span><i style="background:${s.c}"></i>${s.n}</span>`).join('');
   const W=720,Hh=280,L=64,R=110,T=12,B=28,iw=W-L-R,ih=Hh-T-B;
@@ -361,39 +377,45 @@ function short(v){return v>=1000?'R$ '+(v/1000).toLocaleString('pt-BR',{maximumF
 /* ---------- CONTAS ---------- */
 function renderContas(){
   $('#renda').value=S.renda;$('#decimo').value=S.decimo;$('#metaAporte').value=S.metaAporte;
-  const tags={essencial:'● Essencial',vale:'▲ Vale a pena',cortar:'▼ Cortar'};
-  let h=`<tr><th>Conta</th><th class="n">Hoje</th><th class="n">Meta 2027</th><th class="n">Economia</th><th>Tipo</th><th class="hide-sm">Dica</th></tr>`;
-  ['Fixas','Variáveis'].forEach(g=>{
+  const tags={essencial:'● Essencial',vale:'▲ Vale a pena',cortar:'▼ Cortar',divida:'◆ Compromisso'};
+  const fmt=v=>(+v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  let h=`<tr><th>Conta</th><th class="n">Hoje</th><th class="n">Meta 2027</th><th class="n">Economia</th><th>Tipo</th><th>Acaba em</th><th class="hide-sm">Dica</th></tr>`;
+  [...new Set(S.contas.map(x=>x.g))].forEach(g=>{
     const it=S.contas.map((x,i)=>[x,i]).filter(([x])=>x.g===g);
-    h+=`<tr class="sub"><td colspan="6">Contas ${g.toLowerCase()}</td></tr>`;
-    it.forEach(([x,i])=>{h+=`<tr><td>${esc(x.n)}</td><td class="n"><input type="number" data-i="${i}" data-k="a" value="${x.a}" step="5"></td><td class="n"><input type="number" data-i="${i}" data-k="m" value="${x.m}" step="5"></td><td class="n ${x.a-x.m>0?'yes':''}">${x.a-x.m?brl(x.a-x.m):'—'}</td><td><select data-i="${i}" data-k="t">${Object.keys(tags).map(t=>`<option value="${t}" ${t===x.t?'selected':''}>${tags[t]}</option>`).join('')}</select></td><td class="small muted hide-sm">${esc(x.d)}</td></tr>`});
+    const tg=it.reduce((s,[x])=>s+ +x.a,0);
+    h+=`<tr class="sub"><td colspan="7">${esc(g)} · ${brl(tg)}</td></tr>`;
+    it.forEach(([x,i])=>{const ec=x.a-x.m;h+=`<tr><td>${esc(x.n)}</td><td class="n"><input type="number" data-i="${i}" data-k="a" value="${x.a}" step="0.01"></td><td class="n"><input type="number" data-i="${i}" data-k="m" value="${x.m}" step="0.01"></td><td class="n ${ec>0?'yes':''}">${ec?'R$ '+fmt(ec):'—'}</td><td><select data-i="${i}" data-k="t">${Object.keys(tags).map(t=>`<option value="${t}" ${t===x.t?'selected':''}>${tags[t]}</option>`).join('')}</select></td><td><select data-i="${i}" data-k="fim"><option value="">—</option>${MESES.map((m,j)=>`<option value="${j}" ${x.fim!=null&&x.fim!==''&&+x.fim===j?'selected':''}>${m.slice(0,3)}/27</option>`).join('')}</select></td><td class="small muted hide-sm">${esc(x.d)}</td></tr>`});
   });
   const c=calc();
-  h+=`<tr class="sub"><td>Total de gastos</td><td class="n">${brl(c.ga)}</td><td class="n">${brl(c.gm)}</td><td class="n">${brl(c.ga-c.gm)}</td><td colspan="2"></td></tr>`;
-  h+=`<tr class="sub"><td>Sobra para investir</td><td class="n">${brl(c.sobraAtual)}</td><td class="n">${brl(c.sobraMeta)}</td><td colspan="3" class="small muted">Meta: ${brl(S.metaAporte)} · design completa o resto</td></tr>`;
+  h+=`<tr class="sub"><td>Total de gastos</td><td class="n">${brl(c.ga)}</td><td class="n">${brl(c.gm)}</td><td class="n">${brl(c.ga-c.gm)}</td><td colspan="3" class="small muted">Meta = janeiro/27. Em dezembro: ${brl(gastoMes(11,'m'))}</td></tr>`;
+  h+=`<tr class="sub"><td>Sobra para investir</td><td class="n">${brl(c.sobraAtual)}</td><td class="n">${brl(c.sobraMeta)}</td><td colspan="4" class="small muted">Dezembro/27: ${brl(c.sobraDez)} · meta ${brl(S.metaAporte)}</td></tr>`;
   $('#tblContas').innerHTML=h;
 }
-$('#tblContas').addEventListener('change',e=>{const t=e.target,i=t.dataset.i;if(i==null)return;S.contas[i][t.dataset.k]=t.dataset.k==='t'?t.value:+t.value||0;save();renderAll()});
+$('#tblContas').addEventListener('change',e=>{const t=e.target,i=t.dataset.i;if(i==null)return;const k=t.dataset.k;S.contas[i][k]=k==='t'?t.value:k==='fim'?(t.value===''?null:+t.value):+t.value||0;save();renderAll()});
 ['renda','metaAporte'].forEach(id=>$('#'+id).addEventListener('change',e=>{S[id]=+e.target.value||0;save();renderAll()}));
 $('#decimo').addEventListener('change',e=>{S.decimo=+e.target.value;save();renderAll()});
 
 /* ---------- MAPA ---------- */
 function renderMapa(){
-  const c=calc(),plano=Math.max(c.sobraMeta,0)+c.liqDesign;let acc=0,real=0,done=0;
-  const curve=proj(plano,12,true);
-  $('#caixinha').innerHTML=`<b>Caixinha sazonal:</b> as datas de 2027 somam cerca de ${brl(c.extras)} em gastos extras. Separe <b>${brl(c.caixinha)}/mês</b> (sai das linhas “Presentes/datas” e “Imprevistos”) para que Carnaval, São João e Natal nunca toquem na reserva.`;
+  const c=calc();let real=0,done=0;
+  const curve=proj(planoFn,12,true);
+  $('#caixinha').innerHTML=`<b>Caixinha sazonal:</b> as datas de 2027 somam cerca de ${brl(c.extras)} em gastos extras. Separe <b>${brl(c.caixinha)}/mês</b> dentro da sobra para que Carnaval, São João e Natal nunca toquem na reserva. Como PJ, essa caixinha é o seu 13º.`;
   $('#months').innerHTML=EVENTOS.map((ev,i)=>{
     const m=S.meses[i]||{};const ap=m.ap!=null&&m.ap!==''?+m.ap:null;if(ap!=null)real+=ap;if(m.ok)done++;
     const t13=S.decimo==1&&(i===10||i===11)?`<li><b>13º:</b> ~${brl(S.renda/2)} — invista metade (${brl(S.renda/4)}).</li>`:'';
-    return `<div class="month ${m.ok?'done':''}"><header><h3>${MESES[i]}</h3><span class="small muted">meta acumulada ${brl(curve[i])}</span></header>
-    <div class="tag">Datas & contas extras · ~${brl(ev.x)}</div><ul>${ev.e.map(x=>`<li>${x}</li>`).join('')}${t13}</ul>
+    const acabam=S.contas.filter(x=>x.fim!=null&&x.fim!==''&&+x.fim===i);
+    const fimHtml=acabam.map(x=>`<li class="yes"><b>Última parcela: ${esc(x.n.replace(/^Parcela /,''))}</b> — +${brl(+x.m)}/mês livre ${i<11?'a partir de '+MESES[i+1].toLowerCase():'em 2028'}</li>`).join('');
+    const sob=sobraMes(i);
+    return `<div class="month ${m.ok?'done':''}"><header><h3>${MESES[i]}</h3><span class="small muted">acumulado ${brl(curve[i])}</span></header>
+    <div class="row" style="justify-content:space-between"><span class="small muted">Sobra planejada</span><b style="font-size:18px" class="${sob>=S.metaAporte?'yes':''}">${brl(sob)}</b></div>
+    <div class="tag">Datas & contas extras · ~${brl(ev.x)}</div><ul>${fimHtml}${ev.e.map(x=>`<li>${x}</li>`).join('')}${t13}</ul>
     <div class="tag">Oportunidade de design</div><div class="small">${ev.o}</div>
     <div class="tag">Ação do mês</div><div class="small">${ev.a}</div>
-    <div class="row" style="margin-top:4px"><label class="f" style="flex:1">Aportei de verdade (R$)<input type="number" data-m="${i}" data-k="ap" value="${ap??''}" placeholder="${Math.round(plano)}"></label>
+    <div class="row" style="margin-top:4px"><label class="f" style="flex:1">Guardei de verdade (R$)<input type="number" data-m="${i}" data-k="ap" value="${ap??''}" placeholder="${Math.round(sob)}"></label>
     <label class="row small" style="gap:6px;margin-top:18px"><input type="checkbox" data-m="${i}" data-k="ok" ${m.ok?'checked':''}> Mês revisado</label></div></div>`}).join('');
   const alvo=curve[11];
   $('#progVal').textContent=brl(real);
-  $('#progTxt').textContent=`aportado em 2027 · ${done}/12 meses revisados · alvo de dezembro ${brl(alvo)}`;
+  $('#progTxt').textContent=`guardado em 2027 · ${done}/12 meses revisados · alvo de dezembro ${brl(alvo)}`;
   $('#progBar').style.width=Math.min(100,real/alvo*100)+'%';
 }
 $('#months').addEventListener('change',e=>{const t=e.target,i=t.dataset.m;if(i==null)return;S.meses[i]=S.meses[i]||{};S.meses[i][t.dataset.k]=t.type==='checkbox'?t.checked:t.value;save();renderMapa()});
@@ -420,37 +442,38 @@ $('#regras').innerHTML=REGRAS.map(x=>`<li>${x}</li>`).join('');
 /* ---------- INVESTIR ---------- */
 function renderInvestir(){
   const c=calc();$('#taxa').value=S.taxa;
-  const plano=Math.max(c.sobraMeta,0)+c.liqDesign,mR3=Math.ceil(c.reserva3/plano);
+  const emp=S.contas.filter(x=>/empr[eé]stimo/i.test(x.n));
   $('#ladder').innerHTML=`
-  <div class="step"><h3>Reserva de emergência — fase 1: ${brl(c.reserva3)} (3 meses de custo)</h3>
-   <div class="small">100% dos aportes até chegar lá. No seu ritmo de ${brl(plano)}/mês, leva cerca de <b>${mR3} meses</b>.<br>
-   <b>Onde:</b> Tesouro Selic ou CDB de liquidez diária pagando 100% do CDI ou mais, em banco coberto pelo FGC. Precisa poder sacar no mesmo dia.</div></div>
-  <div class="step"><h3>Reserva — fase 2: até ${brl(c.reserva6)} (6 meses)</h3>
-   <div class="small">Como parte da sua renda vem de freela, 6 meses é o alvo. A partir daqui divida: <b>60% reserva / 40% longo prazo</b>, até completar.</div></div>
+  <div class="step"><h3>Mini-reserva de ${brl(1500)} na caixinha do Nubank</h3>
+   <div class="small">A caixinha que você já usa serve: rende perto de 100% do CDI e você saca na hora. Esse colchão evita que um imprevisto vire empréstimo novo.</div></div>
+  ${emp.length?`<div class="step"><h3>Quitar os empréstimos (${brl(emp.reduce((s,x)=>s+ +x.a,0))}/mês)</h3>
+   <div class="small">Depois da mini-reserva, todo dinheiro extra vai para <b>antecipar as últimas parcelas</b>, começando pelo de juros mais alto (veja a taxa no app). Antecipar dá desconto nos juros, e cada empréstimo quitado vira sobra livre todo mês. Nenhum investimento seguro rende o que esses juros custam.</div></div>`:''}
+  <div class="step"><h3>Reserva de emergência: ${brl(c.reserva3)} (3 meses) → ${brl(c.reserva6)} (6 meses)</h3>
+   <div class="small">Sendo PJ, sem FGTS nem seguro-desemprego, 6 meses é o alvo. <b>Onde:</b> caixinha do Nubank, Tesouro Selic ou CDB de liquidez diária pagando 100% do CDI ou mais, coberto pelo FGC.</div></div>
   <div class="step"><h3>Invista no seu trabalho (com regra)</h3>
-   <div class="small">Curso, equipamento ou software entra só se <b>se pagar em até 3 meses</b> de renda extra (use a calculadora “Vale a pena?”). Esse é o investimento com maior retorno para quem está começando.</div></div>
+   <div class="small">Nenhum curso ou parcela nova até os atuais se pagarem com freela. Ferramenta nova só entra se <b>se pagar em até 3 meses</b> (use a calculadora “Vale a pena?”).</div></div>
   <div class="step"><h3>Longo prazo: renda fixa que protege da inflação</h3>
-   <div class="small"><b>Tesouro IPCA+</b> (prazo de 5 a 10 anos), <b>LCI/LCA</b> (isentas de IR para pessoa física pelas regras atuais) e CDBs prefixados de bancos sólidos. Leve até o vencimento para evitar oscilação.</div></div>
-  <div class="step"><h3>Depois da reserva completa: 10% a 20% em renda variável</h3>
-   <div class="small">ETFs amplos e baratos (índice da bolsa brasileira e S&P 500) com aporte mensal fixo, sem tentar acertar o momento. Horizonte de 5+ anos.</div></div>`;
+   <div class="small">Com a reserva pela metade, divida <b>60% reserva / 40% longo prazo</b>: <b>Tesouro IPCA+</b> (5 a 10 anos), <b>LCI/LCA</b> (isentas de IR pelas regras atuais) e CDBs de bancos sólidos. O consórcio já cumpre parte do papel de “poupança para um bem”.</div></div>
+  <div class="step"><h3>Depois da reserva completa: 10% a 20% em ETFs</h3>
+   <div class="small">Fundos amplos e baratos (bolsa brasileira e S&P 500), com aporte fixo todo mês. Horizonte de 5+ anos.</div></div>`;
   $('#evitar').innerHTML=EVITAR.map(x=>`<li>${x}</li>`).join('');
 }
 $('#taxa').addEventListener('change',e=>{S.taxa=+e.target.value||0;save();renderAll()});
 
 /* ---------- DESIGN ---------- */
 function renderDesign(){
-  const c=calc(),falta=Math.max(0,S.metaAporte-Math.max(c.sobraMeta,0)),hora=S.renda/176;
+  const c=calc(),hora=S.renda/176;
   $('#dKpis').innerHTML=[
     ['Renda bruta de design',brl(c.bruto)+'/mês',''],
     ['Líquido (−15% impostos/taxas)',brl(c.liqDesign)+'/mês',''],
-    ['Necessário p/ bater a meta',brl(falta/0.85)+' bruto',`para aportar ${brl(S.metaAporte)}`],
+    ['Para guardar R$ 2.000/mês em jan',brl(Math.max(0,2000-Math.max(c.sobraMeta,0))/0.85)+' bruto','de freela por mês'],
     ['Em 2027',brl(c.liqDesign*12),'de renda extra líquida']
   ].map(k=>`<div class="kpi"><span>${k[0]}</span><b>${k[1]}</b><span>${k[2]}</span></div>`).join('');
   $('#tblDesign').innerHTML=`<tr><th>Serviço</th><th class="n">Preço (R$)</th><th class="n">Qtd/mês</th><th class="n">Por mês</th><th class="hide-sm">Por quê</th></tr>`+
    S.freelas.map((f,i)=>`<tr><td>${esc(f.n)}</td><td class="n"><input type="number" data-f="${i}" data-k="p" value="${f.p}" step="10"></td><td class="n"><input type="number" data-f="${i}" data-k="q" value="${f.q}" step="0.25"></td><td class="n">${brl(f.p*f.q)}</td><td class="small muted hide-sm">${esc(f.d)}</td></tr>`).join('')+
    `<tr class="sub"><td>Total</td><td></td><td></td><td class="n">${brl(c.bruto)}</td><td class="hide-sm"></td></tr>`;
-  $('#dPlano').innerHTML=['<b>Use o que você já tem:</b> seu sistema de captação de clientes em Guanambi vira a fonte de leads para os pacotes.','<b>1 cliente recorrente de social media</b> já paga quase toda a meta. Comece por ele.','<b>Venda pelo calendário:</b> ofereça a campanha da data 4 a 6 semanas antes (veja Mapa 2027).','<b>Pacote fechado, preço fechado:</b> escopo, nº de alterações e prazo por escrito. 50% na entrada.','<b>Templates digitais:</b> transforme peças que já fez em modelos e venda online — renda que não depende de hora.','<b>Formalize:</b> veja com um contador se sua atividade cabe no MEI ou no Simples Nacional; emitir nota abre portas com empresas.'].map(x=>`<li>${x}</li>`).join('');
-  $('#dPreco').innerHTML=`<p class="small">Sua hora hoje, pelo salário, vale cerca de <b>${brl(hora)}</b>. Freela precisa cobrar pelo menos o dobro (sem férias, 13º ou equipamento pago):</p>
+  $('#dPlano').innerHTML=['<b>Use o que você já tem:</b> seu sistema de captação de clientes em Guanambi vira a fonte de leads para os pacotes.','<b>1 cliente recorrente de social media</b> já paga quase toda a meta. Comece por ele.','<b>Venda pelo calendário:</b> ofereça a campanha da data 4 a 6 semanas antes (veja Mapa 2027).','<b>Pacote fechado, preço fechado:</b> escopo, nº de alterações e prazo por escrito. 50% na entrada.','<b>Templates digitais:</b> transforme peças que já fez em modelos e venda online — renda que não depende de hora.','<b>Atenção ao limite do MEI:</b> R$ 81 mil de faturamento por ano (cerca de R$ 6.750/mês). Seu PJ atual somado aos freelas pode passar disso — fale com um contador antes de estourar.'].map(x=>`<li>${x}</li>`).join('');
+  $('#dPreco').innerHTML=`<p class="small">Sua hora hoje, pelo que você recebe, vale cerca de <b>${brl(hora)}</b>. Freela precisa cobrar pelo menos o dobro (conta impostos, equipamento e o tempo de prospectar):</p>
    <div class="hero">${brl(Math.ceil(hora*2/5)*5)}/h</div><p class="small muted">Preço mínimo da sua hora de freela. Ex.: identidade visual de ~20h → mínimo ${brl(Math.ceil(hora*2/5)*5*20)}.</p>`;
 }
 $('#tblDesign').addEventListener('change',e=>{const t=e.target,i=t.dataset.f;if(i==null)return;S.freelas[i][t.dataset.k]=+t.value||0;save();renderAll()});
