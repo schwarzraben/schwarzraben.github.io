@@ -73,6 +73,9 @@ label.f input{color:var(--ink);font-size:15px;max-width:none}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .progress{height:8px;border-radius:4px;background:var(--chip);overflow:hidden}
 .progress i{display:block;height:100%;background:var(--ok);border-radius:4px}
+.pbar{height:10px;border-radius:5px;background:var(--chip);overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--s1);border-radius:5px}
+.month.quit{opacity:.7}
 .ladder{counter-reset:s;display:grid;gap:10px}
 .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px 14px 56px;position:relative}
 .step::before{counter-increment:s;content:counter(s);position:absolute;left:16px;top:14px;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700;font-size:14px}
@@ -100,6 +103,7 @@ footer{max-width:1100px;margin:auto;padding:0 16px 40px;font-size:12px;color:var
 <nav class="tabs" id="tabs">
   <button data-t="visao" class="on">Visão geral</button>
   <button data-t="contas">Contas & orçamento</button>
+  <button data-t="parcelas">Parcelas</button>
   <button data-t="mapa">Mapa 2027</button>
   <button data-t="vale">Vale a pena?</button>
   <button data-t="investir">Onde investir</button>
@@ -153,6 +157,13 @@ footer{max-width:1100px;margin:auto;padding:0 16px 40px;font-size:12px;color:var
     <span><span class="chip cortar">▼ Cortar</span> vazamento de dinheiro</span>
     <span><span class="chip divida">◆ Compromisso</span> dívida ou parcela com data para acabar</span>
   </div>
+</section>
+
+<!-- PARCELAS -->
+<section id="parcelas" hidden>
+  <div class="kpis" id="pKpis"></div>
+  <div class="months" id="pList"><div class="box small muted">Carregando parcelas…</div></div>
+  <p class="small muted">Atualizado pelo Claude a cada pagamento que você contar. O botão “Paguei esta” faz o mesmo direto daqui.</p>
 </section>
 
 <!-- MAPA -->
@@ -278,6 +289,7 @@ function status(t){const el=document.getElementById('sync');if(el)el.textContent
 async function connectCloud(){
   try{if(!window.claude||!claude.use)return;
     const [db,user]=await Promise.all([claude.use('db'),claude.use('user')]);
+    if(db)connectParcelas(db);else renderParcelas(true);
     if(!db||!user)return;const id=await user.id();if(!id)return;
     REF=db.collection('data/users/'+id).doc('plano2027v2');
     const snap=await REF.get();
@@ -285,6 +297,52 @@ async function connectCloud(){
     else status('Seus dados serão salvos na sua conta (privados)');
   }catch(e){status('Salvando só neste navegador')}
 }
+let PARC=null,PCOL=null;
+function connectParcelas(db){
+  PCOL=db.collection('parcelas');let ok=false;
+  const t=setTimeout(()=>{if(!ok)renderParcelas(true)},10000);
+  PCOL.onSnapshot(snap=>{ok=true;clearTimeout(t);PARC=snap.docs.map(d=>Object.assign({id:d.id},d.data()));applyParcelas();renderAll()},
+    ()=>{clearTimeout(t);renderParcelas(true)});
+}
+const addM=(ym,n)=>{const [y,m]=ym.split('-').map(Number);const d=new Date(y,m-1+n,1);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')};
+const ymLabel=ym=>{const [y,m]=ym.split('-').map(Number);return MESES[m-1].slice(0,3).toLowerCase()+'/'+String(y).slice(2)};
+function ultimaMes(p){const f=(+p.total||0)-(+p.pagas||0);return p.total&&p.ultimaPaga?addM(p.ultimaPaga,f):null}
+function applyParcelas(){
+  if(!PARC)return;
+  PARC.forEach(p=>{const c=S.contas.find(x=>x.n===p.conta);const um=ultimaMes(p);if(!c||!um)return;
+    const [y,m]=um.split('-').map(Number);const idx=(y-2027)*12+(m-1);
+    c.fim=idx>11?null:Math.max(idx,-1);c.d=(p.pagas||0)+' de '+p.total+((+p.total-(+p.pagas||0))>0?' · última em '+ymLabel(um):' · quitada');});
+}
+function renderParcelas(fail){
+  const el=$('#pList');if(!el)return;
+  if(!PARC){if(fail)el.innerHTML='<div class="box small muted">Não foi possível carregar as parcelas agora. Abra a página pelo claude.ai para ver esta aba.</div>';return}
+  if(!PARC.length){el.innerHTML='<div class="box small muted">Nenhuma parcela registrada ainda.</div>';$('#pKpis').innerHTML='';return}
+  const L=[...PARC].sort((a,b)=>(a.ordem||0)-(b.ordem||0));
+  const ativas=L.filter(p=>!p.total||(+p.pagas||0)<+p.total);
+  const mensal=ativas.reduce((s,p)=>s+(+p.valor||0),0);
+  const saldo=ativas.reduce((s,p)=>s+(p.total?(p.total-(p.pagas||0))*p.valor:0),0);
+  const prox=ativas.filter(p=>ultimaMes(p)).sort((a,b)=>ultimaMes(a)<ultimaMes(b)?-1:1)[0];
+  $('#pKpis').innerHTML=[
+    ['Por mês em parcelas',brl(mensal),ativas.length+' em andamento'],
+    ['Ainda falta pagar',brl(saldo),'só das que têm total conhecido'],
+    ['Próxima a acabar',prox?prox.nome:'—',prox?'última em '+ymLabel(ultimaMes(prox))+' · libera '+brl(+prox.valor)+'/mês':''],
+    ['Quitadas',String(L.length-ativas.length),'de '+L.length]
+  ].map(k=>`<div class="kpi"><span>${esc(k[0])}</span><b>${esc(k[1])}</b><span>${esc(k[2])}</span></div>`).join('');
+  el.innerHTML=L.map(p=>{
+    const pg=+p.pagas||0,tot=+p.total||0,f=tot?tot-pg:null,q=tot&&f<=0,um=ultimaMes(p);
+    return `<div class="month ${q?'quit done':''}"><header><h3>${esc(p.nome)}</h3><span class="chip ${p.tipo==='parcela'?'divida':'cortar'}">${esc(p.tipo||'parcela')}</span></header>
+    <div class="row" style="justify-content:space-between"><span class="small muted">Valor por mês</span><b>${brl(+p.valor||0)}${p.obs?' *':''}</b></div>
+    ${tot?`<div class="pbar"><i style="width:${pg/tot*100}%"></i></div>
+    <div class="row" style="justify-content:space-between"><span class="small">${pg} de ${tot} pagas</span><b style="font-size:20px" class="${q?'yes':''}">${q?'Quitada ✓':'Faltam '+f}</b></div>
+    ${q?'':`<div class="small muted">Última parcela em ${ymLabel(um)} · ainda deve ${brl(f*(+p.valor||0))}</div>`}`
+    :`<div class="small muted">Quantas parcelas faltam? Me conte no próximo check-in.</div>`}
+    ${p.obs?`<div class="small muted">* ${esc(p.obs)}</div>`:''}
+    ${tot&&!q?`<button class="btn" data-pago="${esc(p.id)}">Paguei esta</button>`:''}
+    </div>`}).join('');
+}
+$('#pList').addEventListener('click',async e=>{const id=e.target.dataset.pago;if(!id||!PCOL)return;const p=PARC.find(x=>x.id===id);if(!p)return;
+  if(!confirm('Marcar 1 parcela de '+p.nome+' como paga?'))return;e.target.disabled=true;
+  try{await PCOL.doc(id).update({pagas:(+p.pagas||0)+1,ultimaPaga:addM(p.ultimaPaga,1)})}catch(err){e.target.disabled=false;alert('Não foi possível salvar agora.')}});
 const $=s=>document.querySelector(s);
 const brl=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});
 const sum=(a,k)=>a.reduce((s,x)=>s+(+x[k]||0),0);
@@ -480,7 +538,7 @@ function renderDesign(){
 $('#tblDesign').addEventListener('change',e=>{const t=e.target,i=t.dataset.f;if(i==null)return;S.freelas[i][t.dataset.k]=+t.value||0;save();renderAll()});
 
 /* ---------- geral ---------- */
-function renderAll(){renderVisao();renderContas();renderMapa();renderVale();renderInvestir();renderDesign()}
+function renderAll(){applyParcelas();renderParcelas();renderVisao();renderContas();renderMapa();renderVale();renderInvestir();renderDesign()}
 $('#tabs').addEventListener('click',e=>{const t=e.target.dataset.t;if(!t)return;document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));document.querySelectorAll('main>section').forEach(s=>s.hidden=s.id!==t);try{localStorage.setItem(KEY+'.tab',t)}catch(e){};if(t==='visao')renderChart()});
 $('#horiz').addEventListener('click',e=>{const h=+e.target.dataset.h;if(!h)return;H=h;document.querySelectorAll('#horiz button').forEach(b=>b.classList.toggle('on',+b.dataset.h===h));renderChart()});
 $('#exp').addEventListener('click',async()=>{const data=JSON.stringify(S,null,2),filename='plano-financeiro-2027.json';
