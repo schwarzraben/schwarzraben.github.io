@@ -140,6 +140,7 @@ footer{max-width:1100px;margin:auto;padding:0 16px 40px;font-size:12px;color:var
       <label class="f">Recebe 13º salário?
         <select id="decimo"><option value="1">Sim (CLT)</option><option value="0">Não</option></select></label>
       <label class="f">Meta de aporte mensal (R$)<input type="number" id="metaAporte" step="50"></label>
+      <label class="f">Já guardado na caixinha (R$)<input type="number" id="inicial" step="0.01"></label>
     </div>
   </div>
   <p class="small muted">Seus valores reais de novembro/2026. <b>Hoje</b> = o que você paga agora; <b>Meta 2027</b> = depois dos ajustes. Parcelas somem da conta no mês em que acabam. Edite quando algo mudar.</p>
@@ -215,7 +216,7 @@ footer{max-width:1100px;margin:auto;padding:0 16px 40px;font-size:12px;color:var
 const KEY='fin2027.v2';
 const MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DEF={
-  renda:4945, decimo:0, metaAporte:1200, taxa:10.5,
+  renda:4945, inicial:1057.12, decimo:0, metaAporte:1200, taxa:10.5,
   contas:[
     {n:'Ajuda em casa',g:'Casa & família',a:300,m:300,t:'essencial',d:''},
     {n:'Seguro (casa)',g:'Casa & família',a:230,m:230,t:'essencial',d:'Na renovação, faça 2–3 cotações.'},
@@ -305,7 +306,7 @@ function calc(){
 }
 // projeção: aporte(i) por mês; 13º (metade investida) em nov/dez se CLT
 function proj(aporte,n,com13){
-  const c=calc(),out=[];let v=0;
+  const c=calc(),out=[];let v=+S.inicial||0;
   for(let i=0;i<n;i++){v=v*(1+c.r)+aporte(i);const m=i%12;if(com13&&S.decimo==1&&(m===10||m===11))v+=S.renda*0.25;out.push(v)}
   return out;
 }
@@ -376,7 +377,7 @@ function short(v){return v>=1000?'R$ '+(v/1000).toLocaleString('pt-BR',{maximumF
 
 /* ---------- CONTAS ---------- */
 function renderContas(){
-  $('#renda').value=S.renda;$('#decimo').value=S.decimo;$('#metaAporte').value=S.metaAporte;
+  $('#renda').value=S.renda;$('#decimo').value=S.decimo;$('#metaAporte').value=S.metaAporte;$('#inicial').value=S.inicial??0;
   const tags={essencial:'● Essencial',vale:'▲ Vale a pena',cortar:'▼ Cortar',divida:'◆ Compromisso'};
   const fmt=v=>(+v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
   let h=`<tr><th>Conta</th><th class="n">Hoje</th><th class="n">Meta 2027</th><th class="n">Economia</th><th>Tipo</th><th>Acaba em</th><th class="hide-sm">Dica</th></tr>`;
@@ -392,7 +393,7 @@ function renderContas(){
   $('#tblContas').innerHTML=h;
 }
 $('#tblContas').addEventListener('change',e=>{const t=e.target,i=t.dataset.i;if(i==null)return;const k=t.dataset.k;S.contas[i][k]=k==='t'?t.value:k==='fim'?(t.value===''?null:+t.value):+t.value||0;save();renderAll()});
-['renda','metaAporte'].forEach(id=>$('#'+id).addEventListener('change',e=>{S[id]=+e.target.value||0;save();renderAll()}));
+['renda','metaAporte','inicial'].forEach(id=>$('#'+id).addEventListener('change',e=>{S[id]=+e.target.value||0;save();renderAll()}));
 $('#decimo').addEventListener('change',e=>{S.decimo=+e.target.value;save();renderAll()});
 
 /* ---------- MAPA ---------- */
@@ -413,9 +414,9 @@ function renderMapa(){
     <div class="tag">Ação do mês</div><div class="small">${ev.a}</div>
     <div class="row" style="margin-top:4px"><label class="f" style="flex:1">Guardei de verdade (R$)<input type="number" data-m="${i}" data-k="ap" value="${ap??''}" placeholder="${Math.round(sob)}"></label>
     <label class="row small" style="gap:6px;margin-top:18px"><input type="checkbox" data-m="${i}" data-k="ok" ${m.ok?'checked':''}> Mês revisado</label></div></div>`}).join('');
-  const alvo=curve[11];
+  const alvo=curve[11]-(+S.inicial||0);
   $('#progVal').textContent=brl(real);
-  $('#progTxt').textContent=`guardado em 2027 · ${done}/12 meses revisados · alvo de dezembro ${brl(alvo)}`;
+  $('#progTxt').textContent=`guardado em 2027 · ${done}/12 meses revisados · meta de aportes no ano ${brl(alvo)}`;
   $('#progBar').style.width=Math.min(100,real/alvo*100)+'%';
 }
 $('#months').addEventListener('change',e=>{const t=e.target,i=t.dataset.m;if(i==null)return;S.meses[i]=S.meses[i]||{};S.meses[i][t.dataset.k]=t.type==='checkbox'?t.checked:t.value;save();renderMapa()});
@@ -444,7 +445,7 @@ function renderInvestir(){
   const c=calc();$('#taxa').value=S.taxa;
   const emp=S.contas.filter(x=>/empr[eé]stimo/i.test(x.n));
   $('#ladder').innerHTML=`
-  <div class="step"><h3>Mini-reserva de ${brl(1500)} na caixinha do Nubank</h3>
+  <div class="step"><h3>Mini-reserva de ${brl(1500)} na caixinha do Nubank${(+S.inicial||0)>=1500?' ✓':' · você já tem '+brl(+S.inicial||0)}</h3>
    <div class="small">A caixinha que você já usa serve: rende perto de 100% do CDI e você saca na hora. Esse colchão evita que um imprevisto vire empréstimo novo.</div></div>
   ${emp.length?`<div class="step"><h3>Quitar os empréstimos (${brl(emp.reduce((s,x)=>s+ +x.a,0))}/mês)</h3>
    <div class="small">Depois da mini-reserva, todo dinheiro extra vai para <b>antecipar as últimas parcelas</b>, começando pelo de juros mais alto (veja a taxa no app). Antecipar dá desconto nos juros, e cada empréstimo quitado vira sobra livre todo mês. Nenhum investimento seguro rende o que esses juros custam.</div></div>`:''}
