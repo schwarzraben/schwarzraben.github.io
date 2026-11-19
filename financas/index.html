@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plano Financeiro 2027</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#f6f5f2;--card:#fff;--ink:#1c1b19;--muted:#6b6862;--line:#e3e0d9;
+  --accent:#1f1f1f;--accent-ink:#fff;--ok:#15803d;--warn:#b45309;--bad:#b91c1c;--chip:#efece6;
+  --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--grid:#e9e6e0;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141413;--card:#1e1d1b;--ink:#f1efe9;--muted:#a19d95;--line:#33312d;
+  --accent:#f1efe9;--accent-ink:#141413;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171;--chip:#2a2926;
+  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--grid:#2c2b28;
+}}
+:root[data-theme="dark"]{
+  --bg:#141413;--card:#1e1d1b;--ink:#f1efe9;--muted:#a19d95;--line:#33312d;
+  --accent:#f1efe9;--accent-ink:#141413;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171;--chip:#2a2926;
+  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--grid:#2c2b28;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:20px 16px 4px;max-width:1100px;margin:auto;display:flex;flex-wrap:wrap;gap:12px;align-items:end;justify-content:space-between}
+h1{margin:0;font-size:22px;letter-spacing:-.02em}
+h1 small{display:block;font-size:13px;font-weight:400;color:var(--muted)}
+h2{font-size:17px;margin:22px 0 8px;letter-spacing:-.01em}
+h3{font-size:15px;margin:0 0 4px}
+main{max-width:1100px;margin:auto;padding:0 16px 60px}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 16px}
+nav.tabs button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer;font:inherit}
+nav.tabs button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 12px;border-radius:8px;cursor:pointer;font:inherit;font-size:14px}
+.btn.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.kpi b{display:block;font-size:24px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpi span{color:var(--muted);font-size:13px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.chip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 9px;font-size:12px;background:var(--chip);white-space:nowrap}
+.chip.essencial{color:var(--ink)}
+.chip.vale{color:var(--ok)}
+.chip.cortar{color:var(--bad)}
+input,select{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+input[type=number]{width:100%;max-width:120px;font-variant-numeric:tabular-nums}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)}
+label.f input{color:var(--ink);font-size:15px;max-width:none}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{text-align:left;font-weight:500;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em;padding:6px 8px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl td.n,.tbl th.n{text-align:right;font-variant-numeric:tabular-nums}
+.tbl tr.sub td{font-weight:600;background:var(--chip)}
+.tblwrap{overflow-x:auto}
+.bar{height:12px;border-radius:6px;background:var(--chip);overflow:hidden;display:flex;gap:2px}
+.bar i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted);margin:8px 0}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.months{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.month{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.month.done{border-color:var(--ok)}
+.month header{padding:0;margin:0;display:flex;justify-content:space-between;align-items:baseline}
+.month h3{font-size:16px}
+.month ul{margin:0;padding-left:18px;font-size:14px}
+.month li{margin:2px 0}
+.tag{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-top:4px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.progress{height:8px;border-radius:4px;background:var(--chip);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--ok);border-radius:4px}
+.ladder{counter-reset:s;display:grid;gap:10px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px 14px 56px;position:relative}
+.step::before{counter-increment:s;content:counter(s);position:absolute;left:16px;top:14px;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700;font-size:14px}
+.chart{position:relative}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.tip{position:absolute;pointer-events:none;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13px;box-shadow:0 4px 14px rgba(0,0,0,.12);display:none;min-width:170px;font-variant-numeric:tabular-nums}
+.tip div{display:flex;justify-content:space-between;gap:12px}
+.tip i{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:6px}
+.no{color:var(--bad)}.yes{color:var(--ok)}
+.hero{font-size:34px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+footer{max-width:1100px;margin:auto;padding:0 16px 40px;font-size:12px;color:var(--muted)}
+@media(max-width:600px){.hide-sm{display:none}.step{padding-left:50px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Plano Financeiro 2027<small>Janeiro a dezembro · orçamento, mapa mensal, investimentos e renda com design</small></h1>
+  <div class="row">
+    <button class="btn" id="exp">Exportar dados</button>
+    <label class="btn" style="cursor:pointer">Importar<input type="file" id="imp" accept="application/json" hidden></label>
+    <button class="btn" id="rst">Restaurar padrão</button>
+  </div>
+</header>
+<main>
+<nav class="tabs" id="tabs">
+  <button data-t="visao" class="on">Visão geral</button>
+  <button data-t="contas">Contas & orçamento</button>
+  <button data-t="mapa">Mapa 2027</button>
+  <button data-t="vale">Vale a pena?</button>
+  <button data-t="investir">Onde investir</button>
+  <button data-t="design">Renda com design</button>
+</nav>
+
+<!-- VISÃO -->
+<section id="visao">
+  <div class="kpis" id="kpis"></div>
+  <div class="box">
+    <h3>Para onde vai cada real (meta 2027)</h3>
+    <div class="bar" id="split" style="margin-top:10px"></div>
+    <div class="legend" id="splitLeg"></div>
+    <p class="small muted" style="margin:6px 0 0">Referência saudável: até 50% essencial · até 30% estilo de vida · 20%+ para o futuro.</p>
+  </div>
+  <div class="box">
+    <div class="row" style="justify-content:space-between">
+      <h3>Quanto o seu dinheiro vira</h3>
+      <div class="row" id="horiz">
+        <button class="btn on" data-h="12">2027</button>
+        <button class="btn" data-h="36">3 anos</button>
+        <button class="btn" data-h="60">5 anos</button>
+      </div>
+    </div>
+    <div class="legend" id="chartLeg"></div>
+    <div class="chart" id="chart"><div class="tip" id="tip"></div></div>
+    <div class="tblwrap"><table class="tbl" id="projTbl" style="margin-top:10px"></table></div>
+    <p class="small muted">Valores brutos, antes do IR, com rendimento de <span id="taxaTxt"></span> ao ano (ajuste na aba “Onde investir”). O cenário de design desconta 15% para impostos e taxas.</p>
+  </div>
+  <div class="box" id="resumo"></div>
+</section>
+
+<!-- CONTAS -->
+<section id="contas" hidden>
+  <div class="box">
+    <div class="grid">
+      <label class="f">Renda mensal líquida (R$)<input type="number" id="renda" step="5"></label>
+      <label class="f">Recebe 13º salário?
+        <select id="decimo"><option value="1">Sim (CLT)</option><option value="0">Não</option></select></label>
+      <label class="f">Meta de aporte mensal (R$)<input type="number" id="metaAporte" step="50"></label>
+    </div>
+  </div>
+  <p class="small muted">Valores de exemplo, calibrados para fechar com os seus R$ 600 de sobra atuais. <b>Troque pelos seus valores reais</b> — tudo é salvo neste navegador.</p>
+  <div class="tblwrap box" style="padding:6px 8px">
+    <table class="tbl" id="tblContas"></table>
+  </div>
+  <div class="legend">
+    <span><span class="chip essencial">● Essencial</span> manter, só otimizar</span>
+    <span><span class="chip vale">▲ Vale a pena</span> gera valor ou renda</span>
+    <span><span class="chip cortar">▼ Cortar</span> vazamento de dinheiro</span>
+  </div>
+</section>
+
+<!-- MAPA -->
+<section id="mapa" hidden>
+  <div class="box">
+    <div class="row" style="justify-content:space-between">
+      <div><h3>Progresso de 2027</h3><span class="small muted" id="progTxt"></span></div>
+      <div class="hero" id="progVal"></div>
+    </div>
+    <div class="progress" style="margin-top:8px"><i id="progBar"></i></div>
+  </div>
+  <div class="box small" id="caixinha"></div>
+  <div class="months" id="months"></div>
+</section>
+
+<!-- VALE -->
+<section id="vale" hidden>
+  <div class="box">
+    <h3>Calculadora: quanto isso custa de verdade?</h3>
+    <div class="grid" style="margin-top:8px">
+      <label class="f">Preço da compra (R$)<input type="number" id="vPreco" value="400" step="10"></label>
+      <label class="f">Quantas vezes você vai usar?<input type="number" id="vUsos" value="10"></label>
+      <label class="f">Isso gera renda no seu trabalho?
+        <select id="vRenda"><option value="0">Não</option><option value="1">Sim</option></select></label>
+      <label class="f">Quanto de renda por mês, se sim (R$)<input type="number" id="vRet" value="0" step="50"></label>
+    </div>
+    <div class="grid" id="vOut" style="margin-top:12px"></div>
+  </div>
+  <div class="grid">
+    <div class="box"><h3 class="yes">✓ Vale a pena gastar</h3><ul id="valeSim"></ul></div>
+    <div class="box"><h3 class="no">✕ Não vale a pena</h3><ul id="valeNao"></ul></div>
+  </div>
+  <div class="box"><h3>Regras de ouro</h3><ul id="regras"></ul></div>
+</section>
+
+<!-- INVESTIR -->
+<section id="investir" hidden>
+  <div class="box">
+    <div class="grid">
+      <label class="f">Rendimento anual estimado (% a.a.)<input type="number" id="taxa" step="0.1"></label>
+      <div class="small muted">Use algo próximo ao CDI do momento. Com a Selic em queda em 2027, um valor de 10% a 11% é uma estimativa conservadora — confira a taxa atual antes de investir.</div>
+    </div>
+  </div>
+  <div class="ladder" id="ladder"></div>
+  <div class="box"><h3 class="no">Evite</h3><ul id="evitar"></ul></div>
+</section>
+
+<!-- DESIGN -->
+<section id="design" hidden>
+  <div class="kpis" id="dKpis"></div>
+  <div class="tblwrap box" style="padding:6px 8px"><table class="tbl" id="tblDesign"></table></div>
+  <div class="grid">
+    <div class="box"><h3>Como fechar os primeiros clientes</h3><ul id="dPlano"></ul></div>
+    <div class="box"><h3>Precifique certo</h3><div id="dPreco"></div></div>
+  </div>
+</section>
+</main>
+<footer>Planejamento educativo, não é recomendação individual de investimento. Taxas, regras de IR e prazos mudam — confirme antes de decidir.</footer>
+
+<script>
+const KEY='fin2027.v1';
+const MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DEF={
+  renda:4945, decimo:1, metaAporte:1200, taxa:10.5,
+  contas:[
+    {n:'Aluguel / moradia',g:'Fixas',a:900,m:900,t:'essencial',d:'Ideal: até 30% da renda.'},
+    {n:'Energia',g:'Fixas',a:190,m:175,t:'essencial',d:'Bandeira tarifária sobe no 2º semestre; tire aparelhos do stand-by.'},
+    {n:'Água',g:'Fixas',a:70,m:70,t:'essencial',d:''},
+    {n:'Internet fibra',g:'Fixas',a:100,m:100,t:'vale',d:'Ferramenta de trabalho. Não corte — negocie.'},
+    {n:'Celular',g:'Fixas',a:50,m:40,t:'essencial',d:'Plano controle resolve.'},
+    {n:'Softwares de design',g:'Fixas',a:180,m:150,t:'vale',d:'Plano anual sai ~15–20% mais barato. Cancele o que não usou.'},
+    {n:'Saúde / farmácia',g:'Fixas',a:200,m:200,t:'essencial',d:''},
+    {n:'Transporte / combustível',g:'Fixas',a:350,m:330,t:'essencial',d:'Agrupe saídas e reuniões no mesmo dia.'},
+    {n:'Mercado',g:'Variáveis',a:800,m:760,t:'essencial',d:'Lista + compra grande no atacarejo: −5% a −10%.'},
+    {n:'Delivery / lanches',g:'Variáveis',a:350,m:220,t:'cortar',d:'Maior vazamento. 2 pedidos a menos por semana ≈ R$ 130.'},
+    {n:'Lazer / saídas',g:'Variáveis',a:250,m:230,t:'vale',d:'Lazer planejado vale. Não zere — limite.'},
+    {n:'Streamings / assinaturas',g:'Variáveis',a:90,m:50,t:'cortar',d:'Fique com 1–2 e faça rodízio mensal.'},
+    {n:'Roupas / cuidados',g:'Variáveis',a:180,m:170,t:'vale',d:''},
+    {n:'Compras por impulso / parcelas',g:'Variáveis',a:350,m:200,t:'cortar',d:'Regra das 48h e nada de parcelar desejo.'},
+    {n:'Presentes / datas',g:'Variáveis',a:120,m:100,t:'vale',d:'Vai para a caixinha sazonal (veja Mapa).'},
+    {n:'Imprevistos',g:'Variáveis',a:165,m:150,t:'essencial',d:'Conserto, remédio, taxa inesperada.'}
+  ],
+  freelas:[
+    {n:'Social media (12 posts/mês)',p:550,q:1,d:'Recorrente: a base da renda extra.'},
+    {n:'Identidade visual p/ pequeno negócio',p:1200,q:0.25,d:'1 a cada 4 meses.'},
+    {n:'Peças de campanha (datas comerciais)',p:250,q:1,d:'Cardápio, cartaz, post de data.'},
+    {n:'Templates digitais (Canva/Figma)',p:30,q:4,d:'Faz uma vez, vende várias.'}
+  ],
+  meses:{}
+};
+const EVENTOS=[
+ {e:['IPVA / IPTU (se tiver)','Volta às aulas, matrículas'],x:300,o:'Liquidações e volta às aulas: posts para lojas e escolas.',a:'Abra um CDB de liquidez diária só para a reserva e agende o aporte para o dia do pagamento.'},
+ {e:['Carnaval (8 e 9/fev)'],x:250,o:'Campanhas de Carnaval para bares e eventos (venda já em janeiro).',a:'Defina o teto do Carnaval antes de sair e leve só esse valor.'},
+ {e:['Dia do Consumidor (15/3)','Páscoa (28/3)','Abre a declaração do IR'],x:100,o:'Páscoa para confeitarias, chocolaterias e mercados.',a:'Corte trimestral: revise todas as assinaturas.'},
+ {e:['Prazo da declaração do IR'],x:0,o:'Publique 3 cases do 1º trimestre (Behance + Instagram).',a:'Se houver restituição, 100% vai para a reserva.'},
+ {e:['Dia das Mães (9/5)'],x:120,o:'2ª maior data do comércio: pacote de campanha para lojas.',a:'Feche já os pacotes do São João com clientes locais.'},
+ {e:['São João (pico na Bahia)','Dia dos Namorados (12/6)'],x:400,o:'Maior temporada local: cartazes, camisas, flyers, campanhas juninas.',a:'Use a caixinha sazonal — o São João não pode sair da reserva.'},
+ {e:['Férias escolares','Revisão do meio do ano'],x:150,o:'Reajuste seus pacotes em ~10% para novos clientes.',a:'Checkpoint: reserva deve estar perto da metade da meta.'},
+ {e:['Dia dos Pais (8/8)'],x:120,o:'Campanha de Dia dos Pais para lojas de roupa e ótica.',a:'Comece a dividir aportes: parte para longo prazo (veja Onde investir).'},
+ {e:['Dia do Cliente (15/9)','Semana do Brasil'],x:50,o:'Prospecte clientes para Black Friday e Natal — vender agora.',a:'Monte a lista do que vale comprar na Black Friday (e só isso).'},
+ {e:['Dia das Crianças (12/10)'],x:120,o:'Feche pacotes de Black Friday + Natal com pagamento antecipado.',a:'Revise o preço da sua hora de trabalho.'},
+ {e:['Black Friday (26/11)','1ª parcela do 13º (até 30/11)'],x:0,o:'Pico de demanda: entregue campanhas e peça indicações.',a:'Black Friday só para itens da lista feita em setembro.'},
+ {e:['2ª parcela do 13º (até 20/12)','Natal e Réveillon'],x:500,o:'Campanhas de fim de ano e venda de pacotes 2028.',a:'Divida o 13º: 50% investir, 30% metas, 20% festas. Monte o plano 2028.'}
+];
+const VALE_SIM=['Ferramentas que geram renda: computador, softwares, internet, tablet — se se pagam em até 3 meses de freela.','Cursos com aplicação direta em serviços que você já vende (motion, branding, UI).','Saúde, sono e alimentação básica — cortar aqui sai mais caro depois.','Lazer planejado e dentro do teto: evita a “compra de compensação”.','Portfólio: domínio, mockups e tempo para cases bem apresentados.'];
+const VALE_NAO=['Delivery por cansaço várias vezes por semana.','Parcelar desejos (roupa, eletrônico) no cartão — compromete meses futuros.','Assinaturas esquecidas e apps pagos que você abre 1x por mês.','Upgrade de equipamento sem demanda que justifique.','Comprar na Black Friday algo que não estava na lista.','Juros de cartão rotativo e cheque especial — é a dívida mais cara que existe.'];
+const REGRAS=['<b>Pague-se primeiro:</b> o aporte sai no dia do pagamento, antes de qualquer gasto.','<b>48 horas:</b> desejo acima de R$ 150 espera 2 dias. Se ainda fizer sentido, compre à vista.','<b>Conta separada para o freela:</b> 15% para impostos/taxas, o resto entra no plano.','<b>Aumento de renda não vira aumento de padrão:</b> pelo menos 70% de toda renda extra vai para investimento.','<b>Revisão mensal de 15 minutos:</b> marque o mês como concluído no Mapa 2027.'];
+const EVITAR=['Poupança: rende menos que Tesouro Selic e CDB 100% CDI.','Títulos de capitalização e consórcio “como investimento”.','Day trade, cripto alavancada, “robôs” e promessas de retorno garantido alto (pirâmide).','Ações individuais antes de ter a reserva de emergência completa.','Previdência privada com taxa de administração alta.'];
+
+let S;
+function load(){try{const r=localStorage.getItem(KEY);S=r?Object.assign(structuredClone(DEF),JSON.parse(r)):structuredClone(DEF)}catch(e){S=structuredClone(DEF)}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const $=s=>document.querySelector(s);
+const brl=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});
+const sum=(a,k)=>a.reduce((s,x)=>s+(+x[k]||0),0);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function calc(){
+  const ga=sum(S.contas,'a'), gm=sum(S.contas,'m');
+  const sobraAtual=S.renda-ga, sobraMeta=S.renda-gm;
+  const bruto=S.freelas.reduce((s,f)=>s+f.p*f.q,0), liqDesign=bruto*0.85;
+  const r=Math.pow(1+S.taxa/100,1/12)-1;
+  const extras=EVENTOS.reduce((s,e)=>s+e.x,0);
+  return {ga,gm,sobraAtual,sobraMeta,bruto,liqDesign,r,extras,caixinha:Math.ceil(extras/12/5)*5,
+    reserva6:gm*6, reserva3:gm*3};
+}
+// projeção: aporte mensal; 13º (50%) entra em nov/dez de cada ano nos cenários com plano
+function proj(aporte,n,com13){
+  const c=calc(),out=[];let v=0;
+  for(let i=0;i<n;i++){v=v*(1+c.r)+aporte;const m=i%12;if(com13&&S.decimo==1&&(m===10||m===11))v+=S.renda*0.5*0.5;out.push(v)}
+  return out;
+}
+
+/* ---------- VISÃO ---------- */
+function renderVisao(){
+  const c=calc();
+  const fim=proj(c.sobraMeta+c.liqDesign,12,true)[11];
+  $('#kpis').innerHTML=[
+    ['Renda mensal',brl(S.renda),'líquida'],
+    ['Sobra hoje',brl(c.sobraAtual),(c.sobraAtual/S.renda*100).toFixed(0)+'% da renda'],
+    ['Sobra com o plano',brl(c.sobraMeta),'só com cortes inteligentes'],
+    ['+ design (líquido)',brl(c.liqDesign),'renda extra/mês'],
+    ['Aporte total/mês',brl(c.sobraMeta+c.liqDesign),((c.sobraMeta+c.liqDesign)/600).toLocaleString('pt-BR',{maximumFractionDigits:1})+'× os R$ 600 atuais'],
+    ['Patrimônio dez/2027',brl(fim),'cenário plano + design']
+  ].map(k=>`<div class="kpi"><span>${k[0]}</span><b>${k[1]}</b><span>${k[2]}</span></div>`).join('');
+  // split
+  const ess=S.contas.filter(x=>x.t==='essencial').reduce((s,x)=>s+ +x.m,0);
+  const est=S.contas.filter(x=>x.t!=='essencial').reduce((s,x)=>s+ +x.m,0);
+  const fut=Math.max(0,c.sobraMeta), tot=ess+est+fut;
+  const parts=[['Essencial',ess,'var(--s1)'],['Estilo de vida / trabalho',est,'var(--s2)'],['Futuro (aporte)',fut,'var(--s3)']];
+  $('#split').innerHTML=parts.map(p=>`<i style="width:${p[1]/tot*100}%;background:${p[2]}" title="${p[0]}: ${brl(p[1])}"></i>`).join('');
+  $('#splitLeg').innerHTML=parts.map(p=>`<span><i style="background:${p[2]}"></i>${p[0]} · ${brl(p[1])} (${(p[1]/S.renda*100).toFixed(0)}%)</span>`).join('');
+  $('#taxaTxt').textContent=S.taxa.toLocaleString('pt-BR')+'%';
+  renderChart();
+  const meta=S.metaAporte, total=c.sobraMeta+c.liqDesign;
+  $('#resumo').innerHTML=`<h3>Diagnóstico</h3><ul>
+   <li>Você já poupa ${(c.sobraAtual/S.renda*100).toFixed(0)}% da renda — um ótimo começo. O desafio agora não é disciplina, é <b>escala</b>.</li>
+   <li>Só ajustando delivery, impulso e assinaturas você libera <b>${brl(c.sobraMeta-c.sobraAtual)}/mês</b>, sem cortar nada essencial.</li>
+   <li>Com ${brl(c.liqDesign)} líquidos de design, o aporte vai para <b>${brl(total)}</b> — ${total>=meta?'<span class="yes">meta de '+brl(meta)+' batida ✓</span>':'<span class="no">faltam '+brl(meta-total)+' para a meta</span>'}.</li>
+   <li>Prioridade de 2027: montar a <b>reserva de emergência</b> (${brl(c.reserva6)} = 6 meses de custo). Como sua renda passa a ter parte variável, ela é o que deixa você recusar cliente ruim.</li>
+  </ul>`;
+}
+let H=12;
+function renderChart(){
+  const c=calc();
+  const S1=proj(600,H,false), S2=proj(Math.max(c.sobraMeta,0),H,true), S3=proj(Math.max(c.sobraMeta,0)+c.liqDesign,H,true);
+  const series=[{n:'Hoje (R$ 600/mês)',v:S1,c:'var(--s1)'},{n:'Com o plano',v:S2,c:'var(--s2)'},{n:'Plano + design',v:S3,c:'var(--s3)'}];
+  $('#chartLeg').innerHTML=series.map(s=>`<span><i style="background:${s.c}"></i>${s.n}</span>`).join('');
+  const W=720,Hh=280,L=64,R=110,T=12,B=28,iw=W-L-R,ih=Hh-T-B;
+  const max=Math.max(...S3)*1.08, step=niceStep(max/4);
+  const x=i=>L+(H===1?0:i/(H-1)*iw), y=v=>T+ih-v/max*ih;
+  let g='';
+  for(let v=0;v<=max;v+=step)g+=`<line x1="${L}" x2="${L+iw}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${L-8}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="var(--muted)">${short(v)}</text>`;
+  const lab=[];for(let i=0;i<H;i++){if(H===12||i%12===11||i===0){const yr=2027+Math.floor(i/12);lab.push(`<text x="${x(i)}" y="${Hh-8}" text-anchor="middle" font-size="11" fill="var(--muted)">${H===12?MESES[i].slice(0,3):(i===0?'jan/27':'dez/'+String(yr).slice(2))}</text>`)}}
+  const lines=series.map(s=>`<path d="${s.v.map((v,i)=>(i?'L':'M')+x(i).toFixed(1)+','+y(v).toFixed(1)).join('')}" fill="none" stroke="${s.c}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`).join('');
+  // direct end labels, de-collided
+  const ends=series.map(s=>({s,y:y(s.v[H-1])})).sort((a,b)=>a.y-b.y);
+  for(let i=1;i<ends.length;i++)if(ends[i].y-ends[i-1].y<28)ends[i].y=ends[i-1].y+28;
+  const endL=ends.map(e=>`<circle cx="${x(H-1)}" cy="${y(e.s.v[H-1])}" r="4" fill="${e.s.c}" stroke="var(--card)" stroke-width="2"/><text x="${x(H-1)+10}" y="${e.y-2}" font-size="12" fill="var(--ink)" font-weight="600">${brl(e.s.v[H-1])}</text><text x="${x(H-1)+10}" y="${e.y+12}" font-size="11" fill="var(--muted)">${e.s.n.split(' (')[0]}</text>`).join('');
+  const box=$('#chart');
+  box.innerHTML=`<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="Projeção de patrimônio">${g}${lab.join('')}${lines}<line id="xh" y1="${T}" y2="${T+ih}" stroke="var(--muted)" stroke-dasharray="3 3" visibility="hidden"/>${endL}<rect x="${L}" y="${T}" width="${iw}" height="${ih}" fill="transparent" id="hit"/></svg><div class="tip" id="tip"></div>`;
+  const svg=box.querySelector('svg'),tip=box.querySelector('#tip'),xh=svg.querySelector('#xh');
+  const move=ev=>{const p=svg.createSVGPoint();const t=ev.touches?ev.touches[0]:ev;p.x=t.clientX;p.y=t.clientY;const q=p.matrixTransform(svg.getScreenCTM().inverse());
+    const i=Math.max(0,Math.min(H-1,Math.round((q.x-L)/iw*(H-1))));xh.setAttribute('x1',x(i));xh.setAttribute('x2',x(i));xh.setAttribute('visibility','visible');
+    tip.innerHTML=`<b>${MESES[i%12]} ${2027+Math.floor(i/12)}</b>`+series.map(s=>`<div><span><i style="background:${s.c}"></i>${s.n.split(' (')[0]}</span><span>${brl(s.v[i])}</span></div>`).join('');
+    tip.style.display='block';const bw=box.clientWidth,px=x(i)/W*bw;tip.style.left=Math.min(px+12,bw-tip.offsetWidth-4)+'px';tip.style.top='10px'};
+  const hide=()=>{tip.style.display='none';xh.setAttribute('visibility','hidden')};
+  const hit=svg.querySelector('#hit');hit.addEventListener('mousemove',move);hit.addEventListener('touchmove',move,{passive:true});hit.addEventListener('mouseleave',hide);
+  // tabela
+  const marks=H===12?[2,5,8,11]:[11,23,35,47,59].filter(i=>i<H);
+  $('#projTbl').innerHTML=`<tr><th>Cenário</th>${marks.map(i=>`<th class="n">${H===12?MESES[i].slice(0,3):'dez/'+(27+Math.floor(i/12))}</th>`).join('')}</tr>`+series.map(s=>`<tr><td><span class="legend" style="margin:0"><span><i style="background:${s.c}"></i>${s.n}</span></span></td>${marks.map(i=>`<td class="n">${brl(s.v[i])}</td>`).join('')}</tr>`).join('');
+}
+function niceStep(v){const p=Math.pow(10,Math.floor(Math.log10(v)));const f=v/p;return (f<1.5?1:f<3?2:f<7?5:10)*p}
+function short(v){return v>=1000?'R$ '+(v/1000).toLocaleString('pt-BR',{maximumFractionDigits:0})+' mil':'R$ '+v}
+
+/* ---------- CONTAS ---------- */
+function renderContas(){
+  $('#renda').value=S.renda;$('#decimo').value=S.decimo;$('#metaAporte').value=S.metaAporte;
+  const tags={essencial:'● Essencial',vale:'▲ Vale a pena',cortar:'▼ Cortar'};
+  let h=`<tr><th>Conta</th><th class="n">Hoje</th><th class="n">Meta 2027</th><th class="n">Economia</th><th>Tipo</th><th class="hide-sm">Dica</th></tr>`;
+  ['Fixas','Variáveis'].forEach(g=>{
+    const it=S.contas.map((x,i)=>[x,i]).filter(([x])=>x.g===g);
+    h+=`<tr class="sub"><td colspan="6">Contas ${g.toLowerCase()}</td></tr>`;
+    it.forEach(([x,i])=>{h+=`<tr><td>${esc(x.n)}</td><td class="n"><input type="number" data-i="${i}" data-k="a" value="${x.a}" step="5"></td><td class="n"><input type="number" data-i="${i}" data-k="m" value="${x.m}" step="5"></td><td class="n ${x.a-x.m>0?'yes':''}">${x.a-x.m?brl(x.a-x.m):'—'}</td><td><select data-i="${i}" data-k="t">${Object.keys(tags).map(t=>`<option value="${t}" ${t===x.t?'selected':''}>${tags[t]}</option>`).join('')}</select></td><td class="small muted hide-sm">${esc(x.d)}</td></tr>`});
+  });
+  const c=calc();
+  h+=`<tr class="sub"><td>Total de gastos</td><td class="n">${brl(c.ga)}</td><td class="n">${brl(c.gm)}</td><td class="n">${brl(c.ga-c.gm)}</td><td colspan="2"></td></tr>`;
+  h+=`<tr class="sub"><td>Sobra para investir</td><td class="n">${brl(c.sobraAtual)}</td><td class="n">${brl(c.sobraMeta)}</td><td colspan="3" class="small muted">Meta: ${brl(S.metaAporte)} · design completa o resto</td></tr>`;
+  $('#tblContas').innerHTML=h;
+}
+$('#tblContas').addEventListener('change',e=>{const t=e.target,i=t.dataset.i;if(i==null)return;S.contas[i][t.dataset.k]=t.dataset.k==='t'?t.value:+t.value||0;save();renderAll()});
+['renda','metaAporte'].forEach(id=>$('#'+id).addEventListener('change',e=>{S[id]=+e.target.value||0;save();renderAll()}));
+$('#decimo').addEventListener('change',e=>{S.decimo=+e.target.value;save();renderAll()});
+
+/* ---------- MAPA ---------- */
+function renderMapa(){
+  const c=calc(),plano=Math.max(c.sobraMeta,0)+c.liqDesign;let acc=0,real=0,done=0;
+  const curve=proj(plano,12,true);
+  $('#caixinha').innerHTML=`<b>Caixinha sazonal:</b> as datas de 2027 somam cerca de ${brl(c.extras)} em gastos extras. Separe <b>${brl(c.caixinha)}/mês</b> (sai das linhas “Presentes/datas” e “Imprevistos”) para que Carnaval, São João e Natal nunca toquem na reserva.`;
+  $('#months').innerHTML=EVENTOS.map((ev,i)=>{
+    const m=S.meses[i]||{};const ap=m.ap!=null&&m.ap!==''?+m.ap:null;if(ap!=null)real+=ap;if(m.ok)done++;
+    const t13=S.decimo==1&&(i===10||i===11)?`<li><b>13º:</b> ~${brl(S.renda/2)} — invista metade (${brl(S.renda/4)}).</li>`:'';
+    return `<div class="month ${m.ok?'done':''}"><header><h3>${MESES[i]}</h3><span class="small muted">meta acumulada ${brl(curve[i])}</span></header>
+    <div class="tag">Datas & contas extras · ~${brl(ev.x)}</div><ul>${ev.e.map(x=>`<li>${x}</li>`).join('')}${t13}</ul>
+    <div class="tag">Oportunidade de design</div><div class="small">${ev.o}</div>
+    <div class="tag">Ação do mês</div><div class="small">${ev.a}</div>
+    <div class="row" style="margin-top:4px"><label class="f" style="flex:1">Aportei de verdade (R$)<input type="number" data-m="${i}" data-k="ap" value="${ap??''}" placeholder="${Math.round(plano)}"></label>
+    <label class="row small" style="gap:6px;margin-top:18px"><input type="checkbox" data-m="${i}" data-k="ok" ${m.ok?'checked':''}> Mês revisado</label></div></div>`}).join('');
+  const alvo=curve[11];
+  $('#progVal').textContent=brl(real);
+  $('#progTxt').textContent=`aportado em 2027 · ${done}/12 meses revisados · alvo de dezembro ${brl(alvo)}`;
+  $('#progBar').style.width=Math.min(100,real/alvo*100)+'%';
+}
+$('#months').addEventListener('change',e=>{const t=e.target,i=t.dataset.m;if(i==null)return;S.meses[i]=S.meses[i]||{};S.meses[i][t.dataset.k]=t.type==='checkbox'?t.checked:t.value;save();renderMapa()});
+
+/* ---------- VALE ---------- */
+function renderVale(){
+  const c=calc(),hora=S.renda/176,preco=+$('#vPreco').value||0,usos=Math.max(1,+$('#vUsos').value||1),gera=$('#vRenda').value==='1',ret=+$('#vRet').value||0;
+  const fut=preco*Math.pow(1+c.r,60),meses=gera&&ret>0?preco/ret:null;
+  let ver,cls;
+  if(gera&&meses!=null&&meses<=3){ver='Vale a pena: se paga em '+meses.toFixed(1)+' meses de trabalho.';cls='yes'}
+  else if(gera&&meses!=null){ver='Talvez: leva '+meses.toFixed(0)+' meses para se pagar. Só com demanda confirmada.';cls=''}
+  else if(preco/usos<=15){ver='Ok, custo por uso baixo ('+brl(preco/usos)+'). Compre à vista, se couber no teto.';cls='yes'}
+  else{ver='Pense 48h. Cada uso custa '+brl(preco/usos)+'.';cls='no'}
+  $('#vOut').innerHTML=`<div class="kpi"><span>Horas de trabalho</span><b>${(preco/hora).toFixed(1)} h</b><span>sua hora vale ~${brl(hora)}</span></div>
+  <div class="kpi"><span>Custo por uso</span><b>${brl(preco/usos)}</b><span>${usos} usos</span></div>
+  <div class="kpi"><span>Se investisse por 5 anos</span><b>${brl(fut)}</b><span>a ${S.taxa}% a.a.</span></div>
+  <div class="kpi"><span>Veredito</span><b style="font-size:16px;line-height:1.35" class="${cls}">${ver}</b></div>`;
+}
+['vPreco','vUsos','vRenda','vRet'].forEach(id=>$('#'+id).addEventListener('input',renderVale));
+$('#valeSim').innerHTML=VALE_SIM.map(x=>`<li>${x}</li>`).join('');
+$('#valeNao').innerHTML=VALE_NAO.map(x=>`<li>${x}</li>`).join('');
+$('#regras').innerHTML=REGRAS.map(x=>`<li>${x}</li>`).join('');
+
+/* ---------- INVESTIR ---------- */
+function renderInvestir(){
+  const c=calc();$('#taxa').value=S.taxa;
+  const plano=Math.max(c.sobraMeta,0)+c.liqDesign,mR3=Math.ceil(c.reserva3/plano);
+  $('#ladder').innerHTML=`
+  <div class="step"><h3>Reserva de emergência — fase 1: ${brl(c.reserva3)} (3 meses de custo)</h3>
+   <div class="small">100% dos aportes até chegar lá. No seu ritmo de ${brl(plano)}/mês, leva cerca de <b>${mR3} meses</b>.<br>
+   <b>Onde:</b> Tesouro Selic ou CDB de liquidez diária pagando 100% do CDI ou mais, em banco coberto pelo FGC. Precisa poder sacar no mesmo dia.</div></div>
+  <div class="step"><h3>Reserva — fase 2: até ${brl(c.reserva6)} (6 meses)</h3>
+   <div class="small">Como parte da sua renda vem de freela, 6 meses é o alvo. A partir daqui divida: <b>60% reserva / 40% longo prazo</b>, até completar.</div></div>
+  <div class="step"><h3>Invista no seu trabalho (com regra)</h3>
+   <div class="small">Curso, equipamento ou software entra só se <b>se pagar em até 3 meses</b> de renda extra (use a calculadora “Vale a pena?”). Esse é o investimento com maior retorno para quem está começando.</div></div>
+  <div class="step"><h3>Longo prazo: renda fixa que protege da inflação</h3>
+   <div class="small"><b>Tesouro IPCA+</b> (prazo de 5 a 10 anos), <b>LCI/LCA</b> (isentas de IR para pessoa física pelas regras atuais) e CDBs prefixados de bancos sólidos. Leve até o vencimento para evitar oscilação.</div></div>
+  <div class="step"><h3>Depois da reserva completa: 10% a 20% em renda variável</h3>
+   <div class="small">ETFs amplos e baratos (índice da bolsa brasileira e S&P 500) com aporte mensal fixo, sem tentar acertar o momento. Horizonte de 5+ anos.</div></div>`;
+  $('#evitar').innerHTML=EVITAR.map(x=>`<li>${x}</li>`).join('');
+}
+$('#taxa').addEventListener('change',e=>{S.taxa=+e.target.value||0;save();renderAll()});
+
+/* ---------- DESIGN ---------- */
+function renderDesign(){
+  const c=calc(),falta=Math.max(0,S.metaAporte-Math.max(c.sobraMeta,0)),hora=S.renda/176;
+  $('#dKpis').innerHTML=[
+    ['Renda bruta de design',brl(c.bruto)+'/mês',''],
+    ['Líquido (−15% impostos/taxas)',brl(c.liqDesign)+'/mês',''],
+    ['Necessário p/ bater a meta',brl(falta/0.85)+' bruto',`para aportar ${brl(S.metaAporte)}`],
+    ['Em 2027',brl(c.liqDesign*12),'de renda extra líquida']
+  ].map(k=>`<div class="kpi"><span>${k[0]}</span><b>${k[1]}</b><span>${k[2]}</span></div>`).join('');
+  $('#tblDesign').innerHTML=`<tr><th>Serviço</th><th class="n">Preço (R$)</th><th class="n">Qtd/mês</th><th class="n">Por mês</th><th class="hide-sm">Por quê</th></tr>`+
+   S.freelas.map((f,i)=>`<tr><td>${esc(f.n)}</td><td class="n"><input type="number" data-f="${i}" data-k="p" value="${f.p}" step="10"></td><td class="n"><input type="number" data-f="${i}" data-k="q" value="${f.q}" step="0.25"></td><td class="n">${brl(f.p*f.q)}</td><td class="small muted hide-sm">${esc(f.d)}</td></tr>`).join('')+
+   `<tr class="sub"><td>Total</td><td></td><td></td><td class="n">${brl(c.bruto)}</td><td class="hide-sm"></td></tr>`;
+  $('#dPlano').innerHTML=['<b>Use o que você já tem:</b> seu sistema de captação de clientes em Guanambi vira a fonte de leads para os pacotes.','<b>1 cliente recorrente de social media</b> já paga quase toda a meta. Comece por ele.','<b>Venda pelo calendário:</b> ofereça a campanha da data 4 a 6 semanas antes (veja Mapa 2027).','<b>Pacote fechado, preço fechado:</b> escopo, nº de alterações e prazo por escrito. 50% na entrada.','<b>Templates digitais:</b> transforme peças que já fez em modelos e venda online — renda que não depende de hora.','<b>Formalize:</b> veja com um contador se sua atividade cabe no MEI ou no Simples Nacional; emitir nota abre portas com empresas.'].map(x=>`<li>${x}</li>`).join('');
+  $('#dPreco').innerHTML=`<p class="small">Sua hora hoje, pelo salário, vale cerca de <b>${brl(hora)}</b>. Freela precisa cobrar pelo menos o dobro (sem férias, 13º ou equipamento pago):</p>
+   <div class="hero">${brl(Math.ceil(hora*2/5)*5)}/h</div><p class="small muted">Preço mínimo da sua hora de freela. Ex.: identidade visual de ~20h → mínimo ${brl(Math.ceil(hora*2/5)*5*20)}.</p>`;
+}
+$('#tblDesign').addEventListener('change',e=>{const t=e.target,i=t.dataset.f;if(i==null)return;S.freelas[i][t.dataset.k]=+t.value||0;save();renderAll()});
+
+/* ---------- geral ---------- */
+function renderAll(){renderVisao();renderContas();renderMapa();renderVale();renderInvestir();renderDesign()}
+$('#tabs').addEventListener('click',e=>{const t=e.target.dataset.t;if(!t)return;document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));document.querySelectorAll('main>section').forEach(s=>s.hidden=s.id!==t);try{localStorage.setItem(KEY+'.tab',t)}catch(e){};if(t==='visao')renderChart()});
+$('#horiz').addEventListener('click',e=>{const h=+e.target.dataset.h;if(!h)return;H=h;document.querySelectorAll('#horiz button').forEach(b=>b.classList.toggle('on',+b.dataset.h===h));renderChart()});
+$('#exp').addEventListener('click',()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:'application/json'}));a.download='plano-financeiro-2027.json';a.click()});
+$('#imp').addEventListener('change',async e=>{try{const d=JSON.parse(await e.target.files[0].text());S=Object.assign(structuredClone(DEF),d);save();renderAll()}catch(err){alert('Arquivo inválido')}});
+$('#rst').addEventListener('click',()=>{if(confirm('Apagar seus valores e voltar ao exemplo?')){S=structuredClone(DEF);save();renderAll()}});
+load();renderAll();
+try{const t=localStorage.getItem(KEY+'.tab');if(t&&$('#'+t))$(`#tabs button[data-t="${t}"]`).click()}catch(e){}
+</script>
+</body>
+</html>
