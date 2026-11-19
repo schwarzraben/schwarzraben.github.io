@@ -308,10 +308,15 @@ const addM=(ym,n)=>{const [y,m]=ym.split('-').map(Number);const d=new Date(y,m-1
 const ymLabel=ym=>{const [y,m]=ym.split('-').map(Number);return MESES[m-1].slice(0,3).toLowerCase()+'/'+String(y).slice(2)};
 function ultimaMes(p){const f=(+p.total||0)-(+p.pagas||0);return p.total&&p.ultimaPaga?addM(p.ultimaPaga,f):null}
 function applyParcelas(){
-  if(!PARC)return;
-  PARC.forEach(p=>{const c=S.contas.find(x=>x.n===p.conta);const um=ultimaMes(p);if(!c||!um)return;
-    const [y,m]=um.split('-').map(Number);const idx=(y-2027)*12+(m-1);
-    c.fim=idx>11?null:Math.max(idx,-1);c.d=(p.pagas||0)+' de '+p.total+((+p.total-(+p.pagas||0))>0?' · última em '+ymLabel(um):' · quitada');});
+  if(!PARC)return;const g={};
+  PARC.forEach(p=>{if(p.conta)(g[p.conta]=g[p.conta]||[]).push(p)});
+  Object.entries(g).forEach(([conta,ps])=>{const c=S.contas.find(x=>x.n===conta);if(!c)return;
+    const v=Math.round(ps.reduce((s,p)=>s+(+p.valor||0),0)*100)/100;c.a=v;c.m=v;
+    const ums=ps.map(ultimaMes);if(ums.some(u=>!u))return;
+    const um=ums.sort().pop();const [y,m]=um.split('-').map(Number);const idx=(y-2027)*12+(m-1);
+    c.fim=idx>11?null:Math.max(idx,-1);
+    const fal=ps.map(p=>Math.max(0,p.total-(p.pagas||0)));
+    c.d=(ps.length===1?(ps[0].pagas||0)+' de '+ps[0].total+' · ':'faltam '+fal.join(' e ')+' · ')+(fal.some(f=>f>0)?'última em '+ymLabel(um):'quitada');});
 }
 function renderParcelas(fail){
   const el=$('#pList');if(!el)return;
