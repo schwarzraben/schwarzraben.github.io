@@ -88,7 +88,7 @@ footer{max-width:1100px;margin:auto;padding:0 16px 40px;font-size:12px;color:var
 </head>
 <body>
 <header>
-  <h1>Plano Financeiro 2027<small>Janeiro a dezembro · orçamento, mapa mensal, investimentos e renda com design</small></h1>
+  <h1>Plano Financeiro 2027<small>Janeiro a dezembro · orçamento, mapa mensal, investimentos e renda com design · <span id="sync">Salvo neste navegador</span></small></h1>
   <div class="row">
     <button class="btn" id="exp">Exportar dados</button>
     <label class="btn" style="cursor:pointer">Importar<input type="file" id="imp" accept="application/json" hidden></label>
@@ -261,7 +261,20 @@ const EVITAR=['Poupança: rende menos que Tesouro Selic e CDB 100% CDI.','Títul
 
 let S;
 function load(){try{const r=localStorage.getItem(KEY);S=r?Object.assign(structuredClone(DEF),JSON.parse(r)):structuredClone(DEF)}catch(e){S=structuredClone(DEF)}}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+let REF=null,saveT=null;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
+  if(REF){clearTimeout(saveT);saveT=setTimeout(()=>{REF.set(JSON.parse(JSON.stringify(S))).then(()=>status('Salvo na sua conta ✓')).catch(()=>status('Não foi possível salvar na conta — salvo só neste navegador'))},800)}}
+function status(t){const el=document.getElementById('sync');if(el)el.textContent=t}
+async function connectCloud(){
+  try{if(!window.claude||!claude.use)return;
+    const [db,user]=await Promise.all([claude.use('db'),claude.use('user')]);
+    if(!db||!user)return;const id=await user.id();if(!id)return;
+    REF=db.collection('data/users/'+id).doc('plano2027');
+    const snap=await REF.get();
+    if(snap.exists){S=Object.assign(structuredClone(DEF),snap.data());try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){};renderAll();status('Carregado da sua conta ✓')}
+    else status('Seus dados serão salvos na sua conta (privados)');
+  }catch(e){status('Salvando só neste navegador')}
+}
 const $=s=>document.querySelector(s);
 const brl=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});
 const sum=(a,k)=>a.reduce((s,x)=>s+(+x[k]||0),0);
@@ -446,10 +459,13 @@ $('#tblDesign').addEventListener('change',e=>{const t=e.target,i=t.dataset.f;if(
 function renderAll(){renderVisao();renderContas();renderMapa();renderVale();renderInvestir();renderDesign()}
 $('#tabs').addEventListener('click',e=>{const t=e.target.dataset.t;if(!t)return;document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));document.querySelectorAll('main>section').forEach(s=>s.hidden=s.id!==t);try{localStorage.setItem(KEY+'.tab',t)}catch(e){};if(t==='visao')renderChart()});
 $('#horiz').addEventListener('click',e=>{const h=+e.target.dataset.h;if(!h)return;H=h;document.querySelectorAll('#horiz button').forEach(b=>b.classList.toggle('on',+b.dataset.h===h));renderChart()});
-$('#exp').addEventListener('click',()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:'application/json'}));a.download='plano-financeiro-2027.json';a.click()});
+$('#exp').addEventListener('click',async()=>{const data=JSON.stringify(S,null,2),filename='plano-financeiro-2027.json';
+  let dl=null;try{dl=window.claude&&claude.use?await claude.use('downloads'):null}catch(e){}
+  if(dl){try{await dl.save({filename,data})}catch(e){}return}
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:'application/json'}));a.download=filename;a.click()});
 $('#imp').addEventListener('change',async e=>{try{const d=JSON.parse(await e.target.files[0].text());S=Object.assign(structuredClone(DEF),d);save();renderAll()}catch(err){alert('Arquivo inválido')}});
 $('#rst').addEventListener('click',()=>{if(confirm('Apagar seus valores e voltar ao exemplo?')){S=structuredClone(DEF);save();renderAll()}});
-load();renderAll();
+load();renderAll();connectCloud();
 try{const t=localStorage.getItem(KEY+'.tab');if(t&&$('#'+t))$(`#tabs button[data-t="${t}"]`).click()}catch(e){}
 </script>
 </body>
